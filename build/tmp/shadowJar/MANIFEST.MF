@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: kotlin-stdlib-jdk8-1.9.0-RC.jar kotlin-stdlib-jdk7-1.9.0-RC.
+ jar kotlin-stdlib-1.9.0-RC.jar kotlin-stdlib-common-1.9.0-RC.jar annota
+ tions-13.0.jar
+

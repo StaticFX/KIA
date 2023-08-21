@@ -1,0 +1,8 @@
+name: KIA
+version: '${version}'
+main: de.staticred.kia.KIA
+api-version: "1.20"
+
+commands:
+  kia:
+    description: example command
