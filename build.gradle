@@ -37,7 +37,7 @@ build {
     dependsOn(shadowJar)
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 20
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -64,5 +64,5 @@ processResources {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(20)
 }
