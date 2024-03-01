@@ -25,6 +25,7 @@ build/
 !**/src/**/build
 !**/test/**/build
 *.iml
+.idea
 !**/testData/**/*.iml
 .idea/remote-targets.xml
 .idea/libraries/Gradle*.xml
@@ -78,3 +79,6 @@ outTmp/
 /test.output
 /kotlin-native/dist
 kotlin-ide/
+/.idea/
+.gradle
+/.gradle

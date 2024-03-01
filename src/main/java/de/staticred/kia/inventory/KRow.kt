@@ -7,11 +7,11 @@ class KRow(val name: String) {
 
     private val items = mutableMapOf<Int, KItem>()
 
-    private val clickListeners = mutableListOf<KInventory.(Player) -> Unit>()
+    private val clickListeners = mutableListOf<KInventory.(Player, KRow) -> Unit>()
     private var parent: KInventory? = null
     private var index = -1
 
-    fun onClick(action: KInventory.(Player) -> Unit) {
+    fun onClick(action: KInventory.(player: Player, row: KRow) -> Unit) {
         clickListeners += action
     }
 
@@ -25,7 +25,7 @@ class KRow(val name: String) {
 
 
     fun clicked(player: Player) {
-        parent?.let { clickListeners.forEach { listener -> listener(it, player) } }
+        parent?.let { clickListeners.forEach { listener -> listener(it, player, this) } }
     }
 
     fun setItem(slot: Int, item: KItem) {

@@ -27,14 +27,14 @@ class InventoryClickListener: Listener {
             val kInventory = InventoryManager.getInventory(inventoryID)
 
 
-            var uuid: UUID? = NBT.get(item) {
+            val uuid: UUID = NBT.get(item) {
 
                 if (it.hasTag("UUID"))
                     return@get UUID.fromString(it.getString("UUID"))
                 return@get null
             } ?: throw IllegalStateException("None KItem clicked in KInventory")
 
-            if (!ItemManager.hasItem(uuid!!)) {
+            if (!ItemManager.hasItem(uuid)) {
                 throw IllegalStateException("Clicked unregistered KItem")
             }
 

@@ -1,11 +1,11 @@
 package de.staticred.kia.inventory
 
-import de.staticred.kia.inventory.impl.PrivateKInventory
+import de.staticred.kia.inventory.impl.BaseKInventoryImpl
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 
-class InventoryBuilder(val holder: Player) {
+class InventoryBuilder(private val holder: Player) {
 
     private var size = 0
     private var type: InventoryType? = null
@@ -39,25 +39,10 @@ class InventoryBuilder(val holder: Player) {
 
 
     fun build(): KInventory {
-        if (!public) {
-            if (type == null) {
-                if (size == 0)
-                    return PrivateKInventory(holder)
 
-                if (title == null)
-                    return PrivateKInventory(holder, size, holder)
+        val kInventoryHolder = KInventoryHolder.create(holder)
 
-                return PrivateKInventory(holder, size, title!!, holder)
-            }
-
-            if (title == null)
-                return PrivateKInventory(holder, type!!, holder)
-
-            return PrivateKInventory(holder, type!!, title!!, holder)
-
-        } else {
-            TODO()
-        }
+        return BaseKInventoryImpl(kInventoryHolder, !public, size, type, title)
     }
 
 

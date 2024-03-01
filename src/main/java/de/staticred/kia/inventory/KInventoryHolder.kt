@@ -9,6 +9,12 @@ class KInventoryHolder(private val uuid: UUID, private val holder: Player): Inve
 
     private lateinit var inventory: Inventory
 
+    companion object {
+        fun create(holder: Player): KInventoryHolder {
+            return KInventoryHolder(InventoryManager.generateRandomInventoryID(), holder)
+        }
+    }
+
     override fun getInventory(): Inventory {
         return inventory
     }

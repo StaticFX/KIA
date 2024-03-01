@@ -32,6 +32,8 @@ interface KInventory {
     fun startAnimation(animation: Animation<KInventory>)
     fun isPrivate(): Boolean
 
+    fun isOpened(): Boolean
+
     fun opened()
     fun closed()
 }

@@ -4,6 +4,7 @@ import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.InventoryBuilder
 import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KRow
+import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -27,6 +28,7 @@ class InventoryExample: CommandExecutor {
 
         val openingAnimation = Animation<KInventory>(3, 500, TimeUnit.MILLISECONDS)
         val item = KItem(false, Material.BLACK_STAINED_GLASS_PANE, 1)
+
         item.setDisplayName(Component.text("§8Placeholder"))
         item.onClick {
             it.sendMessage(Component.text(item.slot))
@@ -41,14 +43,12 @@ class InventoryExample: CommandExecutor {
             this.setRow(it, placeholderRow)
         }
 
-
-        placeholderRow.onClick {
-            it.sendMessage(Component.text("Funktioniert"))
-        }
+        placeholderRow.onClick { player, row
+            -> run { player.sendMessage(Component.text("You clicked row: ${row.name} - ${row.getIndex()}")) } }
 
         inventory.setOpenAnimation(openingAnimation)
 
-        sender.openInventory(inventory.getBukkitInventory())
+        sender.openInventory(inventory)
         return true
     }
 }

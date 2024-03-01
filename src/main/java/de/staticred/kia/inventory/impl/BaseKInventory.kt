@@ -13,6 +13,9 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     var size = 3*9
         protected set
 
+    private var isOpen = false
+        private set
+
     protected var bukkitInventory: Inventory = Bukkit.createInventory(owner, 3*9)
 
     protected lateinit var holder: KInventoryHolder
@@ -131,6 +134,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     }
 
     override fun opened() {
+        isOpen = true
         openingListener.forEach { it(this) }
         openingAnimation?.let {
             AnimationManager.startAnimation(it, this)
@@ -138,6 +142,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     }
 
     override fun closed() {
+        isOpen = false
         closingListener.forEach { it(this) }
     }
 
@@ -147,6 +152,10 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
 
     override fun isInAnimation(): Boolean {
         return animations.any { it.isRunning() }
+    }
+
+    override fun isOpened(): Boolean {
+        return isOpen
     }
 
     abstract override fun isPrivate(): Boolean
