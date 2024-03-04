@@ -1,11 +1,10 @@
 package de.staticred.kia.inventory.impl
 
+import de.staticred.kia.inventory.BaseKInventory
 import de.staticred.kia.inventory.InventoryManager
-import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.InventoryHolder
 

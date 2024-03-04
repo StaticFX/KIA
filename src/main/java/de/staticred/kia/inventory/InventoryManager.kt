@@ -22,11 +22,13 @@ object InventoryManager {
 
     fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getHolder().getUUID() == uuid }
 
+    fun isInventory(kInventory: KInventory): Boolean = customInventories.any { it == kInventory }
+
     fun removeInventory(uuid: UUID) {
         val inv = getInventory(uuid)
 
         for (item in inv.getItems().values) {
-            ItemManager.removeItem(item.uuid)
+            ItemManager.removeItem(item.uuid())
         }
         customInventories -= inv
     }

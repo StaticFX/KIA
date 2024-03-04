@@ -3,9 +3,9 @@ package de.staticred.kia.example
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.InventoryBuilder
 import de.staticred.kia.inventory.KInventory
-import de.staticred.kia.inventory.KRow
+import de.staticred.kia.inventory.KRowImpl
 import de.staticred.kia.inventory.extensions.openInventory
-import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.item.KItemImpl
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -27,14 +27,14 @@ class InventoryExample: CommandExecutor {
             .build()
 
         val openingAnimation = Animation<KInventory>(3, 500, TimeUnit.MILLISECONDS)
-        val item = KItem(false, Material.BLACK_STAINED_GLASS_PANE, 1)
+        val item = KItemImpl(false, Material.BLACK_STAINED_GLASS_PANE, 1)
 
         item.setDisplayName(Component.text("§8Placeholder"))
         item.onClick {
             it.sendMessage(Component.text(item.slot))
         }
 
-        val placeholderRow = KRow("placeholder")
+        val placeholderRow = KRowImpl("placeholder")
         for (i in 0..8) {
             placeholderRow.setItem(i, item)
         }

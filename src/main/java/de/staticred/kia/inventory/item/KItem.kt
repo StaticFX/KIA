@@ -1,52 +1,93 @@
 package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.KInventory
-import de.tr7zw.changeme.nbtapi.NBT
 import net.kyori.adventure.text.Component
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
-class KItem(val draggable: Boolean, val material: Material, amount: Int): ItemStack(material, amount) {
+/**
+ * Models an item in an KInventory
+ *
+ * KItems do only work inside KInventories.
+ *
+ * @see KInventory
+ * @see KInventory.getItems
+ *
+ * Use the ItemManager to handle items
+ * @see ItemManager
+ *
+ * Items are uniquely identified by having UUIDs, which can be implement using NBT Tags
+ * @see KItemImpl
+ *
+ * Every implementation should inherit from this from the Bukkit ItemStack class to build a correct item
+ *
+ * @since 1.0
+ */
+interface KItem {
 
-    private val clickListeners = mutableListOf<KInventory.(Player) -> Unit>()
+    /**
+     * Executed when the item is valid clicked in an inventory
+     *
+     * A valid click is when the item actually belongs to the inventory assigned to it and the item is inside a KInventory
+     *
+     * @param action run when the item is clicked
+     */
+    fun onClick(action: KInventory.(KItem, Player) -> Unit)
 
-    val uuid: UUID = ItemManager.generateID()
-    var slot = -1
+    /**
+     * Sets the parent inventory of the item
+     *
+     * This happens automatically when the item is set through a KInventory
+     * @param kInventory the parent
+     */
+    fun setParent(kInventory: KInventory)
 
-    init {
-        ItemManager.addItem(this)
-        NBT.modify(this) {
-            it.setString("UUID", uuid.toString())
-        }
-    }
+    /**
+     * @return Whether the item can be dragged or not
+     */
+    fun draggable(): Boolean
 
-    private var parent: KInventory? = null
+    /**
+     * Sets the dragging mode of the item
+     * @see DraggingMode
+     * @param draggingMode the mode
+     */
+    fun setDraggingMode(draggingMode: DraggingMode)
 
-    fun onClick(action: KInventory.(Player) -> Unit) {
-        clickListeners += action
-    }
+    /**
+     * gets the current dragging mode of the item
+     */
+    fun getDraggingMode(): DraggingMode
 
-    fun setParent(kInventory: KInventory) {
-        parent = kInventory
-    }
-    
-    fun setDisplayName(name: Component) {
-        val itemMeta = itemMeta
-        itemMeta.displayName(name)
-        setItemMeta(itemMeta)
-    }
+    /**
+     * Sets the display name of the item
+     * @param name the name of the item
+     */
+    fun setDisplayName(name: Component)
 
-    fun setItemLore(lore: List<Component>) {
-        val itemMeta = itemMeta
-        itemMeta.lore(lore)
-        setItemMeta(itemMeta)
-    }
+    /**
+     * Sets the lore of the item
+     * @param lore the lore
+     */
+    fun setItemLore(lore: List<Component>)
 
-    fun clicked(player: Player) {
-        parent?.let { clickListeners.forEach { listener -> listener(it, player) } }
-    }
+    /**
+     * The item has been clicked by a player
+     *
+     * @param player who clicked the item
+     */
+    fun clicked(player: Player)
 
+    /**
+     * UUID of the item
+     * @return the uuid
+     */
+    fun uuid(): UUID
 
+    /**
+     * Transforms the KItem to a Bukkit ItemStack
+     * @return the equivalent itemstack
+     */
+    fun toItemStack(): ItemStack
 }

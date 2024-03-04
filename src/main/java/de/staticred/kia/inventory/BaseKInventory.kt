@@ -1,20 +1,24 @@
-package de.staticred.kia.inventory.impl
+package de.staticred.kia.inventory
 
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
-import de.staticred.kia.inventory.*
+import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
 import org.bukkit.Bukkit
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
+import java.util.*
 
+/**
+ * Example implementation of a generic inventory
+ * @param owner holder of the inventory
+ */
 abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
 
     var size = 3*9
         protected set
 
     private var isOpen = false
-        private set
 
     protected var bukkitInventory: Inventory = Bukkit.createInventory(owner, 3*9)
 
@@ -22,6 +26,8 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     private var itemsClickableWhileAnimating = false
 
     private val items = mutableMapOf<Int, KItem>()
+
+    private var uuid: UUID? = null
 
     private val rows = mutableMapOf<Int, KRow>()
     private val savedRows = mutableMapOf<String, KRow>()
@@ -35,7 +41,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     override fun setItem(slot: Int, item: KItem) {
         item.setParent(this)
         if (slot > size - 1) throw IllegalArgumentException("Slot must be lower than size. Slot: $slot Size: $size ")
-        bukkitInventory.setItem(slot, item)
+        bukkitInventory.setItem(slot, item.toItemStack())
         items[slot] = item
     }
 
@@ -70,8 +76,8 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         val row = rows[index] ?: throw IllegalArgumentException("$index row not found")
         val otherRow = rows[otherIndex] ?: throw IllegalArgumentException("$index row not found")
 
-        setRow(index, otherRow)
-        setRow(otherIndex, row)
+
+        swapRow(row, otherRow)
     }
 
     override fun saveRow(row: KRow) {
@@ -154,9 +160,34 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         return animations.any { it.isRunning() }
     }
 
+    override fun itemsClickableWhileAnimating(): Boolean {
+        return itemsClickableWhileAnimating
+    }
+
     override fun isOpened(): Boolean {
         return isOpen
     }
 
     abstract override fun isPrivate(): Boolean
+
+
+    override fun setID(id: UUID) {
+        this.uuid = id
+    }
+
+    override fun getID(): UUID? {
+        return this.uuid
+    }
+
+    override fun hasID(): Boolean {
+        return uuid != null
+    }
+
+    override fun isEqual(inventory: Inventory): Boolean {
+        if (!hasID()) return false
+        val oKInventory = inventory.toKInventory() ?: return false
+        if (!oKInventory.hasID()) return false
+
+       return oKInventory.getID()!! == uuid
+    }
 }

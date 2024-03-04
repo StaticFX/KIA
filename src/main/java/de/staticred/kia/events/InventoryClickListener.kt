@@ -1,9 +1,12 @@
 package de.staticred.kia.events
 
 import de.staticred.kia.inventory.InventoryManager
+import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
+import de.staticred.kia.inventory.item.DraggingMode
 import de.staticred.kia.inventory.item.ItemManager
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.item.KItemImpl
 import de.tr7zw.changeme.nbtapi.NBT
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -19,35 +22,45 @@ class InventoryClickListener: Listener {
         val inventory = event.clickedInventory ?: return
         val holder = inventory.holder ?: return
 
-        if (holder is KInventoryHolder) {
-            val inventoryID = holder.getUUID()
-            if (!InventoryManager.isInventory(inventoryID))
-                event.isCancelled = true
+        if (holder !is KInventoryHolder) {
+            return
+        }
 
-            val kInventory = InventoryManager.getInventory(inventoryID)
+        val inventoryID = holder.getUUID()
+
+        if (!InventoryManager.isInventory(inventoryID)) {
+            event.isCancelled = true
+            throw IllegalStateException("Inventory clicked which is not registered.")
+        }
+
+        val kInventory = InventoryManager.getInventory(inventoryID)
+        val uuid = KItemImpl.readUUIDFromNBT(item) ?: throw IllegalStateException("None KItem clicked in KInventory")
+
+        if (!ItemManager.hasItem(uuid)) {
+            throw IllegalStateException("Clicked unregistered KItem")
+        }
+
+        val kItem = ItemManager.getItem(uuid)
+        val clicker = event.whoClicked as Player
+        // at this point the item is valid
 
 
-            val uuid: UUID = NBT.get(item) {
+        if (kItem.getDraggingMode() == DraggingMode.NONE) {
+            event.isCancelled = true
+        }
 
-                if (it.hasTag("UUID"))
-                    return@get UUID.fromString(it.getString("UUID"))
-                return@get null
-            } ?: throw IllegalStateException("None KItem clicked in KInventory")
-
-            if (!ItemManager.hasItem(uuid)) {
-                throw IllegalStateException("Clicked unregistered KItem")
+        if (kInventory.isInAnimation()) {
+            if (kInventory.itemsClickableWhileAnimating()) {
+                itemClicked(kItem, clicker, kInventory)
             }
-
-            val kItem = ItemManager.getItem(uuid)
-
-            if (!kItem.draggable) event.isCancelled = true
-
-            if (!kInventory.isInAnimation()) {
-                kItem.clicked(event.whoClicked as Player)
-                val kRow = kInventory.getRowForItem(kItem)
-
-                kRow?.let { kRow.clicked(event.whoClicked as Player) }
-            }
+        } else {
+            itemClicked(kItem, clicker, kInventory)
         }
     }
+}
+
+private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory) {
+    kItem.clicked(player)
+    val kRow = kInventory.getRowForItem(kItem)
+    kRow?.let { kRow.clicked(player) }
 }

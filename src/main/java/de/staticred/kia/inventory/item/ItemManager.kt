@@ -9,7 +9,7 @@ object ItemManager {
 
     fun generateID(): UUID {
         var id = UUID.randomUUID()
-        while (items.any { it.uuid == id }) id = UUID.randomUUID()
+        while (items.any { it.uuid() == id }) id = UUID.randomUUID()
         return id
     }
 
@@ -18,12 +18,12 @@ object ItemManager {
     }
 
     fun removeItem(uuid: UUID) {
-        items.removeIf { it.uuid == uuid }
+        items.removeIf { it.uuid() == uuid }
     }
 
-    fun hasItem(uuid: UUID): Boolean = items.any { it.uuid == uuid }
+    fun hasItem(uuid: UUID): Boolean = items.any { it.uuid() == uuid }
 
     fun getItem(uuid: UUID): KItem {
-        return items.first { it.uuid == uuid }
+        return items.first { it.uuid() == uuid }
     }
 }

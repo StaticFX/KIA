@@ -18,7 +18,6 @@ class InventoryOpenCloseListener: Listener {
             if (!InventoryManager.isInventory(inventoryID))
                 event.isCancelled = true
 
-
             val kInventory = InventoryManager.getInventory(inventoryID)
 
             if (kInventory.isPrivate()) {

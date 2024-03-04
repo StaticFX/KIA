@@ -1,34 +1,72 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.item.KItemImpl
 import org.bukkit.entity.Player
 
-class KRow(val name: String) {
+/**
+ * Models a row inside a regular KInventory type
+ *
+ * A row consists of 9 slots which can be filled with items
+ */
+interface KRow {
+    /**
+     * The items contained in the KRow
+     * Maps the Slot to the KItem inside the row
+     */
+    val items: Map<Int, KItem>
+    val name: String
 
-    private val items = mutableMapOf<Int, KItem>()
+    /**
+     * Executed when any item inside the row is clicked
+     * @param action function executed when any item is clicked
+     */
+    fun onClick(action: KInventory.(player: Player, row: KRowImpl, item: KItem) -> Unit)
 
-    private val clickListeners = mutableListOf<KInventory.(Player, KRow) -> Unit>()
-    private var parent: KInventory? = null
-    private var index = -1
+    /**
+     * Sets the parent of this KRow
+     * @param kInventory parent inventory
+     * @param index sets the index of the row inside the parent inventory
+     */
+    fun setParent(kInventory: KInventory, index: Int)
 
-    fun onClick(action: KInventory.(player: Player, row: KRow) -> Unit) {
-        clickListeners += action
-    }
+    /**
+     * Returns the index inside the inventory of this row
+     * @return the current index
+     */
+    fun getIndex(): Int
 
-    fun setParent(kInventory: KInventory, index: Int) {
-        parent = kInventory
-        this.index = index
-    }
+    /**
+     * Sets the index inside the parent inventory inside this row
+     */
+    fun setIndex(index: Int)
 
-    fun getIndex() = index
-    fun getItems() = items.toMap()
+    /**
+     * @return Map containing the slot mapping to the KItem
+     */
+    fun getItems(): Map<Int, KItem>
 
+    /**
+     *  Executed the onClicked event listeners for this row
+     *  @param player the player who clicked the item
+     *  @param kItem the item clicked
+     */
+    fun clicked(player: Player, kItem: KItem)
 
-    fun clicked(player: Player) {
-        parent?.let { clickListeners.forEach { listener -> listener(it, player, this) } }
-    }
+    /**
+     * Sets the given item in the given slot.
+     * When changing an item in a slot, the inventory will update accordingly
+     * @param slot the slot
+     * @param item the item
+     */
+    fun setItem(slot: Int, item: KItem)
 
-    fun setItem(slot: Int, item: KItem) {
-        this.items[slot] = item
-    }
+    /**
+     * Sets the given item in the given range.
+     * When changing an item in a slot, the inventory will update accordingly
+     * @param range the range
+     * @param item the item
+     */
+    fun setItem(range: IntRange, item: KItem)
+
 }
