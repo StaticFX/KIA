@@ -26,6 +26,9 @@ import java.util.UUID
  */
 interface KItem {
 
+    var slot: Int
+    var clickableInAnimation: Boolean
+
     /**
      * Executed when the item is valid clicked in an inventory
      *

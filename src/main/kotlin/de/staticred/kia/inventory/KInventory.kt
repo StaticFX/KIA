@@ -108,13 +108,13 @@ interface KInventory: Identifiable<UUID> {
      * Returns the KInventoryHolder of this inventory
      * @return the holder
      */
-    fun getHolder(): KInventoryHolder
+    fun getKHolder(): KInventoryHolder
 
     /**
      * Constructs the bukkit inventory from this KInventory with the current set content
      * @return the bukkit inventory
      */
-    fun getBukkitInventory(): Inventory
+    fun toBukkitInventory(): Inventory
 
     /**
      * Returns all the items in the inventory which have been set

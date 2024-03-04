@@ -44,7 +44,4 @@ class InventoryBuilder(private val holder: Player) {
 
         return BaseKInventoryImpl(kInventoryHolder, !public, size, type, title)
     }
-
-
-
 }

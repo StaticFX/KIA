@@ -8,5 +8,5 @@ fun Player.openInventory(inventory: KInventory) {
         throw IllegalStateException("The supplied inventory is already opened by another player. Create a new instance to open it again.")
     }
 
-    openInventory(inventory.getBukkitInventory())
+    openInventory(inventory.toBukkitInventory())
 }

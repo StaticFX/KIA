@@ -27,8 +27,6 @@ class KRowImpl(override val name: String = "") : KRow {
         this.index = index
     }
 
-    override fun getItems() = items.toMap()
-
     override fun clicked(player: Player, kItem: KItem) {
         parent?.let { clickListeners.forEach { listener -> listener(it, player, this, kItem) } }
     }

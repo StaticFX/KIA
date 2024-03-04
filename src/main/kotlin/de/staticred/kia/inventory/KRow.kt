@@ -42,11 +42,6 @@ interface KRow {
     fun setIndex(index: Int)
 
     /**
-     * @return Map containing the slot mapping to the KItem
-     */
-    fun getItems(): Map<Int, KItem>
-
-    /**
      *  Executed the onClicked event listeners for this row
      *  @param player the player who clicked the item
      *  @param kItem the item clicked

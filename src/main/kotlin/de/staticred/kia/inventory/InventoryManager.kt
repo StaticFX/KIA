@@ -1,7 +1,6 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.ItemManager
-import org.bukkit.entity.Player
 import java.util.UUID
 
 object InventoryManager {
@@ -20,7 +19,7 @@ object InventoryManager {
         customInventories += inventory
     }
 
-    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getHolder().getUUID() == uuid }
+    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getKHolder().getUUID() == uuid }
 
     fun isInventory(kInventory: KInventory): Boolean = customInventories.any { it == kInventory }
 
@@ -34,8 +33,7 @@ object InventoryManager {
     }
 
     fun openedInventory(player: KInventoryHolder, kInventory: KInventory) {
-        if (kInventory.isPrivate())
-            openedPrivateKInventory[player] = kInventory
+        openedPrivateKInventory[player] = kInventory
     }
 
     fun closedInventory(player: KInventoryHolder, kInventory: KInventory) {
@@ -47,6 +45,6 @@ object InventoryManager {
         return openedPrivateKInventory.values.any { it == kInventory }
     }
 
-    fun getInventory(uuid: UUID) = customInventories.first { it.getHolder().getUUID() == uuid }
+    fun getInventory(uuid: UUID) = customInventories.first { it.getKHolder().getUUID() == uuid }
 
 }

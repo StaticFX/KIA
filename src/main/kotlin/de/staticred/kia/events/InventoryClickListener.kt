@@ -51,16 +51,20 @@ class InventoryClickListener: Listener {
 
         if (kInventory.isInAnimation()) {
             if (kInventory.itemsClickableWhileAnimating()) {
-                itemClicked(kItem, clicker, kInventory)
+                itemClicked(kItem, clicker, kInventory, event.slot)
             }
         } else {
-            itemClicked(kItem, clicker, kInventory)
+            itemClicked(kItem, clicker, kInventory, event.slot)
         }
     }
 }
 
-private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory) {
+private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory, slot: Int) {
+    kItem.slot = slot
     kItem.clicked(player)
     val kRow = kInventory.getRowForItem(kItem)
-    kRow?.let { kRow.clicked(player) }
+    kRow?.let {
+        it.setIndex(slot / 9)
+        kRow.clicked(player, kItem)
+    }
 }

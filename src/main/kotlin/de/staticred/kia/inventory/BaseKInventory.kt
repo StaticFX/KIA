@@ -47,7 +47,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
 
     override fun setRow(rowIndex: Int, row: KRow) {
         row.setParent(this, rowIndex)
-        val items = row.getItems()
+        val items = row.items
         for (i in 0 .. 9) {
             val currItem = items[i]
 
@@ -100,11 +100,11 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         closingListener += action
     }
 
-    override fun getHolder(): KInventoryHolder {
+    override fun getKHolder(): KInventoryHolder {
         return holder
     }
 
-    override fun getBukkitInventory(): Inventory {
+    override fun toBukkitInventory(): Inventory {
         return bukkitInventory
     }
 
@@ -114,7 +114,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
 
     override fun getRowForItem(item: KItem): KRow? {
         for ((_, value) in rows) {
-            if (value.getItems().any { it.value == item }) {
+            if (value.items.any { it.value == item }) {
                 return value
             }
         }
@@ -143,7 +143,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         isOpen = true
         openingListener.forEach { it(this) }
         openingAnimation?.let {
-            AnimationManager.startAnimation(it, this)
+            startAnimation(it)
         }
     }
 

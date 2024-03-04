@@ -2,6 +2,8 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.KInventory
 import de.tr7zw.changeme.nbtapi.NBT
+import de.tr7zw.changeme.nbtapi.NBTEntity
+import de.tr7zw.changeme.nbtapi.NBTItem
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -13,22 +15,19 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
     private val clickListeners = mutableListOf<KInventory.(KItem, Player) -> Unit>()
 
     val uuid: UUID = ItemManager.generateID()
-    var slot = -1
+    override var slot = -1
+    override var clickableInAnimation: Boolean = true
 
     companion object {
         fun readUUIDFromNBT(item: ItemStack): UUID? {
-            return NBT.get(item) {
-                if (it.hasTag("UUID"))
-                    return@get UUID.fromString(it.getString("UUID"))
-                return@get null
-            }
+            return NBTItem(item).getUUID("K-UUID")
         }
     }
 
     init {
         ItemManager.addItem(this)
         NBT.modify(this) {
-            it.setString("UUID", uuid.toString())
+            it.setUUID("K-UUID", uuid)
         }
     }
 
