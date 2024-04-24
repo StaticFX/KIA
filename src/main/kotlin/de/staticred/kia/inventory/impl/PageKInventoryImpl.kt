@@ -1,12 +1,11 @@
 package de.staticred.kia.inventory.impl
 
 import de.staticred.kia.inventory.BaseKInventory
-import de.staticred.kia.inventory.Page
+import de.staticred.kia.inventory.KPage
 import de.staticred.kia.inventory.PageKInventory
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
-class PageKInventoryImpl(val mainPage: Page, owner: InventoryHolder?, override var looping: Boolean): BaseKInventory(owner), PageKInventory {
+class PageKInventoryImpl(val mainPage: KPage, owner: InventoryHolder?, override var looping: Boolean): BaseKInventory(owner), PageKInventory {
 
     var private: Boolean = false
 
@@ -33,23 +32,23 @@ class PageKInventoryImpl(val mainPage: Page, owner: InventoryHolder?, override v
         val startSlot = if (currentPage.hasHeader()) 9 else 0
         val endSlot = if (currentPage.hasFooter()) size - 10 else size - 1
 
-        val content = currentPage.getContent()
+        val content = currentPage.content
 
         for ((slot, index) in (startSlot..endSlot).withIndex()) {
-            setItem(slot, content[index])
+            content[index]?.let { setItem(slot, it) }
         }
     }
 
     private fun buildHeader() {
         if (currentPage.hasHeader()) {
-            val header = currentPage.getHeader() ?: error("Page header is null")
+            val header = currentPage.header ?: error("Page header is null")
             setRow(0, header.asRow())
         }
     }
 
     private fun buildFooter() {
         if (currentPage.hasFooter()) {
-            val footer = currentPage.getFooter() ?: error("Page header is null")
+            val footer = currentPage.footer ?: error("Page header is null")
 
             val lastRow = size / 9
 
@@ -57,16 +56,16 @@ class PageKInventoryImpl(val mainPage: Page, owner: InventoryHolder?, override v
         }
     }
 
-    override fun insertPage(index: Int, page: Page) {
+    override fun insertPage(index: Int, page: KPage) {
         if (index > pages.size) throw IllegalArgumentException("Index can't exceed page sites")
         pages.add(index, page)
     }
 
-    override fun addPage(page: Page) {
+    override fun addPage(page: KPage) {
         pages += page
     }
 
-    override fun removePage(page: Page) {
+    override fun removePage(page: KPage) {
         pages.remove(page)
     }
 
@@ -86,7 +85,7 @@ class PageKInventoryImpl(val mainPage: Page, owner: InventoryHolder?, override v
         setPage(pageIndex)
     }
 
-    override fun getPage(): Page {
+    override fun getPage(): KPage {
         return currentPage
     }
 }

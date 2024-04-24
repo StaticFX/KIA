@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 
-class InventoryBuilder(private val holder: Player) {
+open class InventoryBuilder(private val holder: Player) {
 
     private var size = 0
     private var type: InventoryType? = null
@@ -38,10 +38,8 @@ class InventoryBuilder(private val holder: Player) {
     }
 
 
-    fun build(): KInventory {
-
+    open fun build(): KInventory {
         val kInventoryHolder = KInventoryHolder.create(holder)
-
         return BaseKInventoryImpl(kInventoryHolder, !public, size, type, title)
     }
 }

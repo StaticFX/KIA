@@ -1,14 +1,14 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.inventory.item.KItemImpl
+import net.kyori.adventure.text.Component
 
 /**
  * Models an inventory which support a pagination system
  *
  * Works by saving the given pages and displaying them when reached
  *
- * @see Page
+ * @see KPage
  */
 interface PageKInventory: KInventory {
 
@@ -27,17 +27,17 @@ interface PageKInventory: KInventory {
     /**
      * Inserts the given page into the inventory at the given index
      */
-    fun insertPage(index: Int, page: Page)
+    fun insertPage(index: Int, page: KPage)
 
     /**
      * Adds a page to the current inventory
      */
-    fun addPage(page: Page)
+    fun addPage(page: KPage)
 
     /**
      * Removes the given space from the inventory
      */
-    fun removePage(page: Page)
+    fun removePage(page: KPage)
 
     /**
      * Moves to the next page in the inventory
@@ -54,45 +54,42 @@ interface PageKInventory: KInventory {
     /**
      * @return the current page displayed
      */
-    fun getPage(): Page
+    fun getPage(): KPage
 }
 
 /**
  * Models a page inside a paging KInventory
  * @see PageKInventory
  */
-interface Page {
+interface KPage {
 
     /**
-     * @return the content of the page
+     * Title of the page which will be rendered, can be configured using the TitleFormatter in the Parent Inventory
      */
-    fun getContent(): List<KItem>
+    var title: Component
 
     /**
-     * Returns the footer of the page
-     * The footer will only be rendered, if the inventory is at least 2 rows long, and has no header, or is 3 rows long
-     * @return the page footer
-     */
-    fun getFooter(): PageFooter?
-
-    /**
-     * Returns the header of the page
      * The header will only be rendered, if the inventory is at least 2 rows long, and has no footer, or is 3 rows long
      */
-    fun getHeader(): PageHeader?
+    var header: PageHeader?
 
     /**
-     * Sets the content of the inventory with the given items
-     * @param items list of items
+     * The footer will only be rendered, if the inventory is at least 2 rows long, and has no header, or is 3 rows long
      */
-    fun setContent(items: List<KItem>)
+    var footer: PageHeader?
+
+    /**
+     * Content of this page, where the slot is mapped to the item
+     * Slots are always relative to the page. So slot 0 is depending on if the page has a header or not
+     */
+    var content: MutableMap<Int, KItem>
 
     /**
      * Sets the given item at the given slot
      * Slots are relative to the inventory page. If a header is existing, the slots will be shifted by the length of 9.
      * If a footer is existing, the maximum slots will be reduced by 9
      */
-    fun setItem(slot: Int, items: List<KItem>)
+    fun setItem(slot: Int, item: KItem)
 
     /**
      * @return whether the page has a header or not
@@ -107,7 +104,7 @@ interface Page {
 
 /**
  * Models the footer inside a page in a paging inventory
- * @see Page
+ * @see KPage
  * @see PageKInventory
  */
 interface PageFooter {
