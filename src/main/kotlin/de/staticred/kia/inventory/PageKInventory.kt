@@ -2,6 +2,7 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
+import java.util.LinkedList
 
 /**
  * Models an inventory which support a pagination system
@@ -17,6 +18,16 @@ interface PageKInventory: KInventory {
      * If true will loop back to the first page when going to the next page on the last page
      */
     var looping: Boolean
+
+    /**
+     * Whether the current page index should be saved when the inventory is closed
+     */
+    var savePageWhenClosed: Boolean
+
+    /**
+     * List of the pages of this inventory. Index of the item is also the index of the page
+     */
+    var pages: MutableList<KPage>
 
     /**
      * Sets the current page displayed in the inventory
@@ -55,6 +66,9 @@ interface PageKInventory: KInventory {
      * @return the current page displayed
      */
     fun getPage(): KPage
+
+    fun buildTitle(): Component
+
 }
 
 /**
@@ -66,17 +80,17 @@ interface KPage {
     /**
      * Title of the page which will be rendered, can be configured using the TitleFormatter in the Parent Inventory
      */
-    var title: Component
+    var title: Component?
 
     /**
      * The header will only be rendered, if the inventory is at least 2 rows long, and has no footer, or is 3 rows long
      */
-    var header: PageHeader?
+    var header: PageController?
 
     /**
      * The footer will only be rendered, if the inventory is at least 2 rows long, and has no header, or is 3 rows long
      */
-    var footer: PageHeader?
+    var footer: PageController?
 
     /**
      * Content of this page, where the slot is mapped to the item
@@ -100,6 +114,31 @@ interface KPage {
      * @return whether the page has a footer or not
      */
     fun hasFooter(): Boolean
+
+    /**
+     * Called by the parent inventory, when the page is opened
+     * @param inventory inventory which opened the page
+     */
+    fun opened(inventory: PageKInventory)
+
+
+    /**
+     * Called by the parent inventory, when the page is closed
+     * @param inventory inventory which opened the page
+     */
+    fun closed(inventory: PageKInventory)
+
+    /**
+     * Hook called when the page is opened, either when the page is clicked to, or it's the first page of the parent inventory
+     * @param action hook when the page is opened
+     */
+    fun onOpened(action: KPage.(parent: PageKInventory) -> Unit)
+
+    /**
+     * Hook called when the page is closed, either when the page is clicked away, or the inventory is closed when the page is active
+     * @param action hook when the page is opened
+     */
+    fun onClosed(action: KPage.(parent: PageKInventory) -> Unit)
 }
 
 /**
@@ -107,22 +146,31 @@ interface KPage {
  * @see KPage
  * @see PageKInventory
  */
-interface PageFooter {
+interface PageController {
+
+    var builder: (nextBtn: KItem?, previousBtn: KItem?, placeholder: KItem?) -> KRow
 
     /**
-     *
+     * Item used as a button for the user to go to the next page
+     * A click listener will be attached to it when the inventory is built, to handle pagination
      */
-    fun getNextBtnItem(): KItem?
-    fun getPlaceHolderItem(): KItem?
-    fun getPreviousItem(): KItem?
-    fun asRow(): KRow
+    var nextBtn: KItem?
 
-}
+    /**
+     * Item used as a button for the user to go to the previous page
+     * A click listener will be attached to it when the inventory is built, to handle pagination
+     */
+    var previousBtn: KItem?
 
-interface PageHeader {
+    /**
+     * Item which can be used in the builder as a placeholder
+     */
+    var placeholderItem: KItem?
 
-    fun getNextBtnItem(): KItem?
-    fun getPlaceHolderItem(): KItem?
-    fun getPreviousItem(): KItem?
-    fun asRow(): KRow
+    /**
+     * Used to build the controller, which will then be placed on the page as a row.
+     * Using the builder supplied
+     * @see builder
+     */
+    fun build(): KRow
 }

@@ -4,6 +4,7 @@ import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
@@ -13,28 +14,34 @@ import java.util.*
  * Example implementation of a generic inventory
  * @param owner holder of the inventory
  */
-abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
+abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory {
 
     var size = 3*9
         protected set
 
-    private var isOpen = false
+    override var title: Component? = title
+        set(newTitle: Component?) {
+            field = newTitle
+            if (field != null)
+                bukkitInventory
+        }
 
-    protected var bukkitInventory: Inventory = Bukkit.createInventory(owner, 3*9)
+    override var content: MutableMap<Int, KItem> = mutableMapOf()
+
+    private var isOpen = false
+    protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(owner, 3*9) else Bukkit.createInventory(owner, 3*9, title)
 
     protected lateinit var holder: KInventoryHolder
     private var itemsClickableWhileAnimating = false
-
-    private val items = mutableMapOf<Int, KItem>()
 
     private var uuid: UUID? = null
 
     private val rows = mutableMapOf<Int, KRow>()
     private val savedRows = mutableMapOf<String, KRow>()
 
-    private var openingAnimation: Animation<KInventory>? = null
-    private val animations = mutableListOf<Animation<KInventory>>()
+    override var openingAnimation: Animation<KInventory>? = null
 
+    private val animations = mutableListOf<Animation<KInventory>>()
     private val openingListener = mutableListOf<KInventory.() -> Unit>()
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
 
@@ -42,7 +49,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         item.setParent(this)
         if (slot > size - 1) throw IllegalArgumentException("Slot must be lower than size. Slot: $slot Size: $size ")
         bukkitInventory.setItem(slot, item.toItemStack())
-        items[slot] = item
+        content[slot] = item
     }
 
     override fun setRow(rowIndex: Int, row: KRow) {
@@ -88,10 +95,6 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
         return savedRows[name]
     }
 
-    override fun setOpenAnimation(animation: Animation<KInventory>) {
-        openingAnimation = animation
-    }
-
     override fun onOpen(action: KInventory.() -> Unit) {
         openingListener += action
     }
@@ -109,7 +112,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     }
 
     override fun getItems(): Map<Int, KItem> {
-        return items.toMap()
+        return content.toMap()
     }
 
     override fun getRowForItem(item: KItem): KRow? {
@@ -123,7 +126,7 @@ abstract class BaseKInventory(owner: InventoryHolder?): KInventory {
     }
 
     override fun getSlotForItem(item: KItem): Int {
-        for ((slot, value) in items) {
+        for ((slot, value) in content) {
             if (value == item) {
                 return slot
             }

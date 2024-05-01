@@ -1,5 +1,7 @@
-package de.staticred.kia.inventory
+package de.staticred.kia.inventory.builder
 
+import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.KInventoryHolder
 import de.staticred.kia.inventory.impl.BaseKInventoryImpl
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player

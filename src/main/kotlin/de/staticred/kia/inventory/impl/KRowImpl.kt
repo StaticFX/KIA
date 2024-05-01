@@ -1,7 +1,8 @@
-package de.staticred.kia.inventory
+package de.staticred.kia.inventory.impl
 
+import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.inventory.item.KItemImpl
 import org.bukkit.entity.Player
 
 class KRowImpl(override val name: String = "") : KRow {

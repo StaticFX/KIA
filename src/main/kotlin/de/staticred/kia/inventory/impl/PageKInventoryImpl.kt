@@ -3,26 +3,41 @@ package de.staticred.kia.inventory.impl
 import de.staticred.kia.inventory.BaseKInventory
 import de.staticred.kia.inventory.KPage
 import de.staticred.kia.inventory.PageKInventory
+import de.staticred.kia.inventory.item.KItem
 import org.bukkit.inventory.InventoryHolder
+import java.util.LinkedList
 
-class PageKInventoryImpl(val mainPage: KPage, owner: InventoryHolder?, override var looping: Boolean): BaseKInventory(owner), PageKInventory {
+class PageKInventoryImpl(private val startPage: KPage, owner: InventoryHolder?, override var looping: Boolean): BaseKInventory(owner), PageKInventory {
 
     var private: Boolean = false
+    override var pages: MutableList<KPage> = mutableListOf(startPage)
+    override var savePageWhenClosed: Boolean = false
 
-    private val pages = mutableListOf(mainPage)
-    private var currentPage = mainPage
+    private var currentPage = startPage
     private var pageIndex = 0
+    private var lastPage = 0
+
 
     override fun isPrivate(): Boolean {
         return private
     }
 
     override fun setPage(index: Int) {
-        if (index >= pages.size) throw IllegalArgumentException("Index can't be bigger than pages in the inventory!")
-        pageIndex = index
-        currentPage = pages[pageIndex]
+        if (index >= pages.size) throw IllegalArgumentException("Index is out of bounds for the pages. Max size: ${pages.size} given index: $index")
+        setPageSave(index)
+    }
 
+    private fun setPageSave(index: Int) {
+        if (index >= pages.size) return
+
+        currentPage.closed(this)
+
+        pageIndex = index
+
+        currentPage = pages[index]
         buildPage()
+
+        currentPage.opened(this)
     }
 
     private fun buildPage() {
@@ -42,23 +57,22 @@ class PageKInventoryImpl(val mainPage: KPage, owner: InventoryHolder?, override 
     private fun buildHeader() {
         if (currentPage.hasHeader()) {
             val header = currentPage.header ?: error("Page header is null")
-            setRow(0, header.asRow())
+            setRow(0, header.build())
         }
     }
 
     private fun buildFooter() {
         if (currentPage.hasFooter()) {
             val footer = currentPage.footer ?: error("Page header is null")
-
             val lastRow = size / 9
 
-            setRow(lastRow - 1, footer.asRow())
+            setRow(lastRow - 1, footer.build())
         }
     }
 
     override fun insertPage(index: Int, page: KPage) {
         if (index > pages.size) throw IllegalArgumentException("Index can't exceed page sites")
-        pages.add(index, page)
+        pages[index] = page
     }
 
     override fun addPage(page: KPage) {
@@ -87,5 +101,19 @@ class PageKInventoryImpl(val mainPage: KPage, owner: InventoryHolder?, override 
 
     override fun getPage(): KPage {
         return currentPage
+    }
+
+    override fun closed() {
+        lastPage = pageIndex
+        currentPage.closed(this)
+        super.closed()
+    }
+
+    override fun opened() {
+        if (savePageWhenClosed) {
+            setPageSave(lastPage)
+        }
+
+        super.opened()
     }
 }

@@ -3,6 +3,7 @@ package de.staticred.kia.inventory
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.Identifiable
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import java.util.UUID
@@ -19,6 +20,22 @@ import java.util.UUID
  * @since 1.0
  */
 interface KInventory: Identifiable<UUID> {
+
+    /**
+     * Maps the slot of the item in the inventory to the actual item
+     */
+    var content: MutableMap<Int, KItem>
+
+    /**
+     * Animation which will be played when the inventory is opened
+     * @see opened
+     */
+    var openingAnimation: Animation<KInventory>?
+
+    /**
+     * Title of the inventory rendered in the bukkit inventory
+     */
+    var title: Component?
 
     /**
      * Sets the given item in the given slot
@@ -61,15 +78,6 @@ interface KInventory: Identifiable<UUID> {
      * @return the row, or null if not found
      */
     fun getRow(name: String): KRow?
-
-    /**
-     * Sets the animation when the inventory is opened
-     * The animation will be played when the inventory is opened through the extension function
-     * @see Player.openInventory(inventory: KInventory)
-     *
-     * @param animation the animation
-     */
-    fun setOpenAnimation(animation: Animation<KInventory>)
 
     /**
      * Sets whether the items can be moved while animating or not

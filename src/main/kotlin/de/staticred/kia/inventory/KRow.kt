@@ -1,7 +1,7 @@
 package de.staticred.kia.inventory
 
+import de.staticred.kia.inventory.impl.KRowImpl
 import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.inventory.item.KItemImpl
 import org.bukkit.entity.Player
 
 /**

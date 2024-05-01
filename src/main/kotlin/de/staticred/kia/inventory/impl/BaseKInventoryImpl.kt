@@ -8,8 +8,8 @@ import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.InventoryHolder
 
-class BaseKInventoryImpl(owner: InventoryHolder?, private val private: Boolean): BaseKInventory(owner) {
-    constructor(owner: KInventoryHolder, private: Boolean, size: Int, type: InventoryType? = null, title: Component? = null): this(owner, private) {
+class BaseKInventoryImpl(owner: InventoryHolder?, title: Component?,  private val private: Boolean = true): BaseKInventory(owner, title) {
+    constructor(owner: KInventoryHolder, private: Boolean, size: Int, type: InventoryType? = null, title: Component? = null): this(owner, title, private) {
         holder = owner
 
         bukkitInventory = when (type) {

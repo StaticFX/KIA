@@ -1,9 +1,9 @@
 package de.staticred.kia.example
 
 import de.staticred.kia.animation.Animation
-import de.staticred.kia.inventory.InventoryBuilder
+import de.staticred.kia.inventory.builder.InventoryBuilder
 import de.staticred.kia.inventory.KInventory
-import de.staticred.kia.inventory.KRowImpl
+import de.staticred.kia.inventory.impl.KRowImpl
 import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.inventory.item.DraggingMode
 import de.staticred.kia.inventory.item.KItemImpl

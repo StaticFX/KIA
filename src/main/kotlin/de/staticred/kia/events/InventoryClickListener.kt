@@ -25,7 +25,7 @@ class InventoryClickListener: Listener {
         if (holder !is KInventoryHolder) {
             return
         }
-
+        
         val inventoryID = holder.getUUID()
 
         if (!InventoryManager.isInventory(inventoryID)) {
@@ -48,7 +48,7 @@ class InventoryClickListener: Listener {
         if (kItem.getDraggingMode() == DraggingMode.NONE) {
             event.isCancelled = true
         }
-
+        
         if (kInventory.isInAnimation()) {
             if (kInventory.itemsClickableWhileAnimating()) {
                 itemClicked(kItem, clicker, kInventory, event.slot)
