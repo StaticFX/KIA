@@ -5,9 +5,11 @@ import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
+import org.bukkit.inventory.InventoryView
 import java.util.*
 
 /**
@@ -20,16 +22,20 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         protected set
 
     override var title: Component? = title
-        set(newTitle: Component?) {
+        set(newTitle) {
             field = newTitle
-            if (field != null)
-                bukkitInventory
+
+            if (newTitle != null)
+                this.views.forEach { it.title = LegacyComponentSerializer.legacySection().serialize(newTitle)  }
         }
 
     override var content: MutableMap<Int, KItem> = mutableMapOf()
 
+    override var views: MutableList<InventoryView> = mutableListOf()
+    override var inventories: MutableList<Inventory> = mutableListOf()
+
     private var isOpen = false
-    protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(owner, 3*9) else Bukkit.createInventory(owner, 3*9, title)
+    protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(owner, 3*9, Component.empty()) else Bukkit.createInventory(owner, 3*9, title)
 
     protected lateinit var holder: KInventoryHolder
     private var itemsClickableWhileAnimating = false
@@ -46,21 +52,31 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
 
     override fun setItem(slot: Int, item: KItem) {
+        setItemForSlot(slot, item)
+    }
+
+    private fun setItemForSlot(slot: Int, item: KItem) {
         item.setParent(this)
         if (slot > size - 1) throw IllegalArgumentException("Slot must be lower than size. Slot: $slot Size: $size ")
+
         bukkitInventory.setItem(slot, item.toItemStack())
+        inventories.forEach { it.setItem(slot, item.toItemStack()) }
+
+        println(inventories.size)
+        println("Setting slot $slot")
+
         content[slot] = item
     }
 
     override fun setRow(rowIndex: Int, row: KRow) {
         row.setParent(this, rowIndex)
-        val items = row.items
+
         for (i in 0 .. 9) {
-            val currItem = items[i]
+            val currItem = row.items[i]
 
             if (currItem != null) {
                 val slot = i + (rowIndex * 9)
-                setItem(slot, currItem)
+                setItemForSlot(slot, currItem)
             }
         }
 
@@ -148,6 +164,8 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         openingAnimation?.let {
             startAnimation(it)
         }
+
+        title?.let { views.forEach { view -> view.title = LegacyComponentSerializer.legacySection().serialize(it) } }
     }
 
     override fun closed() {

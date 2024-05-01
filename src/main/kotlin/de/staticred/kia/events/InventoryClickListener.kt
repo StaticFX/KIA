@@ -44,7 +44,6 @@ class InventoryClickListener: Listener {
         val clicker = event.whoClicked as Player
         // at this point the item is valid
 
-
         if (kItem.getDraggingMode() == DraggingMode.NONE) {
             event.isCancelled = true
         }

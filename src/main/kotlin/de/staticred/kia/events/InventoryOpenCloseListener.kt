@@ -2,6 +2,7 @@ package de.staticred.kia.events
 
 import de.staticred.kia.inventory.InventoryManager
 import de.staticred.kia.inventory.KInventoryHolder
+import de.staticred.kia.inventory.KPageInventory
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -27,7 +28,15 @@ class InventoryOpenCloseListener: Listener {
                 }
             }
 
+            if (kInventory is KPageInventory) {
+                event.titleOverride(kInventory.formattedTitle)
+            } else {
+                event.titleOverride(kInventory.title)
+            }
+
             InventoryManager.openedInventory(holder, kInventory)
+            kInventory.views += event.view
+            kInventory.inventories += event.inventory
             kInventory.opened()
         }
     }
@@ -41,6 +50,8 @@ class InventoryOpenCloseListener: Listener {
             val kInventory = InventoryManager.getInventory(inventoryID)
             InventoryManager.closedInventory(holder, kInventory)
             kInventory.closed()
+            kInventory.views -= event.view
+            kInventory.inventories -= event.inventory
         }
     }
 }

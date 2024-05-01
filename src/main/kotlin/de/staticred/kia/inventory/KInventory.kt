@@ -4,9 +4,9 @@ import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.Identifiable
 import net.kyori.adventure.text.Component
-import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
-import java.util.UUID
+import org.bukkit.inventory.InventoryView
+import java.util.*
 
 /**
  * Models a helper class to create bukkit inventories with ease, and provide helper functions to minimize boilerplate code
@@ -36,6 +36,16 @@ interface KInventory: Identifiable<UUID> {
      * Title of the inventory rendered in the bukkit inventory
      */
     var title: Component?
+
+    /**
+     * Views which currently look at the inventory
+     */
+    var views: MutableList<InventoryView>
+
+    /**
+     * Client side inventory instances
+     */
+    var inventories: MutableList<Inventory>
 
     /**
      * Sets the given item in the given slot

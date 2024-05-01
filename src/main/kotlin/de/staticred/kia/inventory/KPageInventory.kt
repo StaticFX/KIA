@@ -2,7 +2,6 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
-import java.util.LinkedList
 
 /**
  * Models an inventory which support a pagination system
@@ -11,7 +10,12 @@ import java.util.LinkedList
  *
  * @see KPage
  */
-interface PageKInventory: KInventory {
+interface KPageInventory: KInventory {
+
+    /**
+     * Is the first page to display when the inventory is opened. If null then no page will be displayed
+     */
+    var mainPage: KPage?
 
     /**
      * Whether the inventory should loop when the last page is reached
@@ -28,6 +32,17 @@ interface PageKInventory: KInventory {
      * List of the pages of this inventory. Index of the item is also the index of the page
      */
     var pages: MutableList<KPage>
+
+    /**
+     * If supplied this function is used to build the title for the inventory. When the page switches, this function will be called with the current page
+     */
+    var titleBuilder: ((KPage, KPageInventory) -> Component)?
+
+    /**
+     * Formatted title given by the titleBuilder
+     * @see titleBuilder
+     */
+    var formattedTitle: Component?
 
     /**
      * Sets the current page displayed in the inventory
@@ -65,20 +80,31 @@ interface PageKInventory: KInventory {
     /**
      * @return the current page displayed
      */
-    fun getPage(): KPage
+    fun getPage(): KPage?
 
-    fun buildTitle(): Component
 
+    /**
+     * Main page builder
+     * @see mainPage
+     */
+    fun mainPage(init: KPage.() -> Unit): KPage
+
+    /**
+     * Build a title for the inventory based on the given builder
+     * @see titleBuilder
+     */
+    fun buildTitle(): Component?
 }
 
 /**
  * Models a page inside a paging KInventory
- * @see PageKInventory
+ * @see KPageInventory
  */
 interface KPage {
 
     /**
-     * Title of the page which will be rendered, can be configured using the TitleFormatter in the Parent Inventory
+     * Title of the page which will be rendered, can be configured using the TitleBuilder in the Parent Inventory
+     * @see KPageInventory.titleBuilder
      */
     var title: Component?
 
@@ -119,32 +145,32 @@ interface KPage {
      * Called by the parent inventory, when the page is opened
      * @param inventory inventory which opened the page
      */
-    fun opened(inventory: PageKInventory)
+    fun opened(inventory: KPageInventory)
 
 
     /**
      * Called by the parent inventory, when the page is closed
      * @param inventory inventory which opened the page
      */
-    fun closed(inventory: PageKInventory)
+    fun closed(inventory: KPageInventory)
 
     /**
      * Hook called when the page is opened, either when the page is clicked to, or it's the first page of the parent inventory
      * @param action hook when the page is opened
      */
-    fun onOpened(action: KPage.(parent: PageKInventory) -> Unit)
+    fun onOpened(action: KPage.(parent: KPageInventory) -> Unit)
 
     /**
      * Hook called when the page is closed, either when the page is clicked away, or the inventory is closed when the page is active
      * @param action hook when the page is opened
      */
-    fun onClosed(action: KPage.(parent: PageKInventory) -> Unit)
+    fun onClosed(action: KPage.(parent: KPageInventory) -> Unit)
 }
 
 /**
  * Models the footer inside a page in a paging inventory
  * @see KPage
- * @see PageKInventory
+ * @see KPageInventory
  */
 interface PageController {
 

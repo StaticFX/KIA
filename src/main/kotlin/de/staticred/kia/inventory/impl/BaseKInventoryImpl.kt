@@ -8,8 +8,8 @@ import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.InventoryHolder
 
-class BaseKInventoryImpl(owner: InventoryHolder?, title: Component?,  private val private: Boolean = true): BaseKInventory(owner, title) {
-    constructor(owner: KInventoryHolder, private: Boolean, size: Int, type: InventoryType? = null, title: Component? = null): this(owner, title, private) {
+open class BaseKInventoryImpl(owner: KInventoryHolder, type: InventoryType?, title: Component?, private val private: Boolean = true): BaseKInventory(owner, title) {
+    init {
         holder = owner
 
         bukkitInventory = when (type) {
@@ -18,7 +18,10 @@ class BaseKInventoryImpl(owner: InventoryHolder?, title: Component?,  private va
         }
 
         holder.inventory = bukkitInventory
-        this.size = size
+
+        val id = InventoryManager.generateRandomInventoryID()
+        this.setID(id)
+        println("Adding inventory ${this.getID()}")
         InventoryManager.addInventory(this)
     }
 
