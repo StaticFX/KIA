@@ -5,6 +5,6 @@ import de.staticred.kia.inventory.impl.KPageControllerImpl
 
 
 fun kPageController(init: PageController.() -> Unit): PageController {
-    return KPageControllerImpl().apply(init)
+    return KPageControllerImpl().apply(init).apply { addButtonListeners() }
 }
 

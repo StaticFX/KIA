@@ -62,9 +62,6 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         bukkitInventory.setItem(slot, item.toItemStack())
         inventories.forEach { it.setItem(slot, item.toItemStack()) }
 
-        println(inventories.size)
-        println("Setting slot $slot")
-
         content[slot] = item
     }
 
@@ -82,6 +79,11 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
 
         rows[rowIndex] = row
         savedRows[row.name] = row
+    }
+
+    override fun clearInventory() {
+        bukkitInventory.clear()
+        inventories.forEach { it.clear() }
     }
 
     override fun swapRow(row: KRow, otherRow: KRow) {

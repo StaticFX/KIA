@@ -6,9 +6,13 @@ import org.bukkit.Bukkit
 
 object AnimationManager {
 
-    private val runningAnimations = mutableMapOf<ScheduledTask, Animation<*>>()
+    private val runningAnimations = mutableMapOf<ScheduledTask, AnimationImpl<*>>()
 
     fun <T> startAnimation(animation: Animation<T>, t: T) {
+        if (animation !is AnimationImpl<T>) {
+            error("Animation must be type of AnimationImpl")
+        }
+
         animation.startAnimation()
         val task = Bukkit.getAsyncScheduler().runAtFixedRate(KIA.instance, {
                 animation.renderFrame(t)
@@ -16,12 +20,11 @@ object AnimationManager {
         runningAnimations[task] = animation
     }
 
-    fun <T> stopAnimation(animation: Animation<T>) {
+    fun <T> stopAnimation(animation: AnimationImpl<T>) {
         for ((key, value) in runningAnimations) {
             if (value == animation) {
                 key.cancel()
             }
         }
     }
-
 }

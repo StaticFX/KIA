@@ -84,6 +84,11 @@ interface KInventory: Identifiable<UUID> {
     fun saveRow(row: KRow)
 
     /**
+     * Clears the inventory from all items inside it
+     */
+    fun clearInventory()
+
+    /**
      * Gets the row saved with the given name
      * @return the row, or null if not found
      */
@@ -153,7 +158,7 @@ interface KInventory: Identifiable<UUID> {
 
     /**
      * Starts the given animation
-     * @see Animation
+     * @see AnimationImpl
      * @param animation the animation
      */
     fun startAnimation(animation: Animation<KInventory>)

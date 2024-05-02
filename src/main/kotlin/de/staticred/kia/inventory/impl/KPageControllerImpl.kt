@@ -14,17 +14,19 @@ class KPageControllerImpl: PageController {
     override var placeholderItem: KItem? = null
 
     override fun build(): KRow {
+        return builder.invoke(nextBtn, previousBtn, placeholderItem)
+    }
+
+    fun addButtonListeners() {
         nextBtn?.let { it.onClick { _, _ ->
             if (this !is KPageInventory) error("Next Button in Page Controller used in non KPageInventory")
             this.nextPage()
-        } }
+        }}
 
         previousBtn?.let { it.onClick { _, _ ->
             if (this !is KPageInventory) { error("Previous Button in Page Controller used in non KPageInventory") }
             this.previousPage()
         }}
-
-        return builder.invoke(nextBtn, previousBtn, placeholderItem)
     }
 }
 

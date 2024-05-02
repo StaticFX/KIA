@@ -58,27 +58,37 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     }
 
     private fun buildPage() {
+        clearInventory()
         val page = currentPage ?: return
-
-        println("Building page: ${page.title}")
 
         buildHeader(page)
         buildFooter(page)
 
         val startSlot = if (page.hasHeader()) 9 else 0
-        println(startSlot)
 
         val endSlot = if (page.hasFooter()) size - 10 else size - 1
 
         val content = page.content
 
-        for ((slot, index) in (startSlot..endSlot).withIndex()) {
+        for ((index, slot) in (startSlot..endSlot).withIndex()) {
             content[index]?.let { super.setItem(slot, it) }
         }
     }
 
     override fun setItem(slot: Int, item: KItem) {
         currentPage?.setItem(slot, item)
+
+        val page = currentPage ?: return
+
+        val slotOffset = if (page.hasHeader()) 9 else 0
+
+        if (page.hasFooter() && slot > size - 10) error("Cant set item in slot $slot because the page has a footer. Use setItemOverride() to override the footer")
+
+        super.setItem(slot + slotOffset, item)
+    }
+
+    override fun setItemOverride(slot: Int, kItem: KItem) {
+        super.setItem(slot, kItem)
     }
 
     private fun buildHeader(page: KPage) {
@@ -106,6 +116,12 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         pages += page
     }
 
+    override fun addPage(init: KPage.() -> Unit): KPage {
+        val page = KPageImpl(null).apply(init)
+        addPage(page)
+        return page
+    }
+
     override fun removePage(page: KPage) {
         pages.remove(page)
     }
@@ -120,9 +136,14 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     }
 
     override fun previousPage() {
+        if (pageIndex - 1 < 0) {
+            if (looping) {
+                pageIndex = pages.size - 1
+            }
+            return
+        }
+
         pageIndex -= 1
-        if (pageIndex < 0)
-            if (looping) pageIndex = pages.size - 1 else return
         setPage(pageIndex)
     }
 
@@ -132,6 +153,7 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
 
     override fun mainPage(init: KPage.() -> Unit): KPage {
         val page = KPageImpl(Component.empty()).apply(init)
+        addPage(page)
         this.mainPage = page
         if (this.currentPage == null) this.currentPage = mainPage
         return page
