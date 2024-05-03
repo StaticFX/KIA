@@ -56,12 +56,10 @@ class InventoryExample: CommandExecutor {
                 }
 
                 setRow(1, shiftingRow)
-                saveRow(shiftingRow)
 
                 openingAnimation = animation(3, 1, TimeUnit.SECONDS) {
                     onAnimationFrame {
-                        setItem(it, kItem(Material.STONE, 1))
-                        this.parent!!.getRow("Shifting Row")!!.shift(ShiftDirection.RIGHT, 1, false)
+
                     }
                 }
             }
