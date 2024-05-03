@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import java.util.UUID
 
-class KInventoryHolder(private val uuid: UUID, private val holder: Player): InventoryHolder {
+class KInventoryHolder(private val uuid: UUID, val holder: Player): InventoryHolder {
 
     private lateinit var inventory: Inventory
 

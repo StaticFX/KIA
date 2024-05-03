@@ -1,7 +1,9 @@
 package de.staticred.kia.inventory.impl
 
 import de.staticred.kia.inventory.*
+import de.staticred.kia.inventory.item.DraggingMode
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.item.KItemImpl
 import net.kyori.adventure.text.Component
 
 class KPageImpl(override var title: Component?): KPage {
@@ -14,6 +16,11 @@ class KPageImpl(override var title: Component?): KPage {
 
     override fun setItem(slot: Int, item: KItem) {
         content[slot] = item
+    }
+
+    override fun setItem(row: Int, slot: Int, item: KItem) {
+        val rowOffset = if (hasHeader()) 1 else 0
+        setItem(slot + (9 * rowOffset), item)
     }
 
     override fun hasHeader(): Boolean {

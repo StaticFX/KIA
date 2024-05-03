@@ -44,12 +44,13 @@ class InventoryExample: CommandExecutor {
             mainPage {
                 this.title = Component.text("Page 1")
                 header = defaultHeader
-            }
 
-            openingAnimation = animation(10, 100, TimeUnit.MILLISECONDS) {
-                onAnimationFrame {
-                    this@kPageInventory.setItem(it, kItem(Material.GOLDEN_APPLE, 1) )
-                }
+                setItem(3, kItem(Material.GRASS_BLOCK) {
+                    setDisplayName(Component.text("Games"))
+                    onClick { _, _ ->
+                        setStaticPage("Games")
+                    }
+                })
             }
 
             titleBuilder = { kPage, _ -> run {
@@ -58,6 +59,13 @@ class InventoryExample: CommandExecutor {
 
                 return@run invTitle.append(Component.text(" - ")).append(pageTitle)
             } }
+
+            addStaticPage("Games") {
+                title = Component.text("Games")
+                this.setItem(1, 1, kItem(Material.DIAMOND_PICKAXE, 1) {
+                    setDisplayName(Component.text("Next Page -> "))
+                })
+            }
 
             addPage {
                 this.title = Component.text("Page 2")

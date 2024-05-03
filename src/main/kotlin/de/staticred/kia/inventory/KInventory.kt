@@ -55,6 +55,15 @@ interface KInventory: Identifiable<UUID> {
     fun setItem(slot: Int, item: KItem)
 
     /**
+     * Sets the given item in the row in the slot
+     * Will translate the row into the slot, so row 1 slot 1 will be translated to slot 10
+     * @param row inventory row
+     * @param slot inventory slot
+     * @param item the item
+     */
+    fun setItem(row: Int, slot: Int, item: KItem)
+
+    /**
      * sets the given row in the inventory
      * @warning only when the inventory type supports rows!
      *

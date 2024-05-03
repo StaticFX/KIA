@@ -18,6 +18,13 @@ interface KPageInventory: KInventory {
     var mainPage: KPage?
 
     /**
+     * Static pages are used for pages which should not be in the standard pagination, but serve as a static content display page.
+     * So in the normal page cycle these pages won't show
+     * Pages will be identified by the given identifier
+     */
+    var staticPages: MutableMap<String, KPage>
+
+    /**
      * Whether the inventory should loop when the last page is reached
      * If true will loop back to the first page when going to the next page on the last page
      */
@@ -76,8 +83,35 @@ interface KPageInventory: KInventory {
      */
     fun addPage(page: KPage)
 
-
+    /**
+     * Adds a page to the current inventory
+     */
     fun addPage(init: KPage.() -> Unit): KPage
+
+    /**
+     * Adds a static page to this inventory
+     * @see staticPages
+     */
+    fun addStaticPage(identifier: String, page: KPage)
+
+    /**
+     * Adds a static page to this inventory
+     * @see staticPages
+     */
+    fun addStaticPage(identifier: String, init: KPage.() -> Unit): KPage
+
+    /**
+     * Set the current page to the given static page
+     * The current index will be saved
+     * To get back to the indexed pages use
+     * @see setCurrentIndexedPage
+     */
+    fun setStaticPage(identifier: String)
+
+    /**
+     * Sets the page with the current index
+     */
+    fun setCurrentIndexedPage()
 
     /**
      * Removes the given space from the inventory
@@ -149,6 +183,11 @@ interface KPage {
      * If a footer is existing, the maximum slots will be reduced by 9
      */
     fun setItem(slot: Int, item: KItem)
+
+    /**
+     * @see KInventory.setItem
+     */
+    fun setItem(row: Int, slot: Int, item: KItem)
 
     /**
      * @return whether the page has a header or not

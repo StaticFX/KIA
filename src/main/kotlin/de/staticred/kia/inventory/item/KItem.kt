@@ -2,6 +2,7 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.KInventory
 import net.kyori.adventure.text.Component
+import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.UUID

@@ -65,6 +65,10 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         content[slot] = item
     }
 
+    override fun setItem(row: Int, slot: Int, item: KItem) {
+        setItemForSlot((9 * row) + slot, item)
+    }
+
     override fun setRow(rowIndex: Int, row: KRow) {
         row.setParent(this, rowIndex)
 

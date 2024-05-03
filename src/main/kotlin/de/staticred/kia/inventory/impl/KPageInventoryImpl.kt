@@ -17,7 +17,10 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     var private: Boolean = false
     override var savePageWhenClosed: Boolean = false
     override var mainPage: KPage? = null
+
     override var pages: MutableList<KPage> = if (mainPage == null) mutableListOf() else mutableListOf(mainPage!!)
+    override var staticPages: MutableMap<String, KPage> = mutableMapOf()
+
     private var currentPage: KPage? = mainPage
     private var pageIndex = 0
     private var lastPage = 0
@@ -75,6 +78,17 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         }
     }
 
+    override fun setItem(row: Int, slot: Int, item: KItem) {
+        val page = currentPage ?: return super.setItem(row, slot, item)
+
+        val rowOffset = if (page.hasHeader()) 1 else 0
+
+        if (row > size / 9) error("Row can't be bigger than the existing rows")
+        if (page.hasFooter() && row > size / 9 - 1) error("Row can't be bigger than the existing rows")
+
+        super.setItem(row + rowOffset, slot , item)
+    }
+
     override fun setItem(slot: Int, item: KItem) {
         currentPage?.setItem(slot, item)
 
@@ -89,6 +103,16 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
 
     override fun setItemOverride(slot: Int, kItem: KItem) {
         super.setItem(slot, kItem)
+    }
+
+    override fun setCurrentIndexedPage() {
+        buildPage()
+    }
+
+    override fun setStaticPage(identifier: String) {
+        val page = staticPages[identifier] ?: error("Given static page $identifier not found")
+        currentPage = page
+        buildPage()
     }
 
     private fun buildHeader(page: KPage) {
@@ -120,6 +144,15 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         val page = KPageImpl(null).apply(init)
         addPage(page)
         return page
+    }
+
+    override fun addStaticPage(identifier: String, page: KPage) {
+        staticPages[identifier] = page
+    }
+
+    override fun addStaticPage(identifier: String, init: KPage.() -> Unit): KPage {
+        staticPages[identifier] = KPageImpl(Component.empty()).apply(init)
+        return staticPages[identifier]!!
     }
 
     override fun removePage(page: KPage) {
