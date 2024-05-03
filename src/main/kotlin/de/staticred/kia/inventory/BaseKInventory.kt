@@ -46,8 +46,9 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     private val savedRows = mutableMapOf<String, KRow>()
 
     override var openingAnimation: Animation<KInventory>? = null
+    override var currentAnimation: Animation<KInventory>? = null
 
-    private val animations = mutableListOf<Animation<KInventory>>()
+    override val animations = mutableMapOf<String, Animation<KInventory>>()
     private val openingListener = mutableListOf<KInventory.() -> Unit>()
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
 
@@ -158,10 +159,10 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     }
 
     override fun startAnimation(animation: Animation<KInventory>) {
-        animations += animation
-        animation.onEnd { animations.remove(animation) }
-
+        if (isAnimating()) error("There is already another animation running")
+        currentAnimation = animation
         AnimationManager.startAnimation(animation, this)
+        animation.onEnd { currentAnimation = null }
     }
 
     override fun opened() {
@@ -183,8 +184,17 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         itemsClickableWhileAnimating = value
     }
 
-    override fun isInAnimation(): Boolean {
-        return animations.any { it.isRunning() }
+    override fun isAnimating(): Boolean {
+        return animations.values.any { it.isRunning() }
+    }
+
+    override fun addAnimation(identifier: String, animation: Animation<KInventory>) {
+        animations[identifier] = animation
+    }
+
+    override fun startAnimation(identifier: String) {
+        val animation = animations[identifier] ?: error("Animation not found")
+        startAnimation(animation)
     }
 
     override fun itemsClickableWhileAnimating(): Boolean {

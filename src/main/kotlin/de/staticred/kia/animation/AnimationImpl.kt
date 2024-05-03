@@ -11,6 +11,8 @@ class AnimationImpl<T>(val frames: Int, val interval: Long, val timeUnit: TimeUn
     private var currentFrame = 0
     private var running = false
 
+    override var startInstant: Boolean = false
+
     override fun onAnimationFrame(listener: T.(index: Int) -> Unit) {
         onFrameListeners += listener
     }

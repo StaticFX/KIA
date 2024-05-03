@@ -16,11 +16,11 @@ object AnimationManager {
         animation.startAnimation()
         val task = Bukkit.getAsyncScheduler().runAtFixedRate(KIA.instance, {
                 animation.renderFrame(t)
-        }, 0, animation.interval, animation.timeUnit)
+        }, if (animation.startInstant) 0 else animation.interval , animation.interval, animation.timeUnit)
         runningAnimations[task] = animation
     }
 
-    fun <T> stopAnimation(animation: AnimationImpl<T>) {
+    fun <T> stopAnimation(animation: Animation<T>) {
         for ((key, value) in runningAnimations) {
             if (value == animation) {
                 key.cancel()

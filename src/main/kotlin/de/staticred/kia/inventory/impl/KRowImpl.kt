@@ -3,6 +3,7 @@ package de.staticred.kia.inventory.impl
 import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.util.ShiftDirection
 import org.bukkit.entity.Player
 
 class KRowImpl(override val name: String = "") : KRow {
@@ -33,13 +34,33 @@ class KRowImpl(override val name: String = "") : KRow {
     }
 
     override fun setItem(slot: Int, item: KItem) {
-        if (slot >= 9) error("Slot in a KRow must be between 0-8")
-
         this.items[slot] = item
         parent?.setRow(index, this)
     }
 
     override fun setItem(range: IntRange, item: KItem) {
         range.forEach { setItem(it, item ) }
+    }
+
+    override fun shift(direction: ShiftDirection, amount: Int, wrap: Boolean) {
+        for ((key, item) in items) {
+            items.remove(key)
+            val newKey = if (direction == ShiftDirection.LEFT) key - amount else key + amount
+
+            if (newKey < 0 && direction == ShiftDirection.LEFT) {
+                if (wrap && !(items.any { it.key < newKey })) {
+                    items[items.maxOf { it.key } - amount]
+                }
+            }
+
+            if (newKey < 9 && direction == ShiftDirection.RIGHT) {
+                if (wrap && !(items.any { it.key > newKey })) {
+                    items[items.minOf { it.key } + amount]
+                }
+            }
+
+            items[newKey] = item
+            parent?.setRow(index, this)
+        }
     }
 }

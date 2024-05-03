@@ -136,6 +136,8 @@ interface KPageInventory: KInventory {
     fun getPage(): KPage?
 
 
+    override fun isAnimating(): Boolean
+
     /**
      * Main page builder
      * @see mainPage
@@ -147,114 +149,4 @@ interface KPageInventory: KInventory {
      * @see titleBuilder
      */
     fun buildTitle(): Component?
-}
-
-/**
- * Models a page inside a paging KInventory
- * @see KPageInventory
- */
-interface KPage {
-
-    /**
-     * Title of the page which will be rendered, can be configured using the TitleBuilder in the Parent Inventory
-     * @see KPageInventory.titleBuilder
-     */
-    var title: Component?
-
-    /**
-     * The header will only be rendered, if the inventory is at least 2 rows long, and has no footer, or is 3 rows long
-     */
-    var header: PageController?
-
-    /**
-     * The footer will only be rendered, if the inventory is at least 2 rows long, and has no header, or is 3 rows long
-     */
-    var footer: PageController?
-
-    /**
-     * Content of this page, where the slot is mapped to the item
-     * Slots are always relative to the page. So slot 0 is depending on if the page has a header or not
-     */
-    var content: MutableMap<Int, KItem>
-
-    /**
-     * Sets the given item at the given slot
-     * Slots are relative to the inventory page. If a header is existing, the slots will be shifted by the length of 9.
-     * If a footer is existing, the maximum slots will be reduced by 9
-     */
-    fun setItem(slot: Int, item: KItem)
-
-    /**
-     * @see KInventory.setItem
-     */
-    fun setItem(row: Int, slot: Int, item: KItem)
-
-    /**
-     * @return whether the page has a header or not
-     */
-    fun hasHeader(): Boolean
-
-    /**
-     * @return whether the page has a footer or not
-     */
-    fun hasFooter(): Boolean
-
-    /**
-     * Called by the parent inventory, when the page is opened
-     * @param inventory inventory which opened the page
-     */
-    fun opened(inventory: KPageInventory)
-
-
-    /**
-     * Called by the parent inventory, when the page is closed
-     * @param inventory inventory which opened the page
-     */
-    fun closed(inventory: KPageInventory)
-
-    /**
-     * Hook called when the page is opened, either when the page is clicked to, or it's the first page of the parent inventory
-     * @param action hook when the page is opened
-     */
-    fun onOpened(action: KPage.(parent: KPageInventory) -> Unit)
-
-    /**
-     * Hook called when the page is closed, either when the page is clicked away, or the inventory is closed when the page is active
-     * @param action hook when the page is opened
-     */
-    fun onClosed(action: KPage.(parent: KPageInventory) -> Unit)
-}
-
-/**
- * Models the footer inside a page in a paging inventory
- * @see KPage
- * @see KPageInventory
- */
-interface PageController {
-
-    var builder: (nextBtn: KItem?, previousBtn: KItem?, placeholder: KItem?) -> KRow
-
-    /**
-     * Item used as a button for the user to go to the next page
-     * A click listener will be attached to it when the inventory is built, to handle pagination
-     */
-    var nextBtn: KItem?
-
-    /**
-     * Item used as a button for the user to go to the previous page
-     * A click listener will be attached to it when the inventory is built, to handle pagination
-     */
-    var previousBtn: KItem?
-
-    /**
-     * Item which can be used in the builder as a placeholder
-     */
-    var placeholderItem: KItem?
-
-    /**
-     * Used to build the controller, which will then be placed on the page as a row.
-     * Using the builder supplied
-     * @see builder
-     */
-    fun build(): KRow
 }

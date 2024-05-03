@@ -1,5 +1,6 @@
 package de.staticred.kia.inventory
 
+import de.staticred.kia.animation.Animatable
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.Identifiable
@@ -19,7 +20,7 @@ import java.util.*
  *
  * @since 1.0
  */
-interface KInventory: Identifiable<UUID> {
+interface KInventory: Identifiable<UUID>, Animatable<KInventory> {
 
     /**
      * Maps the slot of the item in the inventory to the actual item
@@ -115,12 +116,6 @@ interface KInventory: Identifiable<UUID> {
     fun itemsClickableWhileAnimating(): Boolean
 
     /**
-     * Checks if the inventory is currently in an animation
-     * @return boolean
-     */
-    fun isInAnimation(): Boolean
-
-    /**
      * Executed when the inventory is opened
      * To catch this the bukkit event is used
      *
@@ -164,13 +159,6 @@ interface KInventory: Identifiable<UUID> {
      * @return the slot for the given item, -1 if item is not set yet
      */
     fun getSlotForItem(item: KItem): Int
-
-    /**
-     * Starts the given animation
-     * @see AnimationImpl
-     * @param animation the animation
-     */
-    fun startAnimation(animation: Animation<KInventory>)
 
     /**
      * Checks whether the inventory is private.

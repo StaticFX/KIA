@@ -3,6 +3,11 @@ package de.staticred.kia.animation
 interface Animation<T> {
 
     /**
+     * whether the animation should start instantly, or wait for the given delay until rendering the first frame
+     */
+    var startInstant: Boolean
+
+    /**
      * Called when the next frame is rendered
      * @param listener function called whe the frame is rendered. Index is the current frame
      */

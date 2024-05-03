@@ -1,11 +1,11 @@
 package de.staticred.kia.inventory.impl
 
+import KPageController
 import de.staticred.kia.inventory.KPageInventory
 import de.staticred.kia.inventory.KRow
-import de.staticred.kia.inventory.PageController
 import de.staticred.kia.inventory.item.KItem
 
-class KPageControllerImpl: PageController {
+class KPageControllerImpl: KPageController {
 
     override var builder: (nextBtn: KItem?, previousBtn: KItem?, placeholder: KItem?) -> KRow = { _,_,_ -> KRowImpl() }
 

@@ -2,6 +2,7 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.impl.KRowImpl
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.util.ShiftDirection
 import org.bukkit.entity.Player
 
 /**
@@ -51,6 +52,11 @@ interface KRow {
     /**
      * Sets the given item in the given slot.
      * When changing an item in a slot, the inventory will update accordingly
+     *
+     * The slot must not be actually inside the inventory, so a slot of -1 would result in an item left to the slot 0.
+     * When now shifting to the right, the item from slot 0 will come
+     * @see shift
+     *
      * @param slot the slot
      * @param item the item
      */
@@ -63,5 +69,15 @@ interface KRow {
      * @param item the item
      */
     fun setItem(range: IntRange, item: KItem)
+
+    /**
+     * Shifts the items inside the row to the given direction.
+     * Because items can also be set at a negative slot or slot larger than 9, the items next to it will come.
+     * If wrap is enabled, it will wrap the last items back to the beginning.
+     * @param direction of the shift
+     * @param amount how many times
+     * @param wrap whether to wrap the items or not
+     */
+    fun shift(direction: ShiftDirection, amount: Int, wrap: Boolean)
 
 }

@@ -2,6 +2,7 @@ package de.staticred.kia.example
 
 import de.staticred.kia.inventory.builder.*
 import de.staticred.kia.inventory.extensions.openInventory
+import de.staticred.kia.util.ShiftDirection
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -43,14 +44,26 @@ class InventoryExample: CommandExecutor {
 
             mainPage {
                 this.title = Component.text("Page 1")
-                header = defaultHeader
 
-                setItem(3, kItem(Material.GRASS_BLOCK) {
-                    setDisplayName(Component.text("Games"))
-                    onClick { _, _ ->
-                        setStaticPage("Games")
+                val shiftingRow = kRow("Shifting Row") {
+                    for (slot in 0..8) {
+                        if (slot % 2 == 0) {
+                            setItem(slot, kItem(Material.BLACK_STAINED_GLASS_PANE) {})
+                        } else {
+                            setItem(slot, kItem(Material.WHITE_STAINED_GLASS_PANE) {})
+                        }
                     }
-                })
+                }
+
+                setRow(1, shiftingRow)
+                saveRow(shiftingRow)
+
+                openingAnimation = animation(3, 1, TimeUnit.SECONDS) {
+                    onAnimationFrame {
+                        setItem(it, kItem(Material.STONE, 1))
+                        this.parent!!.getRow("Shifting Row")!!.shift(ShiftDirection.RIGHT, 1, false)
+                    }
+                }
             }
 
             titleBuilder = { kPage, _ -> run {

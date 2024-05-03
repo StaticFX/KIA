@@ -48,7 +48,7 @@ class InventoryClickListener: Listener {
             event.isCancelled = true
         }
         
-        if (kInventory.isInAnimation()) {
+        if (kInventory.isAnimating()) {
             if (kInventory.itemsClickableWhileAnimating()) {
                 itemClicked(kItem, clicker, kInventory, event.slot)
             }

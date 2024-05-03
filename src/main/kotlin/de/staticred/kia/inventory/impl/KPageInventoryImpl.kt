@@ -1,9 +1,7 @@
 package de.staticred.kia.inventory.impl
 
-import de.staticred.kia.inventory.BaseKInventory
-import de.staticred.kia.inventory.KInventoryHolder
-import de.staticred.kia.inventory.KPage
-import de.staticred.kia.inventory.KPageInventory
+import de.staticred.kia.animation.Animation
+import de.staticred.kia.inventory.*
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
@@ -25,6 +23,7 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     private var pageIndex = 0
     private var lastPage = 0
 
+    override var currentAnimation: Animation<KInventory>? = null
     override var titleBuilder: ((KPage, KPageInventory) -> Component)? = null
 
     override fun isPrivate(): Boolean {
@@ -52,12 +51,11 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         pageIndex = index
 
         currentPage = pages[index]
-        buildPage()
 
         val title = buildTitle()
         title?.let { views.forEach { view -> view.title = LegacyComponentSerializer.legacySection().serialize(it) } }
 
-        currentPage?.opened(this)
+        buildPage()
     }
 
     private fun buildPage() {
@@ -76,6 +74,8 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         for ((index, slot) in (startSlot..endSlot).withIndex()) {
             content[index]?.let { super.setItem(slot, it) }
         }
+
+        page.opened(this)
     }
 
     override fun setItem(row: Int, slot: Int, item: KItem) {
@@ -99,6 +99,12 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
         if (page.hasFooter() && slot > size - 10) error("Cant set item in slot $slot because the page has a footer. Use setItemOverride() to override the footer")
 
         super.setItem(slot + slotOffset, item)
+    }
+
+    override fun isAnimating(): Boolean {
+        if (currentAnimation?.isRunning() == true) return true
+        if (currentPage?.isAnimating() == true) return true
+        return false
     }
 
     override fun setItemOverride(slot: Int, kItem: KItem) {
@@ -137,6 +143,7 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     }
 
     override fun addPage(page: KPage) {
+        page.parent = this
         pages += page
     }
 
@@ -147,12 +154,14 @@ class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
     }
 
     override fun addStaticPage(identifier: String, page: KPage) {
+        page.parent = this
         staticPages[identifier] = page
     }
 
     override fun addStaticPage(identifier: String, init: KPage.() -> Unit): KPage {
-        staticPages[identifier] = KPageImpl(Component.empty()).apply(init)
-        return staticPages[identifier]!!
+        val page = KPageImpl(Component.empty()).apply(init)
+        addStaticPage(identifier, page)
+        return page
     }
 
     override fun removePage(page: KPage) {
