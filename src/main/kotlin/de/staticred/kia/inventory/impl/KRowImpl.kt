@@ -43,7 +43,7 @@ class KRowImpl(override val name: String = "") : KRow {
     }
 
     override fun shift(direction: ShiftDirection, amount: Int, wrap: Boolean) {
-        for ((key, item) in items) {
+        for ((key, item) in items.toMap()) {
             items.remove(key)
             val newKey = if (direction == ShiftDirection.LEFT) key - amount else key + amount
 

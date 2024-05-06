@@ -20,12 +20,7 @@ import java.util.*
  *
  * @since 1.0
  */
-interface KInventory: Identifiable<UUID>, Animatable<KInventory> {
-
-    /**
-     * Maps the slot of the item in the inventory to the actual item
-     */
-    var content: MutableMap<Int, KItem>
+interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryContentContainer {
 
     /**
      * Animation which will be played when the inventory is opened
@@ -47,62 +42,6 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory> {
      * Client side inventory instances
      */
     var inventories: MutableList<Inventory>
-
-    /**
-     * Sets the given item in the given slot
-     * @param slot the global slot in the inventory
-     * @param item the item to set
-     */
-    fun setItem(slot: Int, item: KItem)
-
-    /**
-     * Sets the given item in the row in the slot
-     * Will translate the row into the slot, so row 1 slot 1 will be translated to slot 10
-     * @param row inventory row
-     * @param slot inventory slot
-     * @param item the item
-     */
-    fun setItem(row: Int, slot: Int, item: KItem)
-
-    /**
-     * sets the given row in the inventory
-     * @warning only when the inventory type supports rows!
-     *
-     * @param rowIndex the index of the row
-     * @param row the row
-     */
-    fun setRow(rowIndex: Int, row: KRow)
-
-    /**
-     * Swaps two rows in an inventory
-     * @param row the first row
-     * @param otherRow the row to swap with
-     */
-    fun swapRow(row: KRow, otherRow: KRow)
-
-    /**
-     * Swaps two rows based on their index
-     * @param index of the first row
-     * @param otherIndex of the row to swap with
-     */
-    fun swapRow(index: Int, otherIndex: Int)
-
-    /**
-     * Saves the row to the inventory by the rows name
-     * @param row to save
-     */
-    fun saveRow(row: KRow)
-
-    /**
-     * Clears the inventory from all items inside it
-     */
-    fun clearInventory()
-
-    /**
-     * Gets the row saved with the given name
-     * @return the row, or null if not found
-     */
-    fun getRow(name: String): KRow?
 
     /**
      * Sets whether the items can be moved while animating or not

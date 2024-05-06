@@ -10,7 +10,7 @@ import net.kyori.adventure.text.Component
  * Models a page inside a paging KInventory
  * @see KPageInventory
  */
-interface KPage: Animatable<KPage> {
+interface KPage: Animatable<KPage>, InventoryContentContainer {
 
     /**
      * Title of the page which will be rendered, can be configured using the TitleBuilder in the Parent Inventory
@@ -34,33 +34,9 @@ interface KPage: Animatable<KPage> {
     var footer: KPageController?
 
     /**
-     * Content of this page, where the slot is mapped to the item
-     * Slots are always relative to the page. So slot 0 is depending on if the page has a header or not
-     */
-    var content: MutableMap<Int, KItem>
-
-    /**
      * Parent inventory if the page is set in it
      */
     var parent: KPageInventory?
-
-    /**
-     * Sets the given item at the given slot
-     * Slots are relative to the inventory page. If a header is existing, the slots will be shifted by the length of 9.
-     * If a footer is existing, the maximum slots will be reduced by 9
-     */
-    fun setItem(slot: Int, item: KItem)
-
-    /**
-     * @see KInventory.setItem
-     */
-    fun setItem(row: Int, slot: Int, item: KItem)
-
-    /**
-     * Sets the given row in the inventory
-     * @see KRow
-     */
-    fun setRow(index: Int, row: KRow)
 
     /**
      * @return whether the page has a header or not
@@ -83,6 +59,15 @@ interface KPage: Animatable<KPage> {
      * @param inventory inventory which opened the page
      */
     fun closed(inventory: KPageInventory)
+
+    /**
+     * Returns the given row for the index as a new object
+     * Parent of the row will only be set, if the page has a parent as well
+     * @see KRow.setParent
+     * @param index index of the row
+     * @return new KRow instance
+     */
+    override fun getRowFor(index: Int): KRow
 
     /**
      * Hook called when the page is opened, either when the page is clicked to, or it's the first page of the parent inventory

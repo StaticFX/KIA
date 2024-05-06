@@ -60,7 +60,7 @@ class InventoryExample: CommandExecutor {
 
                 openingAnimation = animation(3, 1, TimeUnit.SECONDS) {
                     onAnimationFrame {
-
+                        setRow(1, getRowFor(1).apply { shift(ShiftDirection.LEFT, 1, false) })
                     }
                 }
             }

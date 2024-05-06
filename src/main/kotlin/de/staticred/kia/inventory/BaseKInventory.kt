@@ -2,6 +2,7 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
+import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
@@ -16,7 +17,7 @@ import java.util.*
  * Example implementation of a generic inventory
  * @param owner holder of the inventory
  */
-abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory {
+abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory, AbstractContentContainer(9) {
 
     var size = 3*9
         protected set
@@ -70,20 +71,14 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         setItemForSlot((9 * row) + slot, item)
     }
 
-    override fun setRow(rowIndex: Int, row: KRow) {
-        row.setParent(this, rowIndex)
-
-        for (i in 0 .. 9) {
-            val currItem = row.items[i]
-
-            if (currItem != null) {
-                val slot = i + (rowIndex * 9)
-                setItemForSlot(slot, currItem)
+    override fun getRowFor(index: Int): KRow {
+        return kRow {
+            for (slot in 0 until 8) {
+                val item = content[slot + (index * 9)]
+                item?.let { setItem(slot, it) }
             }
+            setParent(this@BaseKInventory, index)
         }
-
-        rows[rowIndex] = row
-        savedRows[row.name] = row
     }
 
     override fun clearInventory() {
@@ -91,30 +86,11 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         inventories.forEach { it.clear() }
     }
 
-    override fun swapRow(row: KRow, otherRow: KRow) {
-        if (row.getIndex() == -1) throw IllegalArgumentException("Row must be set at least once")
-        if (otherRow.getIndex() == -1) throw IllegalArgumentException("Row must be set at least once")
-
-        val index = row.getIndex()
-        val otherIndex = otherRow.getIndex()
-
-        setRow(otherIndex, row)
-        setRow(index, otherRow)
-    }
-
-    override fun swapRow(index: Int, otherIndex: Int) {
-        val row = rows[index] ?: throw IllegalArgumentException("$index row not found")
-        val otherRow = rows[otherIndex] ?: throw IllegalArgumentException("$index row not found")
-
-
-        swapRow(row, otherRow)
-    }
-
-    override fun saveRow(row: KRow) {
+    fun saveRow(row: KRow) {
         savedRows[row.name] = row
     }
 
-    override fun getRow(name: String): KRow? {
+    fun getRow(name: String): KRow? {
         return savedRows[name]
     }
 

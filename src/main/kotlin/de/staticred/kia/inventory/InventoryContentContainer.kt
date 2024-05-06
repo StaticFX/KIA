@@ -12,6 +12,7 @@ interface InventoryContentContainer {
      */
     val content: MutableMap<Int, KItem>
 
+
     /**
      * Sets the given item at the given position
      * @param slot the slot
@@ -34,8 +35,30 @@ interface InventoryContentContainer {
      */
     fun setItem(row: Int, slot: Int, item: KItem)
 
+    /**
+     * Gets the row for the given index
+     * This will create a new row for the returned value
+     * @return the row
+     */
+    fun getRowFor(index: Int): KRow
 
-    fun getRowFor()
+    /**
+     * Swaps two rows in an inventory
+     * @param row the first row
+     * @param otherRow the row to swap with
+     */
+    fun swapRow(row: KRow, otherRow: KRow)
+
+    /**
+     * Swaps two rows based on their index
+     * @param index of the first row
+     * @param otherIndex of the row to swap with
+     */
+    fun swapRow(index: Int, otherIndex: Int)
 
 
+    /**
+     * Clears the inventory from all items inside it
+     */
+    fun clearInventory()
 }

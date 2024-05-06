@@ -3,16 +3,17 @@ package de.staticred.kia.inventory.impl
 import KPageController
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
+import de.staticred.kia.inventory.AbstractContentContainer
 import de.staticred.kia.inventory.KPage
 import de.staticred.kia.inventory.KPageInventory
 import de.staticred.kia.inventory.KRow
+import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
 
-class KPageImpl(override var title: Component?): KPage {
+class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, AbstractContentContainer(rowLength) {
     override var header: KPageController? = null
     override var footer: KPageController? = null
-    override var content: MutableMap<Int, KItem> = mutableMapOf()
 
     override val animations: MutableMap<String, Animation<KPage>> = mutableMapOf()
     override var openingAnimation: Animation<KPage>? = null
@@ -23,21 +24,32 @@ class KPageImpl(override var title: Component?): KPage {
     private val openingListeners = mutableListOf<KPage.(parent: KPageInventory) -> Unit>()
     private val closingListeners = mutableListOf<KPage.(parent: KPageInventory) -> Unit>()
 
-    override fun setItem(slot: Int, item: KItem) {
-        content[slot] = item
+    override fun setItem(slot: Int, value: KItem) {
+        val rowOffset = if (hasHeader()) 1 else 0
+        super.setItem(slot + (rowLength * rowOffset), value)
     }
 
     override fun setItem(row: Int, slot: Int, item: KItem) {
         val rowOffset = if (hasHeader()) 1 else 0
-        setItem(slot + (9 * rowOffset), item)
+        setItem(slot + (rowLength * rowOffset), item)
     }
 
     override fun setRow(index: Int, row: KRow) {
         for ((slot, item) in row.items) {
-            content[slot + (index * 9)] = item
+            setItem(slot + (index * rowLength), item)
         }
 
         parent?.let { row.setParent(it, index) }
+    }
+
+    override fun getRowFor(index: Int): KRow {
+        return kRow {
+            for (slot in 0 until 8) {
+                val item = content[slot + (index * 9)]
+                item?.let { setItem(slot, it) }
+            }
+            parent?.let { setParent(it, index) }
+        }
     }
 
     override fun hasHeader(): Boolean {
