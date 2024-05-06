@@ -8,9 +8,9 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.InventoryHolder
 
-class KPageInventoryImpl(owner: KInventoryHolder, override var looping: Boolean,
+class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var looping: Boolean,
                          title: Component?
-): BaseKInventoryImpl(owner, InventoryType.CHEST, title), KPageInventory {
+): BaseKInventoryImpl(owner, size, InventoryType.CHEST, title), KPageInventory {
 
     var private: Boolean = false
     override var savePageWhenClosed: Boolean = false

@@ -8,5 +8,5 @@ import org.bukkit.event.inventory.InventoryType
 
 
 fun kInventory(holder: Player, size: Int, type: InventoryType, init: KInventory.() -> Unit): KInventory {
-    return BaseKInventoryImpl(KInventoryHolder.create(holder), type, null).apply(init)
+    return BaseKInventoryImpl(KInventoryHolder.create(holder), size, type, null).apply(init)
 }

@@ -8,6 +8,6 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 
 
-fun kPageInventory(holder: Player, init: KPageInventory.() -> Unit): KPageInventory {
-    return KPageInventoryImpl(KInventoryHolder.create(holder), true, Component.empty()).apply(init)
+fun kPageInventory(holder: Player, size: Int = 3*9, init: KPageInventory.() -> Unit): KPageInventory {
+    return KPageInventoryImpl(KInventoryHolder.create(holder), size,true, Component.empty()).apply(init)
 }

@@ -3,6 +3,7 @@ package de.staticred.kia.example
 import de.staticred.kia.inventory.builder.*
 import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.util.ShiftDirection
+import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -38,7 +39,7 @@ class InventoryExample: CommandExecutor {
             }}
         }
 
-        val pageInventory = kPageInventory(sender) {
+        val pageInventory = kPageInventory(sender, 5.rows) {
             looping = true
             title = Component.text("Paging Inventory")
 

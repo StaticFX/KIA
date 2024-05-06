@@ -8,7 +8,7 @@ import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.InventoryHolder
 
-open class BaseKInventoryImpl(owner: KInventoryHolder, type: InventoryType?, title: Component?, private val private: Boolean = true): BaseKInventory(owner, title) {
+open class BaseKInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, type: InventoryType?, title: Component?, private val private: Boolean = true): BaseKInventory(owner, title) {
 
     init {
         holder = owner

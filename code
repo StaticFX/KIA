@@ -1,0 +1,34 @@
+
+unique(a, n)
+/**
+*
+* a ein array das elemente beinhaltet
+* n länge des arrays
+*/
+for (i := 1 to n - 1) {
+    for (j := 1 to n - 1) {
+        if (a[i] = a[j]) {
+            return true
+        }
+    }
+}
+return false
+
+O(n^2)
+
+unique(a, n)
+/**
+*
+* a ein array das elemente beinhaltet
+* n länge des arrays
+*/
+seen := //erzeuge neues hashset
+for (i := 1 to n - 1) {
+    if (seen.includes(a[i]) {
+        return true
+    }
+    seen.add(a[i])
+}
+return false
+
+O(n)
