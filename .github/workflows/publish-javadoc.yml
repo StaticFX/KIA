@@ -1,24 +1,20 @@
-name: Deploy Javadoc
-
+name: Deploy Dokka
 on:
   push:
-    branches:
-      - master
-      - main
-
+    branches: [master]
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Deploy JavaDoc 🚀
-        uses: MathieuSoysal/Javadoc-publisher.yml@v2.5.0
+      - name: Set up JDK
+        uses: actions/setup-java@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
-          javadoc-branch: javadoc
           java-version: 17
-          target-folder: javadoc
-          project: gradle
-          javadoc-source-folder: build/dokka/javadoc
-          custom-command: gradle dokkaJavadoc
+      - name: Build documentation
+        run: ./gradlew dokkaHtml
+      - name: Publish documentation
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.JAVA_TOKEN }}
+          BRANCH: dokka
+          FOLDER: build/dokka
