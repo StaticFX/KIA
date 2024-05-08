@@ -44,7 +44,7 @@ $dokka.location:de.staticred.kia.events/InventoryOpenCloseListener/onInventoryOp
 $dokka.location:de.staticred.kia.example////PointingToDeclaration/-k-i-a/de.staticred.kia.example/index.html
 $dokka.location:de.staticred.kia.example/InventoryExample///PointingToDeclaration/-k-i-a/de.staticred.kia.example/-inventory-example/index.html
 $dokka.location:de.staticred.kia.example/InventoryExample/InventoryExample/#/PointingToDeclaration/-k-i-a/de.staticred.kia.example/-inventory-example/-inventory-example.html
-$dokka.location:de.staticred.kia.example/InventoryExample/onCommand/#org.bukkit.command.CommandSender#org.bukkit.command.Command#kotlin.String#kotlin.Array[kotlin.String]?/PointingToDeclaration/-k-i-a/de.staticred.kia.example/-inventory-example/on-command.html
+$dokka.location:de.staticred.kia.example/InventoryExample/execute/#org.bukkit.command.CommandSender#kotlin.String#kotlin.Array[kotlin.String]?/PointingToDeclaration/-k-i-a/de.staticred.kia.example/-inventory-example/execute.html
 $dokka.location:de.staticred.kia.inventory.builder////PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/index.html
 $dokka.location:de.staticred.kia.inventory.builder//animation/#kotlin.Int#kotlin.Long#java.util.concurrent.TimeUnit#kotlin.Function1[de.staticred.kia.animation.AnimationImpl[TypeParam(bounds=[kotlin.Any?])],kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/animation.html
 $dokka.location:de.staticred.kia.inventory.builder//kInventory/#org.bukkit.entity.Player#kotlin.Int#org.bukkit.event.inventory.InventoryType#kotlin.Function1[de.staticred.kia.inventory.KInventory,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-inventory.html
