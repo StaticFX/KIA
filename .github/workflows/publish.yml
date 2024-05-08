@@ -25,7 +25,7 @@ jobs:
 
       - name: Bump Version
         id: bump
-        uses: IMGARENA/version-bump-action@<latest_version>
+        uses: IMGARENA/version-bump-action@v3
         with:
           github-token: ${{ secrets.JAVA_TOKEN }}
   publish:
