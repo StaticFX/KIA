@@ -10,22 +10,22 @@
 name: Publish package to GitHub Packages
 on: push
 jobs:
-  bump-gradle-version:
+  bump-gradle:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Latest Commit
-        uses: actions/checkout@v2
 
-      - name: Bump Version
-        id: bump
-        uses: Plugily-Projects/version-bump-action@v6
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          github-token: ${{ secrets.JAVA_TOKEN }}
-          git-committer: 'BOT'
-          auto-version-bump: true
-          gradle-path: build.gradle
-      - name: Print Version
-        run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
+          distribution: 'temurin'
+          java-version: 17
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: app/build.gradle
+          versionCode: ${{github.run_number}}
+          versionName: 1.0.0
   publish:
     needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
