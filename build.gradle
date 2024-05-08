@@ -6,6 +6,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'maven-publish'
+    id 'org.jetbrains.dokka' version '1.9.20'
 }
 
 group = 'de.staticred.kia'
@@ -27,6 +28,10 @@ repositories {
     }
 }
 
+subprojects {
+    apply plugin: 'org.jetbrains.dokka'
+}
+
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -36,6 +41,11 @@ dependencies {
 java {
     withSourcesJar()
     withJavadocJar()
+}
+
+javadoc {
+    destinationDir = file("${buildDir}/docs/javadoc")
+    source = sourceSets.main.allSource
 }
 
 publishing {
