@@ -5,6 +5,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'maven-publish'
 }
 
 group = 'de.staticred.kia'
@@ -30,6 +31,19 @@ dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "de.tr7zw:item-nbt-api:2.12.2"
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/octocat/hello-world"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 shadowJar {
