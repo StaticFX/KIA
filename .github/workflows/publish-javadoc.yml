@@ -21,3 +21,4 @@ jobs:
           target-folder: javadoc
           project: gradle
           javadoc-source-folder: build/dokka/javadoc
+          custom-command: gradle dokkaJavadocs
