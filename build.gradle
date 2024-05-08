@@ -44,8 +44,6 @@ java {
 }
 
 javadoc {
-    destinationDir = file("${buildDir}/docs/javadoc")
-    source = sourceSets.main.allSource
 }
 
 publishing {
