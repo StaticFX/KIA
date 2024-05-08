@@ -12,9 +12,10 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 
-class InventoryExample: CommandExecutor {
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+class InventoryExample: Command("kia") {
 
+
+    override fun execute(sender: CommandSender, p1: String, p2: Array<out String>?): Boolean {
         if (sender !is Player) return false
 
         val defaultHeader = kPageController {

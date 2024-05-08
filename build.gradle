@@ -7,10 +7,11 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'maven-publish'
     id 'org.jetbrains.dokka' version '1.9.20'
+    id 'net.minecrell.plugin-yml.paper' version '0.6.0'
 }
 
 group = 'de.staticred.kia'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -26,6 +27,15 @@ repositories {
         name = "CodeMC"
         url = uri("https://repo.codemc.io/repository/maven-public/")
     }
+}
+
+paper {
+    name = "KIA - Kotlin Inventory API"
+    main = "de.staticred.kia.KIA"
+    apiVersion = "1.20"
+    version = rootProject.version.toString()
+    author = "StaticRed / StaticFX"
+    website = "https://github.com/StaticFX/KIA"
 }
 
 subprojects {
@@ -45,6 +55,25 @@ java {
 
 javadoc {
 }
+
+def generatedVersionDir = "${buildDir}/generated-version"
+
+sourceSets {
+    main {
+        output.dir(generatedVersionDir, builtBy: 'generateVersionProperties')
+    }
+}
+
+tasks.register('generateVersionProperties') {
+    doLast {
+        def propertiesFile = file "$generatedVersionDir/version.properties"
+        propertiesFile.parentFile.mkdirs()
+        def properties = new Properties()
+        properties.setProperty("version", rootProject.version.toString())
+        propertiesFile.withWriter { properties.store(it, null) }
+    }
+}
+processResources.dependsOn generateVersionProperties
 
 publishing {
     repositories {

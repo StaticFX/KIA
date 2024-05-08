@@ -10,7 +10,23 @@
 name: Publish package to GitHub Packages
 on: push
 jobs:
+  bump-gradle-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Latest Commit
+        uses: actions/checkout@v2
+
+      - name: Bump Version
+        id: bump
+        uses: Plugily-Projects/version-bump-action@v6
+        with:
+          github-token: ${{ secrets.JAVA_TOKEN }}
+          git-committer: 'BOT'
+          auto-version-bump: true
+      - name: Print Version
+        run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
   publish:
+    needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
     permissions:
       contents: read

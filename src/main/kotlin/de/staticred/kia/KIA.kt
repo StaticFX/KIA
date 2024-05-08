@@ -5,6 +5,7 @@ import de.staticred.kia.events.InventoryDragItemListener
 import de.staticred.kia.events.InventoryMoveItemListener
 import de.staticred.kia.events.InventoryOpenCloseListener
 import de.staticred.kia.example.InventoryExample
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class KIA: JavaPlugin() {
@@ -20,7 +21,7 @@ class KIA: JavaPlugin() {
     }
 
     private fun registerCommands() {
-        getCommand("kia")!!.setExecutor(InventoryExample())
+        Bukkit.getCommandMap().register("kia", InventoryExample())
     }
 
 
