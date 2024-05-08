@@ -1,9 +1,7 @@
 package de.staticred.kia.inventory
 
-import KPageController
 import de.staticred.kia.animation.Animatable
 import de.staticred.kia.animation.Animation
-import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
 
 /**

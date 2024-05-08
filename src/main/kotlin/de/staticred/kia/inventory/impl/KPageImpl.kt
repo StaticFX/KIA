@@ -1,6 +1,6 @@
 package de.staticred.kia.inventory.impl
 
-import KPageController
+import de.staticred.kia.inventory.KPageController
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.AbstractContentContainer

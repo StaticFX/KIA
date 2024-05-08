@@ -1,6 +1,5 @@
-import de.staticred.kia.inventory.KPage
-import de.staticred.kia.inventory.KPageInventory
-import de.staticred.kia.inventory.KRow
+package de.staticred.kia.inventory
+
 import de.staticred.kia.inventory.item.KItem
 
 /**

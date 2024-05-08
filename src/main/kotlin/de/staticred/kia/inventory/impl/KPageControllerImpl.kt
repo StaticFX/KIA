@@ -1,6 +1,6 @@
 package de.staticred.kia.inventory.impl
 
-import KPageController
+import de.staticred.kia.inventory.KPageController
 import de.staticred.kia.inventory.KPageInventory
 import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.item.KItem
