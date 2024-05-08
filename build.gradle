@@ -8,6 +8,8 @@ plugins {
     id 'maven-publish'
 }
 
+apply plugin: 'maven-publish'
+
 group = 'de.staticred.kia'
 version = '1.0-SNAPSHOT'
 
