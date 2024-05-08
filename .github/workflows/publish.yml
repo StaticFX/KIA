@@ -23,6 +23,7 @@ jobs:
           github-token: ${{ secrets.JAVA_TOKEN }}
           git-committer: 'BOT'
           auto-version-bump: true
+          gradle-path: build.gradle
       - name: Print Version
         run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
   publish:
