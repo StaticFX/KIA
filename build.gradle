@@ -8,10 +8,7 @@ plugins {
     id 'maven-publish'
 }
 
-apply plugin: 'maven-publish'
-
 group = 'de.staticred.kia'
-artefactID = ''
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -54,9 +51,10 @@ publishing {
     }
 
     publications {
-        maven(MavenPublication) {
-            artefactID = "KIA"
+        github(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifactId = 'kia'
         }
     }
 }
