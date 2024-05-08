@@ -1,12 +1,5 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-$dokka.location:////PointingToDeclaration/-k-i-a/[root]/index.html
-$dokka.location:/KPageController///PointingToDeclaration/-k-i-a/[root]/-k-page-controller/index.html
-$dokka.location:/KPageController/build/#/PointingToDeclaration/-k-i-a/[root]/-k-page-controller/build.html
-$dokka.location:/KPageController/builder/#/PointingToDeclaration/-k-i-a/[root]/-k-page-controller/builder.html
-$dokka.location:/KPageController/nextBtn/#/PointingToDeclaration/-k-i-a/[root]/-k-page-controller/next-btn.html
-$dokka.location:/KPageController/placeholderItem/#/PointingToDeclaration/-k-i-a/[root]/-k-page-controller/placeholder-item.html
-$dokka.location:/KPageController/previousBtn/#/PointingToDeclaration/-k-i-a/[root]/-k-page-controller/previous-btn.html
 $dokka.location:de.staticred.kia.animation////PointingToDeclaration/-k-i-a/de.staticred.kia.animation/index.html
 $dokka.location:de.staticred.kia.animation/Animatable///PointingToDeclaration/-k-i-a/de.staticred.kia.animation/-animatable/index.html
 $dokka.location:de.staticred.kia.animation/Animatable/addAnimation/#kotlin.String#de.staticred.kia.animation.Animation[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-k-i-a/de.staticred.kia.animation/-animatable/add-animation.html
@@ -58,7 +51,7 @@ $dokka.location:de.staticred.kia.inventory.builder//kInventory/#org.bukkit.entit
 $dokka.location:de.staticred.kia.inventory.builder//kItem/#org.bukkit.Material#kotlin.Int#kotlin.Function1[de.staticred.kia.inventory.item.KItem,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-item.html
 $dokka.location:de.staticred.kia.inventory.builder//kItem/#org.bukkit.Material#kotlin.Int/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-item.html
 $dokka.location:de.staticred.kia.inventory.builder//kPage/#net.kyori.adventure.text.Component?#kotlin.Function1[de.staticred.kia.inventory.KPage,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-page.html
-$dokka.location:de.staticred.kia.inventory.builder//kPageController/#kotlin.Function1[KPageController,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-page-controller.html
+$dokka.location:de.staticred.kia.inventory.builder//kPageController/#kotlin.Function1[de.staticred.kia.inventory.KPageController,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-page-controller.html
 $dokka.location:de.staticred.kia.inventory.builder//kPageInventory/#org.bukkit.entity.Player#kotlin.Int#kotlin.Function1[de.staticred.kia.inventory.KPageInventory,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-page-inventory.html
 $dokka.location:de.staticred.kia.inventory.builder//kRow/#kotlin.String#kotlin.Function1[de.staticred.kia.inventory.KRow,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.builder/k-row.html
 $dokka.location:de.staticred.kia.inventory.extensions////PointingToDeclaration/-k-i-a/de.staticred.kia.inventory.extensions/index.html
@@ -297,6 +290,12 @@ $dokka.location:de.staticred.kia.inventory/KPage/opened/#de.staticred.kia.invent
 $dokka.location:de.staticred.kia.inventory/KPage/openingAnimation/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page/opening-animation.html
 $dokka.location:de.staticred.kia.inventory/KPage/parent/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page/parent.html
 $dokka.location:de.staticred.kia.inventory/KPage/title/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page/title.html
+$dokka.location:de.staticred.kia.inventory/KPageController///PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/index.html
+$dokka.location:de.staticred.kia.inventory/KPageController/build/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/build.html
+$dokka.location:de.staticred.kia.inventory/KPageController/builder/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/builder.html
+$dokka.location:de.staticred.kia.inventory/KPageController/nextBtn/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/next-btn.html
+$dokka.location:de.staticred.kia.inventory/KPageController/placeholderItem/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/placeholder-item.html
+$dokka.location:de.staticred.kia.inventory/KPageController/previousBtn/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-controller/previous-btn.html
 $dokka.location:de.staticred.kia.inventory/KPageInventory///PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-inventory/index.html
 $dokka.location:de.staticred.kia.inventory/KPageInventory/addPage/#de.staticred.kia.inventory.KPage/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-inventory/add-page.html
 $dokka.location:de.staticred.kia.inventory/KPageInventory/addPage/#kotlin.Function1[de.staticred.kia.inventory.KPage,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-k-page-inventory/add-page.html
