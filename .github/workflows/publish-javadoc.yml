@@ -31,7 +31,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: kia
-          path: public/kia
+          path: public/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
