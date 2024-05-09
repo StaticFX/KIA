@@ -96,15 +96,13 @@ jobs:
           publish_dir: ./public
           full_commit_message: Publish dokka
   release:
-    needs: [ build-jar ]
+    needs: [ build-jar, bump-gradle-version ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
-        env:
-          VERSION: ${{needs.bump-gradle-version.outputs.version}}
         with:
-          tag: $VERSION
+          tag: ${{needs.bump-gradle-version.outputs.version}}
           artifacts: "kia-jar"
