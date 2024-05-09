@@ -111,4 +111,4 @@ jobs:
           tag: ${{needs.bump-gradle-version.outputs.version}}
           artifacts: "plugin/*.jar"
       - name: Trigger post release workflow
-        run: gh workflow run release.yml --ref $new_tag
+        run: gh workflow run post-release.yml --ref ${{needs.bump-gradle-version.outputs.version}}
