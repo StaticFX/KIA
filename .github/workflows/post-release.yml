@@ -20,7 +20,7 @@ jobs:
       - name: Update files
         uses: MathieuSoysal/file-updater-for-release@v1.0.3
         with:
-          files: README.md # List of files to update
+          files: readme.md # List of files to update
           with-checkout: false # If you don't want to checkout the repo, default is: true
 
       - name: Push changes
