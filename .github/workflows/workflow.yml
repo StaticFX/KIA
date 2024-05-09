@@ -71,7 +71,7 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-      - name: Publish package
+      - name: Build package
         run: ./gradlew build
         env:
           GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
@@ -102,7 +102,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4
+        with:
+          name: kia-jar
+          path: plugin/
       - uses: ncipollo/release-action@v1
         with:
           tag: ${{needs.bump-gradle-version.outputs.version}}
-          artifacts: "kia-jar"
+          artifacts: "plugin/*.jar"
