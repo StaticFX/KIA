@@ -35,12 +35,14 @@ jobs:
         with:
           fetch-tags: true
           fetch-depth: 0
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@v3
+      - name: Replace gradle version
+        uses: richardrigutins/replace-in-files@v2
         with:
-          find: "version='${{ needs.bump-gradle-version.outputs.old_version }}"
-          replace: "version='${{ needs.bump-gradle-version.outputs.version }}"
-          include: gradle.build
+          files: 'gradle.build'
+          search-text: 'version=\'${{needs.bump-gradle-version.outputs.old_version}}\''
+          replacement-text: 'version=\'${{needs.bump-gradle-version.outputs.version}}\''
+          encoding: 'utf8'
+          max-parallelism: 10
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
