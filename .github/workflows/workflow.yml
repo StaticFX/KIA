@@ -24,8 +24,6 @@ jobs:
         run: |
             echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
             echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
-            git fetch
-            echo "commit_hash=$(git rev-list -n 1 ${{ steps.bump.outputs.version }})" >> "$GITHUB_OUTPUT"
   publish-package:
     needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
@@ -37,6 +35,12 @@ jobs:
         with:
           fetch-tags: true
           fetch-depth: 0
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "version='${{ needs.bump-gradle-version.outputs.old_version }}"
+          replace: "version='${{ needs.bump-gradle-version.outputs.version }}"
+          include: gradle.build
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
