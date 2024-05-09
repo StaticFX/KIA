@@ -35,7 +35,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
+          fetch-tags: true
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -52,7 +53,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
+          fetch-tags: true
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -76,7 +78,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
+          fetch-tags: true
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
