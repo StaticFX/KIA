@@ -37,4 +37,3 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "kia-jar"
-          bodyFile: "body.md"
