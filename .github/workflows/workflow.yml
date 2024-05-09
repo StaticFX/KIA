@@ -4,7 +4,7 @@ jobs:
   bump-gradle-version:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.bump.outputs.version }}
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Set up JDK 17
