@@ -103,6 +103,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
+        env:
+          VERSION: ${{needs.bump-gradle-version.outputs.version}}
         with:
-          tag: ${{needs.bump-gradle-version.outputs.version}}
+          tag: $VERSION
           artifacts: "kia-jar"
