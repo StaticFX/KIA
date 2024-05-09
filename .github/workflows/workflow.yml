@@ -38,7 +38,7 @@ jobs:
       - name: Replace gradle version
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: 'gradle.build'
+          files: 'build.gradle'
           search-text: "version='${{needs.bump-gradle-version.outputs.old_version}}'"
           replacement-text: "version='${{needs.bump-gradle-version.outputs.version}}'"
           encoding: 'utf8'
