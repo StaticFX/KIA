@@ -18,6 +18,7 @@ jobs:
         uses: IMGARENA/version-bump-action@v3
         with:
           github-token: ${{ secrets.JAVA_TOKEN }}
+        run: echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
   publish:
     needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
