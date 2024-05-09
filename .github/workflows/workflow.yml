@@ -39,8 +39,8 @@ jobs:
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'gradle.build'
-          search-text: 'version=\'${{needs.bump-gradle-version.outputs.old_version}}\''
-          replacement-text: 'version=\'${{needs.bump-gradle-version.outputs.version}}\''
+          search-text: "version='${{needs.bump-gradle-version.outputs.old_version}}'"
+          replacement-text: "version='${{needs.bump-gradle-version.outputs.version}}'"
           encoding: 'utf8'
           max-parallelism: 10
       - uses: actions/setup-java@v4
