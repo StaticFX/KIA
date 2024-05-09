@@ -20,7 +20,7 @@ jobs:
           github-token: ${{ secrets.JAVA_TOKEN }}
       - name: Echo Version
         run: echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
-  publish:
+  publish-package:
     needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
     permissions:

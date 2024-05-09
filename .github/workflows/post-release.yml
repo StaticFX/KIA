@@ -3,6 +3,7 @@ name: Update files with commit
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   publish:
