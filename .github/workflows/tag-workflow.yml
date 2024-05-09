@@ -1,9 +1,11 @@
 name: Create release
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_run:
+    workflows: [Publish]
+    types:
+      - completed
+
 jobs:
   build-jar:
     runs-on: ubuntu-latest
