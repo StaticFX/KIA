@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      old:
+        description: The version before the current version
+        type: string
 
 jobs:
   publish:
@@ -20,8 +24,9 @@ jobs:
       - name: Update files
         uses: MathieuSoysal/file-updater-for-release@v1.0.3
         with:
-          files: readme.md # List of files to update
-          with-checkout: false # If you don't want to checkout the repo, default is: true
+          old-version: ${{ github.event.inputs.old }}
+          files: readme.md
+          with-checkout: false
 
       - name: Push changes
         uses: EndBug/add-and-commit@v9
