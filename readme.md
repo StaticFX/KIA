@@ -9,7 +9,7 @@ Maven:
 <dependency>
   <groupId>de.staticred.kia</groupId>
   <artifactId>kia</artifactId>
-  <version>1.0.15</version>
+  <version>1.0.23</version>
 </dependency>
 ```
 
