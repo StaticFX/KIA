@@ -6,6 +6,7 @@ jobs:
     outputs:
       version: ${{ steps.bump.outputs.version }}
       old_version: ${{ steps.bump.outputs.initial-version }}
+      commit_hash: ${{ steps.bump.outputs.commit_hash }}
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Set up JDK 17
@@ -23,6 +24,8 @@ jobs:
         run: |
             echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
             echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
+            git fetch
+            echo "commit_hash=$(git rev-list -n 1 ${{ steps.bump.outputs.version }})" >> "$GITHUB_OUTPUT"
   publish-package:
     needs: [ bump-gradle-version ]
     runs-on: ubuntu-latest
@@ -31,6 +34,8 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -46,6 +51,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -68,6 +75,8 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump-gradle-version.outputs.commit_hash }}
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
