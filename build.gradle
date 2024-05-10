@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.staticred.kia'
-version = '1.0.42'
+version = '1.0.43'
 
 repositories {
     mavenCentral()
