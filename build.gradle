@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.staticred.kia'
-version = '1.0.44'
+version = '1.0.46'
 
 repositories {
     mavenCentral()
@@ -93,6 +93,10 @@ publishing {
             artifactId = 'kia'
         }
     }
+}
+
+task printVersion {
+    println rootProject.version.toString()
 }
 
 shadowJar {

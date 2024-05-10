@@ -33,11 +33,20 @@ jobs:
         run: | 
           echo ${{ github.ref }}
           echo ${{ github }}
+  trigger-release-workflow:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: [ bump-gradle-version ]
+    outputs:
+      gradle_version: ${{ steps.gradle_version.outputs.gradle_version }}
+    steps:
+      - name: Retrieve Version
+        run: echo "gradle_version=$(./gradlew printVersion)" >> "$GITHUB_OUTPUT"
+        id: gradle_version
       - name: Trigger publication workflow
-        if: github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
         run: |
-          gh workflow run publish-package.yml --ref ${{steps.bump.outputs.version}}
-          gh workflow run publish-documentation.yml --ref ${{steps.bump.outputs.version}}
-          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}}
+          gh workflow run publish-package.yml --ref ${{steps.gradle_version.outputs.gradle_version}}
+          gh workflow run publish-documentation.yml --ref ${{steps.gradle_version.outputs.gradle_version}}
+          gh workflow run create-release.yml --ref ${{steps.gradle_version.outputs.gradle_version}}
