@@ -1,4 +1,4 @@
-name: Publish
+name: bump-version
 on:
   push:
     branches:
@@ -29,6 +29,10 @@ jobs:
         run: |
             echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
             echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
+      - name: Echo ref
+        run: | 
+          echo ${{ github.ref }}
+          echo ${{ github }}
       - name: Trigger publication workflow
         if: github.event.pull_request.merged == 'true'
         env:

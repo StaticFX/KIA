@@ -1,4 +1,4 @@
-name: Update files with commit
+name: generate-readme.md
 
 on:
   release:
