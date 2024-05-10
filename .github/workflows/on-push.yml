@@ -30,7 +30,7 @@ jobs:
             echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
             echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
       - name: Trigger publication workflow
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == 'true'
         env:
           GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
         run: |
