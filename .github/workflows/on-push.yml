@@ -1,0 +1,38 @@
+name: Publish
+on:
+  push:
+    branches:
+      - development
+      - master
+
+jobs:
+  bump-gradle-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      old_version: ${{ steps.bump.outputs.initial-version }}
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.6.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Bump Version
+        id: bump
+        uses: IMGARENA/version-bump-action@v3
+        with:
+          github-token: ${{ secrets.JAVA_TOKEN }}
+      - name: Echo Version
+        run: |
+            echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
+      - name: Trigger publication workflow
+        if: github.ref == 'ref/head/master'
+        env:
+          GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
+        run: |
+          gh workflow run publish-package.yml --ref ${{steps.bump.outputs.version}}
+          gh workflow run publish-documentation.yml --ref ${{steps.bump.outputs.version}}
+          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}} -f old=${{steps.bump.outputs.initial-version}}
