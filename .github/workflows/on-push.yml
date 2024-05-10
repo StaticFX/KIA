@@ -40,6 +40,9 @@ jobs:
     outputs:
       gradle_version: ${{ steps.gradle_version.outputs.gradle_version }}
     steps:
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
       - name: Retrieve Version
         run: echo "gradle_version=$(./gradlew printVersion)" >> "$GITHUB_OUTPUT"
         id: gradle_version
