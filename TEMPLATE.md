@@ -12,24 +12,22 @@ module.exports = {
         query: async (octokit, moment, user) => {
             // You can do anything  you want with the GitHub API here.
             const result = await octokit.graphql(`
-        query {
-          repository(name: "vidl", owner: "${user.USERNAME}") {
-            releases(last: 1) {
-              edges {
-                node {
-                  url
-                  publishedAt
-                  tagName
+                query {
+                  repository(name: "vidl", owner: "${user.USERNAME}") {
+                    releases(last: 1) {
+                      edges {
+                        node {
+                          url
+                          publishedAt
+                          tagName
+                        }
+                      }
+                    }
+                  }
                 }
-              }
-            }
-          }
-        }
-      `)
+              `)
             const release = result.repository.releases.edges[0].node
             const date = new Date(release.publishedAt)
-            // We have `loop: false`, so we return an object.
-            // If we had `loop: true`, we would return an array of objects.
             return {
                 VIDL_RELEASE_TAG: release.tagName,
                 VIDL_RELEASE_URL: release.url,
@@ -46,7 +44,7 @@ Maven:
 <dependency>
   <groupId>de.staticred.kia</groupId>
   <artifactId>kia</artifactId>
-  <version> {{ LATEST_VIDL_RELEASE }} </version>
+  <version>[vidl {{ VIDL_RELEASE_TAG }}]</version>
 </dependency>
 ```
 

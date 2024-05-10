@@ -36,4 +36,4 @@ jobs:
         run: |
           gh workflow run publish-package.yml --ref ${{steps.bump.outputs.version}}
           gh workflow run publish-documentation.yml --ref ${{steps.bump.outputs.version}}
-          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}} -f old=${{steps.bump.outputs.initial-version}}
+          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}}
