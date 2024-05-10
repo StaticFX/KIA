@@ -20,6 +20,7 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
       - name: Bump Version
+        if: github.ref == 'refs/heads/development'
         id: bump
         uses: IMGARENA/version-bump-action@v3
         with:
@@ -29,10 +30,10 @@ jobs:
             echo "version=${{ steps.bump.outputs.version }}" >> "$GITHUB_OUTPUT"
             echo "old_version=${{ steps.bump.outputs.initial-version }}" >> "$GITHUB_OUTPUT"
       - name: Trigger publication workflow
-        if: github.ref == 'ref/head/master'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         env:
           GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
         run: |
           gh workflow run publish-package.yml --ref ${{steps.bump.outputs.version}}
           gh workflow run publish-documentation.yml --ref ${{steps.bump.outputs.version}}
-          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}} -f old=${{steps.bump.outputs.initial-version}}
+          gh workflow run create-release.yml --ref ${{steps.bump.outputs.version}}

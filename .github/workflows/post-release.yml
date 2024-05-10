@@ -4,10 +4,6 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-    inputs:
-      old:
-        description: The version before the current version
-        type: string
 
 jobs:
   publish:
@@ -18,12 +14,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: master
-      - name: Update files
-        uses: MathieuSoysal/file-updater-for-release@v1.0.3
+      - name: Generate README.md
+        uses: probablykasper/readme-template-action@v1
         with:
-          old-version: ${{ github.event.inputs.old }}
-          files: readme.md
-          with-checkout: false
+          token: ${{ secrets.JAVA_TOKEN }}
+          template: TEMPLATE.md
+          output: README.md
       - name: Push changes
         uses: EndBug/add-and-commit@v9
         with:
