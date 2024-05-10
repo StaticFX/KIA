@@ -40,6 +40,10 @@ jobs:
     outputs:
       gradle_version: ${{ steps.gradle_version.outputs.gradle_version }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          fetch-depth: 0
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-home-cache-cleanup: true
