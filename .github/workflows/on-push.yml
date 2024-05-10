@@ -36,6 +36,7 @@ jobs:
   trigger-release-workflow:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    needs: [ bump-gradle-version ]
     outputs:
       gradle_version: ${{ steps.gradle_version.outputs.gradle_version }}
     steps:
