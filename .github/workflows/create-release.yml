@@ -1,0 +1,52 @@
+name: Create release
+on:
+  workflow_dispatch:
+    inputs:
+      old-version:
+        type: string
+        description: Version before the current version.
+
+jobs:
+  build-jar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      - name: Build package
+        run: ./gradlew build
+        env:
+          GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kia-jar
+          path: build/libs/*all.jar
+  release:
+    needs: [ build-jar ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4
+        with:
+          name: kia-jar
+          path: plugin/
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "plugin/*.jar"
+      - name: Trigger post release workflow
+        env:
+          GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
+        run: gh workflow run post-release.yml --ref ${{ github.ref }} -f old=${{ github.event.inputs.old-version }}
