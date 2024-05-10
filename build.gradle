@@ -95,6 +95,10 @@ publishing {
     }
 }
 
+task printVersion {
+    println rootProject.version.toString()
+}
+
 shadowJar {
     relocate("de.tr7zw.changeme.nbtapi", "de.staticred.kia.nbtapi")
 }
