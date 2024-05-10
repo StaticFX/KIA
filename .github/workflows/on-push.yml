@@ -34,7 +34,7 @@ jobs:
           echo ${{ github.ref }}
           echo ${{ github }}
       - name: Trigger publication workflow
-        if: github.event.pull_request.merged == 'true'
+        if: github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
         run: |
