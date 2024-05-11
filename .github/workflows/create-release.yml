@@ -49,4 +49,4 @@ jobs:
       - name: Trigger post release workflow
         env:
           GH_TOKEN: ${{ secrets.JAVA_TOKEN }}
-        run: gh workflow run post-release.yml --ref ${{ github.ref }} -f old=${{ github.event.inputs.old-version }}
+        run: gh workflow run post-release.yml --ref ${{ github.ref }}
