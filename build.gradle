@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.staticred.kia'
-version = '1.1.4'
+version = '1.1.6'
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ repositories {
 }
 
 paper {
-    name = "KIA - Kotlin Inventory API"
+    name = "KIA-Kotlin-Inventory-API"
     main = "de.staticred.kia.KIA"
     apiVersion = "1.20"
     version = rootProject.version.toString()

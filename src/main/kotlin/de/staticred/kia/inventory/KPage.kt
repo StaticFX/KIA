@@ -61,7 +61,6 @@ interface KPage: Animatable<KPage>, InventoryContentContainer {
     /**
      * Returns the given row for the index as a new object
      * Parent of the row will only be set, if the page has a parent as well
-     * @see KRow.setParent
      * @param index index of the row
      * @return new KRow instance
      */

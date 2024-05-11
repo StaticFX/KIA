@@ -53,8 +53,8 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     private val openingListener = mutableListOf<KInventory.() -> Unit>()
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
 
-    override fun setItem(slot: Int, item: KItem) {
-        setItemForSlot(slot, item)
+    override fun setItem(slot: Int, value: KItem) {
+        setItemForSlot(slot, value)
     }
 
     private fun setItemForSlot(slot: Int, item: KItem) {
@@ -73,11 +73,12 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
 
     override fun getRowFor(index: Int): KRow {
         return kRow {
-            for (slot in 0 until 8) {
+            for (slot in 0 .. 8) {
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }
-            setParent(this@BaseKInventory, index)
+            parent = this@BaseKInventory
+            this.index = index
         }
     }
 

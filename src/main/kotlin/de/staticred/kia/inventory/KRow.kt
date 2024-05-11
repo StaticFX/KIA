@@ -16,31 +16,30 @@ interface KRow {
      * Maps the Slot to the KItem inside the row
      */
     val items: Map<Int, KItem>
+
+    /**
+     * Name of the row
+     */
+    @Deprecated("Serves no use")
     val name: String
+
+    /**
+     * The parent container of this row.
+     * This should always be set by the parent inventory or page, and will be set automatically when using the builders!
+     */
+    var parent: InventoryContentContainer?
+
+    /**
+     * Index of the row inside the parent container
+     * @see parent
+     */
+    var index: Int
 
     /**
      * Executed when any item inside the row is clicked
      * @param action function executed when any item is clicked
      */
-    fun onClick(action: KInventory.(player: Player, row: KRowImpl, item: KItem) -> Unit)
-
-    /**
-     * Sets the parent of this KRow
-     * @param kInventory parent inventory
-     * @param index sets the index of the row inside the parent inventory
-     */
-    fun setParent(kInventory: KInventory, index: Int)
-
-    /**
-     * Returns the index inside the inventory of this row
-     * @return the current index
-     */
-    fun getIndex(): Int
-
-    /**
-     * Sets the index inside the parent inventory inside this row
-     */
-    fun setIndex(index: Int)
+    fun onClick(action: InventoryContentContainer.(player: Player, row: KRowImpl, item: KItem) -> Unit)
 
     /**
      *  Executed the onClicked event listeners for this row

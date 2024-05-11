@@ -26,9 +26,6 @@ class InventoryDragItemListener: Listener {
             val kItem = ItemManager.getItem(uuid)
             val initSlot = kInventory.getSlotForItem(kItem)
 
-            println(initSlot)
-            println(event.newItems)
-
             when (kItem.getDraggingMode()) {
                 DraggingMode.IN_INVENTORY
                         -> run {

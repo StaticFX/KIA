@@ -6,6 +6,7 @@ import de.tr7zw.changeme.nbtapi.NBTEntity
 import de.tr7zw.changeme.nbtapi.NBTItem
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
@@ -25,9 +26,11 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
     }
 
     init {
-        ItemManager.addItem(this)
-        NBT.modify(this) {
-            it.setUUID("K-UUID", uuid)
+        if (material != Material.AIR) {
+            ItemManager.addItem(this)
+            NBT.modify(this) {
+                it.setUUID("K-UUID", uuid)
+            }
         }
     }
 
@@ -35,6 +38,10 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
 
     override fun onClick(action: KInventory.(KItem, Player) -> Unit) {
         clickListeners += action
+    }
+
+    override fun enchant(enchantment: Enchantment, level: Int) {
+        addEnchantment(enchantment, level)
     }
 
     override fun setParent(kInventory: KInventory) {

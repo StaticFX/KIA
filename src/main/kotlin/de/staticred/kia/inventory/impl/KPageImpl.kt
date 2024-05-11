@@ -9,6 +9,7 @@ import de.staticred.kia.inventory.KPageInventory
 import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.util.AIR_ITEM
 import net.kyori.adventure.text.Component
 
 class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, AbstractContentContainer(rowLength) {
@@ -27,6 +28,7 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, Abst
     override fun setItem(slot: Int, value: KItem) {
         val rowOffset = if (hasHeader()) 1 else 0
         super.setItem(slot + (rowLength * rowOffset), value)
+        parent?.notifyParent(this)
     }
 
     override fun setItem(row: Int, slot: Int, item: KItem) {
@@ -35,20 +37,27 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, Abst
     }
 
     override fun setRow(index: Int, row: KRow) {
-        for ((slot, item) in row.items) {
-            setItem(slot + (index * rowLength), item)
+        for (slot in 0 until rowLength) {
+            val item = row.items[slot]
+            item?.let { setItem(slot + (index * rowLength), it) }
+            if (item == null) {
+                setItem(slot + (index * rowLength), AIR_ITEM)
+            }
         }
 
-        parent?.let { row.setParent(it, index) }
+        row.parent = this
+        row.index = index
     }
 
     override fun getRowFor(index: Int): KRow {
         return kRow {
-            for (slot in 0 until 8) {
+            for (slot in 0 .. 8) {
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }
-            parent?.let { setParent(it, index) }
+
+            parent = this@KPageImpl
+            this.index = index
         }
     }
 
@@ -62,6 +71,7 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, Abst
 
     override fun opened(inventory: KPageInventory) {
         openingListeners.forEach { it(inventory) }
+        parent = inventory
         openingAnimation?.let { AnimationManager.startAnimation(it, this) }
     }
 
