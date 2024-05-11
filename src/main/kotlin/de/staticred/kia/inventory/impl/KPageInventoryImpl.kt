@@ -58,9 +58,11 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         buildPage()
     }
 
-    private fun buildPage() {
+    private fun buildPage(playAnimation: Boolean = true) {
         clearInventory()
         val page = currentPage ?: return
+
+        page.parent = this
 
         buildHeader(page)
         buildFooter(page)
@@ -75,7 +77,8 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
             content[index]?.let { super.setItem(slot, it) }
         }
 
-        page.opened(this)
+        if (playAnimation)
+            page.opened(this)
     }
 
     override fun setItem(row: Int, slot: Int, item: KItem) {
@@ -87,6 +90,8 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         if (page.hasFooter() && row > size / 9 - 1) error("Row can't be bigger than the existing rows")
 
         super.setItem(row + rowOffset, slot , item)
+
+        buildPage(false)
     }
 
     override fun setItem(slot: Int, item: KItem) {
@@ -99,6 +104,13 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         if (page.hasFooter() && slot > size - 10) error("Cant set item in slot $slot because the page has a footer. Use setItemOverride() to override the footer")
 
         super.setItem(slot + slotOffset, item)
+
+        buildPage(false)
+    }
+
+    override fun setRow(index: Int, row: KRow) {
+        super.setRow(index, row)
+        buildPage(false)
     }
 
     override fun isAnimating(): Boolean {
@@ -223,5 +235,11 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         }
 
         super.opened()
+    }
+
+    override fun notifyParent(kPage: KPage) {
+        if (currentPage == kPage) {
+            buildPage(false)
+        }
     }
 }

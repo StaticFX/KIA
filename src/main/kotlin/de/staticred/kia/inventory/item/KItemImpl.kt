@@ -25,9 +25,11 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
     }
 
     init {
-        ItemManager.addItem(this)
-        NBT.modify(this) {
-            it.setUUID("K-UUID", uuid)
+        if (material != Material.AIR) {
+            ItemManager.addItem(this)
+            NBT.modify(this) {
+                it.setUUID("K-UUID", uuid)
+            }
         }
     }
 

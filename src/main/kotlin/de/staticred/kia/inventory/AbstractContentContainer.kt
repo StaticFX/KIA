@@ -2,6 +2,7 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.util.AIR_ITEM
 
 abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentContainer {
 
@@ -16,14 +17,17 @@ abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentCo
     }
 
     override fun setRow(index: Int, row: KRow) {
-        for ((slot, item) in row.items) {
-            setItem(slot + (index * rowLength), item)
+        for (slot in 0 until rowLength) {
+            row.items[slot]?.let { setItem(slot + (index * rowLength), it) }
+            if (row.items[slot] == null) {
+                setItem(slot + (index * rowLength), AIR_ITEM)
+            }
         }
     }
 
     override fun getRowFor(index: Int): KRow {
         return kRow {
-            for (slot in 0 until 8) {
+            for (slot in 0 .. 8) {
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }

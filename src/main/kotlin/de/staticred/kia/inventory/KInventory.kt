@@ -21,7 +21,7 @@ import java.util.*
  * @since 1.0
  */
 interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryContentContainer {
-
+    
     /**
      * Animation which will be played when the inventory is opened
      * @see opened

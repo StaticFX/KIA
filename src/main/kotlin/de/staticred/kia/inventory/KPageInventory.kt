@@ -141,12 +141,23 @@ interface KPageInventory: KInventory {
     /**
      * Main page builder
      * @see mainPage
+     * @param init builder function for a KPage
+     * @return the main page
      */
     fun mainPage(init: KPage.() -> Unit): KPage
 
     /**
      * Build a title for the inventory based on the given builder
      * @see titleBuilder
+     * @return The title component, null if none was built
      */
     fun buildTitle(): Component?
+
+    /**
+     * Util function to notify this inventory to rebuild the current page.
+     * Used when a page is changed, and needs to be updated in the parent inventory.
+     * @param kPage the page which has been updated
+     */
+    fun notifyParent(kPage: KPage)
+
 }

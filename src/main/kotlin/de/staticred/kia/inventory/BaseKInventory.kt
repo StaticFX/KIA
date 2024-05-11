@@ -73,7 +73,7 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
 
     override fun getRowFor(index: Int): KRow {
         return kRow {
-            for (slot in 0 until 8) {
+            for (slot in 0 .. 8) {
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }

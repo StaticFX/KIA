@@ -46,22 +46,26 @@ class InventoryExample: Command("kia") {
 
             mainPage {
                 this.title = Component.text("Page 1")
+                parent = this@kPageInventory
 
                 val shiftingRow = kRow("Shifting Row") {
-                    for (slot in 0..8) {
+                    parent = this@kPageInventory
+                    for (slot in 0..3) {
                         if (slot % 2 == 0) {
-                            setItem(slot, kItem(Material.BLACK_STAINED_GLASS_PANE) {})
+                            setItem(slot, kItem(Material.BLACK_STAINED_GLASS_PANE) { setDisplayName(Component.text(slot)) })
                         } else {
-                            setItem(slot, kItem(Material.WHITE_STAINED_GLASS_PANE) {})
+                            setItem(slot, kItem(Material.WHITE_STAINED_GLASS_PANE) { setDisplayName(Component.text(slot)) })
                         }
                     }
                 }
 
                 setRow(1, shiftingRow)
 
-                openingAnimation = animation(3, 1, TimeUnit.SECONDS) {
+                openingAnimation = animation(12, 1000, TimeUnit.MILLISECONDS) {
                     onAnimationFrame {
-                        setRow(1, getRowFor(1).apply { shift(ShiftDirection.LEFT, 1, false) })
+                        shiftingRow.shift(ShiftDirection.LEFT, 1, true)
+                        this@mainPage.setRow(1, shiftingRow)
+                        setItem(0, kItem(Material.STONE))
                     }
                 }
             }
