@@ -4,12 +4,13 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/staticfx/kia/workflow.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/staticfx/kia)
 
+
 Maven:
 ```
 <dependency>
   <groupId>de.staticred.kia</groupId>
   <artifactId>kia</artifactId>
-  <version>1.0.32</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 
@@ -20,6 +21,6 @@ KIA allows to set event listeners directly on the Inventory Items instead of man
 In order to keep track of the Items KIA uses the NBT data of an item to set a UUID and match it with the corresponding item.
 
 ## Other Features
- - NBT System for Inventory Matching (Gets rid of inventory title issues)
- - Supports inventory rows
- - Inventory animations
+- NBT System for Inventory Matching (Gets rid of inventory title issues)
+- Supports inventory rows
+- Inventory animations
