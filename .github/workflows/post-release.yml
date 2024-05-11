@@ -14,12 +14,24 @@ jobs:
         with:
           fetch-depth: 0
           ref: master
-      - name: Generate README.md
-        uses: probablykasper/readme-template-action@v1
+      - name: Delete old readme.md
+        uses: JesseTG/rm@v1.0.3
         with:
-          token: ${{ secrets.JAVA_TOKEN }}
-          template: TEMPLATE.md
-          output: README.md
+          path: readme.md
+
+      - name: Copy template to readme.md
+        uses: canastro/copy-file-action@master
+        with:
+          source: "TEMPLATE.md"
+          target: "readme.md"
+      - name: Replace variables in readme.md
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: 'readme.md'
+          search-text: '$VERSION'
+          replacement-text: ${{ github.ref }}
+          exclude: 'node_modules/**'
+          encoding: 'utf8'
       - name: Push changes
         uses: EndBug/add-and-commit@v9
         with:
@@ -27,4 +39,4 @@ jobs:
           committer_email: actions@github.com
           add: .
           message: 'update files'
-          tag_push: '--force'
+          push: '--force'
