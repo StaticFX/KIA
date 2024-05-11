@@ -5,15 +5,34 @@
 ![GitHub Release](https://img.shields.io/github/v/release/staticfx/kia)
 
 
-Maven:
-```
-<dependency>
-  <groupId>de.staticred.kia</groupId>
-  <artifactId>kia</artifactId>
-  <version>1.1.3</version>
-</dependency>
-```
+<details>
+<summary>Maven</summary>
 
+- ```xml
+  <dependency>
+    <groupId>de.staticred.kia</groupId>
+    <artifactId>kia</artifactId>
+    <version>1.1.4</version>
+  </dependency>
+    ```
+</details>
+
+<details>
+<summary>Gradle Groovy:</summary>
+
+- ```groovy
+  compileOnly "de.staticred.kia:kia:1.1.4"
+    ```
+
+</details>
+
+<details>
+<summary>Gradle kts</summary>
+
+- ```kotlin
+  api("de.staticred.kia:kia:1.1.4")
+    ```
+</details>
 
 
 KIA is an API programed using the papermc api to make inventory management and its creation easier.
