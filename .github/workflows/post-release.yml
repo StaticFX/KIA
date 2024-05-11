@@ -24,13 +24,14 @@ jobs:
         with:
           source: "TEMPLATE.md"
           target: "readme.md"
+      - name: Set readme.md permissions
+        run: sudo chmod 0777 readme.md
       - name: Replace variables in readme.md
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'readme.md'
           search-text: '$VERSION'
-          replacement-text: ${{ github.ref }}
-          exclude: 'node_modules/**'
+          replacement-text: ${{ github.ref_name }}
           encoding: 'utf8'
       - name: Push changes
         uses: EndBug/add-and-commit@v9
