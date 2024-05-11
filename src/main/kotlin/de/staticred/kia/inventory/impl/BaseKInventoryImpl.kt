@@ -22,7 +22,6 @@ open class BaseKInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, type: In
 
         val id = InventoryManager.generateRandomInventoryID()
         this.setID(id)
-        println("Adding inventory ${this.getID()}")
         InventoryManager.addInventory(this)
     }
 

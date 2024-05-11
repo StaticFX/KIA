@@ -45,7 +45,8 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, Abst
             }
         }
 
-        parent?.let { row.setParent(it, index) }
+        row.parent = this
+        row.index = index
     }
 
     override fun getRowFor(index: Int): KRow {
@@ -54,7 +55,9 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, Abst
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }
-            parent?.let { setParent(it, index) }
+
+            parent = this@KPageImpl
+            this.index = index
         }
     }
 

@@ -2,6 +2,7 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.KInventory
 import net.kyori.adventure.text.Component
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -75,6 +76,12 @@ interface KItem {
      * @param lore the lore
      */
     fun setItemLore(lore: List<Component>)
+
+
+    /**
+     * Enchants this item with the given parameters
+     */
+    fun enchant(enchantment: Enchantment, level: Int)
 
     /**
      * The item has been clicked by a player

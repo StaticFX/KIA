@@ -5,11 +5,15 @@ import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.util.ShiftDirection
 import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryType
 import java.util.concurrent.TimeUnit
 
 class InventoryExample: Command("kia") {
@@ -18,8 +22,16 @@ class InventoryExample: Command("kia") {
     override fun execute(sender: CommandSender, p1: String, p2: Array<out String>?): Boolean {
         if (sender !is Player) return false
 
-        val defaultHeader = kPageController {
 
+        val inventory = kInventory(sender, 5.rows, InventoryType.CHEST) {
+            setItem(1, 4, kItem(Material.DIAMOND_PICKAXE) {
+                onClick { kItem, player -> player.sendMessage("Cool you just clicked ${kItem.slot}") }
+            })
+        }
+
+        sender.openInventory(inventory)
+
+        val defaultHeader = kPageController {
             nextBtn = kItem(Material.PAPER, 1) {
                 setDisplayName(Component.text("Next Page ->"))
             }
@@ -45,43 +57,8 @@ class InventoryExample: Command("kia") {
             title = Component.text("Paging Inventory")
 
             mainPage {
-                this.title = Component.text("Page 1")
-                parent = this@kPageInventory
-
-                val shiftingRow = kRow("Shifting Row") {
-                    parent = this@kPageInventory
-                    for (slot in 0..3) {
-                        if (slot % 2 == 0) {
-                            setItem(slot, kItem(Material.BLACK_STAINED_GLASS_PANE) { setDisplayName(Component.text(slot)) })
-                        } else {
-                            setItem(slot, kItem(Material.WHITE_STAINED_GLASS_PANE) { setDisplayName(Component.text(slot)) })
-                        }
-                    }
-                }
-
-                setRow(1, shiftingRow)
-
-                openingAnimation = animation(12, 1000, TimeUnit.MILLISECONDS) {
-                    onAnimationFrame {
-                        shiftingRow.shift(ShiftDirection.LEFT, 1, true)
-                        this@mainPage.setRow(1, shiftingRow)
-                        setItem(0, kItem(Material.STONE))
-                    }
-                }
-            }
-
-            titleBuilder = { kPage, _ -> run {
-                val pageTitle = kPage.title ?: return@run Component.empty()
-                val invTitle = this.title ?: return@run Component.empty()
-
-                return@run invTitle.append(Component.text(" - ")).append(pageTitle)
-            } }
-
-            addStaticPage("Games") {
-                title = Component.text("Games")
-                this.setItem(1, 1, kItem(Material.DIAMOND_PICKAXE, 1) {
-                    setDisplayName(Component.text("Next Page -> "))
-                })
+                this.title = Component.text("This is the main page")
+                header = defaultHeader
             }
 
             addPage {
@@ -95,7 +72,6 @@ class InventoryExample: Command("kia") {
             }
         }
 
-        sender.openInventory(pageInventory)
         return true
     }
 }

@@ -3,7 +3,7 @@ package de.staticred.kia.animation
 import java.util.concurrent.TimeUnit
 
 
-class AnimationImpl<T>(val frames: Int, val interval: Long, val timeUnit: TimeUnit): Animation<T> {
+class AnimationImpl<T>(val frames: Int, val interval: Long, val timeUnit: TimeUnit, override val endless: Boolean): Animation<T> {
 
     private val onFrameListeners = mutableListOf<T.(index: Int) -> Unit>()
     private val onEndListeners = mutableListOf<T.() -> Unit>()
@@ -24,11 +24,15 @@ class AnimationImpl<T>(val frames: Int, val interval: Long, val timeUnit: TimeUn
     fun renderFrame(t: T) {
         onFrameListeners.forEach { it(t, currentFrame) }
         currentFrame++
-        if (currentFrame >= frames) {
-            AnimationManager.stopAnimation(this)
-            running = false
+        if (currentFrame >= frames && !endless) {
+            stop()
             endAnimation(t)
         }
+    }
+
+    override fun stop() {
+        AnimationManager.stopAnimation(this)
+        running = false
     }
 
     fun startAnimation() {

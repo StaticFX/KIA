@@ -1,6 +1,7 @@
 package de.staticred.kia.inventory.impl
 
 import de.staticred.kia.inventory.AbstractContentContainer
+import de.staticred.kia.inventory.InventoryContentContainer
 import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.item.KItem
@@ -14,23 +15,12 @@ class KRowImpl(override val name: String = "") : KRow {
 
     override val items = mutableMapOf<Int, KItem>()
 
-    private val clickListeners = mutableListOf<KInventory.(Player, KRowImpl, KItem) -> Unit>()
-    private var parent: KInventory? = null
-    private var index = -1
+    private val clickListeners = mutableListOf<InventoryContentContainer.(Player, KRowImpl, KItem) -> Unit>()
+    override var parent: InventoryContentContainer? = null
+    override var index = -1
 
-    override fun onClick(action: KInventory.(player: Player, row: KRowImpl, kItem: KItem) -> Unit) {
+    override fun onClick(action: InventoryContentContainer.(player: Player, row: KRowImpl, kItem: KItem) -> Unit) {
         clickListeners += action
-    }
-
-    override fun setParent(kInventory: KInventory, index: Int) {
-        parent = kInventory
-        this.index = index
-    }
-
-    override fun getIndex() = index
-
-    override fun setIndex(index: Int) {
-        this.index = index
     }
 
     override fun clicked(player: Player, kItem: KItem) {

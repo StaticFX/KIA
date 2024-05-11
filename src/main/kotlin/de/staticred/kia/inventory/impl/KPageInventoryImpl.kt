@@ -110,6 +110,8 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
 
     override fun setRow(index: Int, row: KRow) {
         super.setRow(index, row)
+        row.parent = this
+
         buildPage(false)
     }
 
@@ -203,6 +205,12 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
 
     override fun getPage(): KPage? {
         return currentPage
+    }
+
+    override fun getRowFor(index: Int): KRow {
+        val row = super.getRowFor(index)
+        row.parent = this
+        return row
     }
 
     override fun mainPage(init: KPage.() -> Unit): KPage {

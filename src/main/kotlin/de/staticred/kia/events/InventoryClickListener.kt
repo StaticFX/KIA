@@ -63,7 +63,7 @@ private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory, sl
     kItem.clicked(player)
     val kRow = kInventory.getRowForItem(kItem)
     kRow?.let {
-        it.setIndex(slot / 9)
+        it.index = (slot / 9)
         kRow.clicked(player, kItem)
     }
 }

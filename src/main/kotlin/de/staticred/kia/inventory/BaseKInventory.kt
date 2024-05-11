@@ -53,8 +53,8 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     private val openingListener = mutableListOf<KInventory.() -> Unit>()
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
 
-    override fun setItem(slot: Int, item: KItem) {
-        setItemForSlot(slot, item)
+    override fun setItem(slot: Int, value: KItem) {
+        setItemForSlot(slot, value)
     }
 
     private fun setItemForSlot(slot: Int, item: KItem) {
@@ -77,7 +77,8 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
                 val item = content[slot + (index * 9)]
                 item?.let { setItem(slot, it) }
             }
-            setParent(this@BaseKInventory, index)
+            parent = this@BaseKInventory
+            this.index = index
         }
     }
 

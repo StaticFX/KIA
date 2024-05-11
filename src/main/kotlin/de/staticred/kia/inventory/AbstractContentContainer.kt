@@ -23,6 +23,9 @@ abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentCo
                 setItem(slot + (index * rowLength), AIR_ITEM)
             }
         }
+
+        row.parent = this
+        row.index = index
     }
 
     override fun getRowFor(index: Int): KRow {
@@ -35,11 +38,11 @@ abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentCo
     }
 
     override fun swapRow(row: KRow, otherRow: KRow) {
-        if (row.getIndex() == -1) throw IllegalArgumentException("Row must be set at least once")
-        if (otherRow.getIndex() == -1) throw IllegalArgumentException("Row must be set at least once")
+        if (row.index == -1) throw IllegalArgumentException("Row must be set at least once")
+        if (otherRow.index == -1) throw IllegalArgumentException("Row must be set at least once")
 
-        val index = row.getIndex()
-        val otherIndex = otherRow.getIndex()
+        val index = row.index
+        val otherIndex = otherRow.index
 
         setRow(otherIndex, row)
         setRow(index, otherRow)
