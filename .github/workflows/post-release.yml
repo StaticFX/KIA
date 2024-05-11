@@ -27,3 +27,4 @@ jobs:
           committer_email: actions@github.com
           add: .
           message: 'update files'
+          tag_push: '--force'
