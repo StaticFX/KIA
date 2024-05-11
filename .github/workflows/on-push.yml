@@ -48,7 +48,7 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
       - name: Retrieve Version
-        run: echo "gradle_version=$(printVersion -q --console=plain)" >> "$GITHUB_OUTPUT"
+        run: echo "gradle_version=$(./gradlew printVersion -q --console=plain)" >> "$GITHUB_OUTPUT"
         id: gradle_version
       - name: Trigger publication workflow
         env:
