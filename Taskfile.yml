@@ -1,0 +1,13 @@
+version: '3'
+
+tasks:
+  clean:
+    cmds:
+      - ./gradlew clean
+  build:
+    cmds:
+      - task: clean
+      - ./gradlew build
+  run:
+    cmds:
+      - docker compose up

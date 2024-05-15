@@ -11,6 +11,11 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
+/**
+ * Example implementation of the KItem interface
+ * @see KItem
+ * @property material of the item
+ */
 class KItemImpl(private var draggingMode: DraggingMode, val material: Material, amount: Int): ItemStack(material, amount), KItem {
 
     private val clickListeners = mutableListOf<KInventory.(KItem, Player) -> Unit>()

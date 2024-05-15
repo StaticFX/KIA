@@ -6,9 +6,16 @@ import de.staticred.kia.inventory.item.KItem
  * Models the footer inside a page in a paging inventory
  * @see KPage
  * @see KPageInventory
+ * @since 1.0.0
  */
 interface KPageController {
 
+    /**
+     * Function used to generate the KRow which represents this controller as items
+     * @param nextBtn the items used to go to the next page
+     * @param previousBetn the button used to go to the previous page
+     * @param placeholder placeholder item
+     */
     var builder: (nextBtn: KItem?, previousBtn: KItem?, placeholder: KItem?) -> KRow
 
     /**
