@@ -214,7 +214,6 @@ $dokka.location:de.staticred.kia.inventory/BaseKInventory/currentAnimation/#/Poi
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getID/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-i-d.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getItems/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-items.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getKHolder/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-k-holder.html
-$dokka.location:de.staticred.kia.inventory/BaseKInventory/getRow/#kotlin.String/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-row.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getRowFor/#kotlin.Int/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-row-for.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getRowForItem/#de.staticred.kia.inventory.item.KItem/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-row-for-item.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/getSlotForItem/#de.staticred.kia.inventory.item.KItem/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/get-slot-for-item.html
@@ -229,7 +228,6 @@ $dokka.location:de.staticred.kia.inventory/BaseKInventory/onClose/#kotlin.Functi
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/onOpen/#kotlin.Function1[de.staticred.kia.inventory.KInventory,kotlin.Unit]/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/on-open.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/opened/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/opened.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/openingAnimation/#/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/opening-animation.html
-$dokka.location:de.staticred.kia.inventory/BaseKInventory/saveRow/#de.staticred.kia.inventory.KRow/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/save-row.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/setID/#java.util.UUID/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/set-i-d.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/setItem/#kotlin.Int#de.staticred.kia.inventory.item.KItem/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/set-item.html
 $dokka.location:de.staticred.kia.inventory/BaseKInventory/setItem/#kotlin.Int#kotlin.Int#de.staticred.kia.inventory.item.KItem/PointingToDeclaration/-k-i-a/de.staticred.kia.inventory/-base-k-inventory/set-item.html
