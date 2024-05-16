@@ -4,6 +4,11 @@ import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.AIR_ITEM
 
+/**
+ * Basic representation of a content container with simple item managements
+ * @see InventoryContentContainer
+ * @property rowLength the length of a row in the inventory
+ */
 abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentContainer {
 
     override val content: MutableMap<Int, KItem> = mutableMapOf()

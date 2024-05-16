@@ -8,6 +8,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 
+/**
+ * Util class to listened to the inventory open close events from bukkit
+ */
 class InventoryOpenCloseListener: Listener {
 
     @EventHandler

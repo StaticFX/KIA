@@ -28,7 +28,14 @@ import java.util.UUID
  */
 interface KItem {
 
+    /**
+     * Slot of the item in the parent inventory, if the parent inventory is set
+     */
     var slot: Int
+
+    /**
+     * Whether the item can be clicked while inside an animation or not
+     */
     var clickableInAnimation: Boolean
 
     /**

@@ -4,7 +4,7 @@ package de.staticred.kia.inventory.item
  * Models how a KItem can be moved inside a KInventory
  *
  * @see KItem
- * @see KInvetory
+ * @see de.staticred.kia.inventory.KInventory
  *
  */
 enum class DraggingMode {

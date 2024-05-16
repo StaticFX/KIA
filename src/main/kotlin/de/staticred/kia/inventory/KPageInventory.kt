@@ -60,6 +60,7 @@ interface KPageInventory: KInventory {
     /**
      * Sets the item to the absolut slot in the inventory, overriding the already existing item.
      * This function can be used to override header and footer of the page
+     *
      * @param slot the absolut slot
      * @param kItem the item
      */
@@ -67,11 +68,17 @@ interface KPageInventory: KInventory {
 
     /**
      * Sets the item relative to the current page, respecting the header and the footer
+     * If a header is set, the rows will be shifted by the header row.
+     * If a footer is set, the slots inside the last row are not accessible
+     *
+     * If you want to set these slots anyway, use
+     * @see setItemOverride
+     *
      * @throws IllegalStateException when the slot is bigger than the size or in the footer
      * @param slot the slot in the page.
-     * @param item the item to set
+     * @param value the item to set
      */
-    override fun setItem(slot: Int, item: KItem)
+    override fun setItem(slot: Int, value: KItem)
 
     /**
      * Inserts the given page into the inventory at the given index

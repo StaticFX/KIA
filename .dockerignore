@@ -1,0 +1,8 @@
+.gitignore
+TEMPLATE.md
+readme.md
+galery
+build
+.idea
+.github
+node_modules

@@ -10,6 +10,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryDragEvent
 
 
+/**
+ * Util class to listen to the item drag event
+ */
 class InventoryDragItemListener: Listener {
 
     @EventHandler

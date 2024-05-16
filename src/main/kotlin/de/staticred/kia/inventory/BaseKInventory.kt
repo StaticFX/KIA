@@ -5,6 +5,7 @@ import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
@@ -19,7 +20,10 @@ import java.util.*
  */
 abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory, AbstractContentContainer(9) {
 
-    var size = 3*9
+    /**
+     * Size of the inventory
+     */
+    var size = 3.rows
         protected set
 
     override var title: Component? = title
@@ -36,15 +40,23 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     override var inventories: MutableList<Inventory> = mutableListOf()
 
     private var isOpen = false
+
+
+    /**
+     * Bukkit inventory used for internal implementation
+     * The actual inventory the user gets sent
+     */
     protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(owner, 3*9, Component.empty()) else Bukkit.createInventory(owner, 3*9, title)
 
+    /**
+     * Holder of the inventory
+     */
     protected lateinit var holder: KInventoryHolder
     private var itemsClickableWhileAnimating = false
 
     private var uuid: UUID? = null
 
     private val rows = mutableMapOf<Int, KRow>()
-    private val savedRows = mutableMapOf<String, KRow>()
 
     override var openingAnimation: Animation<KInventory>? = null
     override var currentAnimation: Animation<KInventory>? = null
@@ -85,14 +97,6 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     override fun clearInventory() {
         bukkitInventory.clear()
         inventories.forEach { it.clear() }
-    }
-
-    fun saveRow(row: KRow) {
-        savedRows[row.name] = row
-    }
-
-    fun getRow(name: String): KRow? {
-        return savedRows[name]
     }
 
     override fun onOpen(action: KInventory.() -> Unit) {
@@ -185,10 +189,12 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     abstract override fun isPrivate(): Boolean
 
 
+    @Deprecated("Will be replaced with a variable")
     override fun setID(id: UUID) {
         this.uuid = id
     }
 
+    @Deprecated("Will be replaced with a variable")
     override fun getID(): UUID? {
         return this.uuid
     }
