@@ -1,9 +1,15 @@
 # KIA - Kotlin Inventory API
 
 [![Dokka](https://img.shields.io/badge/JavaDoc-Online-green)](https://staticfx.github.io/KIA/)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/staticfx/kia/workflow.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/staticfx/kia/publish-package.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/staticfx/kia)
 
+# Prerequisites
+
+- KIA needs to be installed on the server as its dependent plugin. So KIA can hook into the events
+- KIA needs to run on a PaperMC server, because some paper specific functions are used.
+
+### Add to your code base
 
 <details>
 <summary>Maven</summary>
@@ -12,7 +18,8 @@
   <dependency>
     <groupId>de.staticred.kia</groupId>
     <artifactId>kia</artifactId>
-    <version>1.1.8</version>
+    <version>1.1.9</version>
+    <scope>provided</scope>
   </dependency>
     ```
 </details>
@@ -21,7 +28,7 @@
 <summary>Gradle Groovy:</summary>
 
 - ```groovy
-  compileOnly "de.staticred.kia:kia:1.1.8"
+  compileOnly "de.staticred.kia:kia:1.1.9"
     ```
 
 </details>
@@ -30,10 +37,15 @@
 <summary>Gradle kts</summary>
 
 - ```kotlin
-  api("de.staticred.kia:kia:1.1.8")
+  api("de.staticred.kia:kia:1.1.9")
     ```
 </details>
 
+## TLDR 
+
+To get a quick look on how to use KIA, please visit the [wiki](https://github.com/StaticFX/KIA/wiki).
+
+## Introduction
 
 KIA is an API programed using the papermc api to make inventory management and its creation easier.
 Using NBT KIA is able to handle inventories without naming issues or similar.
