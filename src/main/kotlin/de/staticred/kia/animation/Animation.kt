@@ -1,5 +1,8 @@
 package de.staticred.kia.animation
 
+/**
+ *
+ */
 interface Animation<T> {
 
     /**
