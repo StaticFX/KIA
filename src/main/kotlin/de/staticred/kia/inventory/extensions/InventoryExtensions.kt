@@ -5,6 +5,11 @@ import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
 import org.bukkit.inventory.Inventory
 
+/**
+ * Converts to a registered KInventory
+ *
+ * @return inventory if registered, null otherwise
+ */
 fun Inventory.toKInventory(): KInventory? {
     val holder = holder ?: return null
 

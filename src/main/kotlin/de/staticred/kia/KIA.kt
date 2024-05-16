@@ -14,6 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin
 class KIA: JavaPlugin() {
 
     companion object {
+
+        /**
+         * Global instance of kia
+         */
         lateinit var instance: KIA
     }
 

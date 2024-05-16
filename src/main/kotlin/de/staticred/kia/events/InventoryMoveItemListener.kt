@@ -1,17 +1,16 @@
 package de.staticred.kia.events
 
-import de.staticred.kia.inventory.InventoryManager
-import de.staticred.kia.inventory.KInventory
-import de.staticred.kia.inventory.KInventoryHolder
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.DraggingMode
 import de.staticred.kia.inventory.item.ItemManager
-import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.inventory.item.KItemImpl
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryMoveItemEvent
 
+/**
+ * Util class to listen to the bukkit inventory move event
+ */
 class InventoryMoveItemListener: Listener {
 
     @EventHandler
