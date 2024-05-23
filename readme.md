@@ -60,6 +60,7 @@ val inventory = kInventory(sender, 5.rows, InventoryType.CHEST) {
     })
 }
 ```
+![some cool item](https://github.com/StaticFX/KIA/blob/master/galery/default_inventory.png?raw=true)
 ### Easier to use listeners
 ```kotlin
 setItem(1, 4, kItem(Material.DIAMOND_PICKAXE) {
