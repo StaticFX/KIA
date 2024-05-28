@@ -18,7 +18,7 @@
   <dependency>
     <groupId>de.staticred.kia</groupId>
     <artifactId>kia</artifactId>
-    <version>1.1.9</version>
+    <version>1.0.0</version>
     <scope>provided</scope>
   </dependency>
     ```
@@ -28,7 +28,7 @@
 <summary>Gradle Groovy:</summary>
 
 - ```groovy
-  compileOnly "de.staticred.kia:kia:1.1.9"
+  compileOnly "de.staticred.kia:kia:1.0.0"
     ```
 
 </details>
@@ -37,7 +37,7 @@
 <summary>Gradle kts</summary>
 
 - ```kotlin
-  api("de.staticred.kia:kia:1.1.9")
+  api("de.staticred.kia:kia:1.0.0")
     ```
 </details>
 
@@ -60,7 +60,6 @@ val inventory = kInventory(sender, 5.rows, InventoryType.CHEST) {
     })
 }
 ```
-![some cool item](https://github.com/StaticFX/KIA/blob/master/galery/default_inventory.png?raw=true)
 ### Easier to use listeners
 ```kotlin
 setItem(1, 4, kItem(Material.DIAMOND_PICKAXE) {
