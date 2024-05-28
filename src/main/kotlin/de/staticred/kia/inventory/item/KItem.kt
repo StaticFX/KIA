@@ -1,5 +1,7 @@
 package de.staticred.kia.inventory.item
 
+import de.staticred.kia.inventory.AbstractContentContainer
+import de.staticred.kia.inventory.InventoryContentContainer
 import de.staticred.kia.inventory.KInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.enchantments.Enchantment
@@ -24,7 +26,8 @@ import java.util.UUID
  *
  * Every implementation should inherit from this from the Bukkit ItemStack class to build a correct item
  *
- * @since 1.0
+ * @author Devin
+ * @since 1.0.0
  */
 interface KItem {
 
@@ -38,6 +41,26 @@ interface KItem {
      */
     var clickableInAnimation: Boolean
 
+
+    /**
+     * Determines the behaviour of the item when being dragged around the inventory
+     * @see DraggingMode
+     */
+    var draggingMode: DraggingMode
+
+    /**
+     * The parent inventory, the item is inside of
+     */
+    var parent: AbstractContentContainer?
+
+
+    /**
+     * The unique ID of the item, if it has one
+     *
+     * UUID will be null, if the item is not clickable, for example a StackableKITem
+     */
+    val uuid: UUID?
+
     /**
      * Executed when the item is valid clicked in an inventory
      *
@@ -48,29 +71,9 @@ interface KItem {
     fun onClick(action: KInventory.(KItem, Player) -> Unit)
 
     /**
-     * Sets the parent inventory of the item
-     *
-     * This happens automatically when the item is set through a KInventory
-     * @param kInventory the parent
-     */
-    fun setParent(kInventory: KInventory)
-
-    /**
      * @return Whether the item can be dragged or not
      */
     fun draggable(): Boolean
-
-    /**
-     * Sets the dragging mode of the item
-     * @see DraggingMode
-     * @param draggingMode the mode
-     */
-    fun setDraggingMode(draggingMode: DraggingMode)
-
-    /**
-     * gets the current dragging mode of the item
-     */
-    fun getDraggingMode(): DraggingMode
 
     /**
      * Sets the display name of the item
@@ -94,14 +97,9 @@ interface KItem {
      * The item has been clicked by a player
      *
      * @param player who clicked the item
+     * @param kInventory the inventory the item is inside
      */
-    fun clicked(player: Player)
-
-    /**
-     * UUID of the item
-     * @return the uuid
-     */
-    fun uuid(): UUID
+    fun clicked(player: Player, kInventory: KInventory)
 
     /**
      * Transforms the KItem to a Bukkit ItemStack

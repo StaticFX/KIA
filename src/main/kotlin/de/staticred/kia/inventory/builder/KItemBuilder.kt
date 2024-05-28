@@ -11,6 +11,9 @@ import org.bukkit.Material
  * @param amount of the item
  * @param init init function
  * @return newly built kItem
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun kItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): KItem {
     return KItemImpl(DraggingMode.NONE, material, amount).apply(init)
@@ -21,6 +24,9 @@ fun kItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): KItem {
  * @param material of the item
  * @param amount of the item
  * @return newly build kItem
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun kItem(material: Material, amount: Int = 1): KItem {
     return KItemImpl(DraggingMode.NONE, material, amount)

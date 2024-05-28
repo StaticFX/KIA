@@ -9,6 +9,8 @@ import net.kyori.adventure.text.Component
  * Works by saving the given pages and displaying them when reached
  *
  * @see KPage
+ * @author Devin
+ * @since 1.0.0
  */
 interface KPageInventory: KInventory {
 

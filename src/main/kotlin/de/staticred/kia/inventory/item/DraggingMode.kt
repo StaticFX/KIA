@@ -6,6 +6,9 @@ package de.staticred.kia.inventory.item
  * @see KItem
  * @see de.staticred.kia.inventory.KInventory
  *
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 enum class DraggingMode {
 
@@ -13,16 +16,6 @@ enum class DraggingMode {
      * Item can't be dragged at all
      */
     NONE,
-
-    /**
-     * Item can be dragged inside the KInventory
-     */
-    IN_INVENTORY,
-
-    /**
-     * Item can be dragged inside the row
-     */
-    IN_ROW,
 
     /**
      * Item can be dragged globally

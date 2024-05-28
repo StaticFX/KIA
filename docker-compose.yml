@@ -8,5 +8,9 @@ services:
       dockerfile: "./Dockerfile"
     ports:
       - "25565:25565"
+      - "5005:5005"
     volumes:
-      - /server/
+      - kia-server:/app/server
+volumes:
+  kia-server:
+    external: true

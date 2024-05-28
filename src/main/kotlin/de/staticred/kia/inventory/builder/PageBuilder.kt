@@ -12,6 +12,9 @@ import net.kyori.adventure.text.Component
  * @param title of the page
  * @param init init function
  * @return newly built kPage
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun kPage(title: Component? = null, init: KPage.() -> Unit): KPage {
     return KPageImpl(title).apply(init)

@@ -17,15 +17,11 @@ import java.util.*
 /**
  * Example implementation of a generic inventory
  * @param owner holder of the inventory
+ *
+ * @author Devin
+ * @since 1.0.0
  */
-abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory, AbstractContentContainer(9) {
-
-    /**
-     * Size of the inventory
-     */
-    var size = 3.rows
-        protected set
-
+abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory, AbstractContentContainer(9, 3.rows) {
     override var title: Component? = title
         set(newTitle) {
             field = newTitle
@@ -52,7 +48,7 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
      * Holder of the inventory
      */
     protected lateinit var holder: KInventoryHolder
-    private var itemsClickableWhileAnimating = false
+    override var itemClickableWhileAnimating: Boolean = false
 
     private var uuid: UUID? = null
 
@@ -70,7 +66,7 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     }
 
     private fun setItemForSlot(slot: Int, item: KItem) {
-        item.setParent(this)
+        item.parent = this
         if (slot > size - 1) throw IllegalArgumentException("Slot must be lower than size. Slot: $slot Size: $size ")
 
         bukkitInventory.setItem(slot, item.toItemStack())
@@ -161,10 +157,6 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         closingListener.forEach { it(this) }
     }
 
-    override fun setItemsClickableWhileAnimating(value: Boolean) {
-        itemsClickableWhileAnimating = value
-    }
-
     override fun isAnimating(): Boolean {
         return animations.values.any { it.isRunning() }
     }
@@ -176,10 +168,6 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
     override fun startAnimation(identifier: String) {
         val animation = animations[identifier] ?: error("Animation not found")
         startAnimation(animation)
-    }
-
-    override fun itemsClickableWhileAnimating(): Boolean {
-        return itemsClickableWhileAnimating
     }
 
     override fun isOpened(): Boolean {

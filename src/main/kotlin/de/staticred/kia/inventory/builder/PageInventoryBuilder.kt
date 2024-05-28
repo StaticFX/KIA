@@ -14,6 +14,9 @@ import org.bukkit.entity.Player
  * @param size the size of the inventory
  * @param init init function
  * @return new KPageInventory
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun kPageInventory(holder: Player, size: Int = 3*9, init: KPageInventory.() -> Unit): KPageInventory {
     return KPageInventoryImpl(KInventoryHolder.create(holder), size,true, Component.empty()).apply(init)

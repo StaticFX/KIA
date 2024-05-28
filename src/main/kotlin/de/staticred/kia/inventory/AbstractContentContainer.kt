@@ -8,8 +8,12 @@ import de.staticred.kia.util.AIR_ITEM
  * Basic representation of a content container with simple item managements
  * @see InventoryContentContainer
  * @property rowLength the length of a row in the inventory
+ * @property size of the content container, should be a multiple of the rowLength
+ *
+ * @author Devin
+ * @since 1.0.0
  */
-abstract class AbstractContentContainer(val rowLength: Int) : InventoryContentContainer {
+abstract class AbstractContentContainer(val rowLength: Int, val size: Int) : InventoryContentContainer {
 
     override val content: MutableMap<Int, KItem> = mutableMapOf()
 

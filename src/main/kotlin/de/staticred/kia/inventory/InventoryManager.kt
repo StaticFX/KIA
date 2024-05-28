@@ -7,6 +7,9 @@ import java.util.UUID
  * Util class to handle inventories using their holders and uuids
  *
  * These functions are handled by KIA, and the inventory events.
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 object InventoryManager {
 
@@ -52,7 +55,7 @@ object InventoryManager {
         val inv = getInventory(uuid)
 
         for (item in inv.getItems().values) {
-            ItemManager.removeItem(item.uuid())
+            item.uuid?.let { ItemManager.removeItem(it) }
         }
         customInventories -= inv
     }

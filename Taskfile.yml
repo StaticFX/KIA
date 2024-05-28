@@ -10,8 +10,8 @@ tasks:
       - ./gradlew build
   run:
     cmds:
-      - docker compose up --build
+      - docker compose up --build -d
   restart:
     cmds:
       - docker compose down
-      - docker compose up --build
+      - docker compose up --build -d

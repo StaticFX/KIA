@@ -7,6 +7,8 @@ import net.kyori.adventure.text.Component
 /**
  * Models a page inside a paging KInventory
  * @see KPageInventory
+ * @author Devin
+ * @since 1.0.0
  */
 interface KPage: Animatable<KPage>, InventoryContentContainer {
 

@@ -4,6 +4,9 @@ import java.util.UUID
 
 /**
  * Util class to handle items across inventories
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 object ItemManager {
 
@@ -15,7 +18,7 @@ object ItemManager {
      */
     fun generateID(): UUID {
         var id = UUID.randomUUID()
-        while (items.any { it.uuid() == id }) id = UUID.randomUUID()
+        while (items.any { it.uuid == id }) id = UUID.randomUUID()
         return id
     }
 
@@ -32,20 +35,20 @@ object ItemManager {
      * @param uuid the item to remove
      */
     fun removeItem(uuid: UUID) {
-        items.removeIf { it.uuid() == uuid }
+        items.removeIf { it.uuid == uuid }
     }
 
     /**
      * @param uuid of item
      * @return whether the item is registered or not
      */
-    fun hasItem(uuid: UUID): Boolean = items.any { it.uuid() == uuid }
+    fun hasItem(uuid: UUID): Boolean = items.any { it.uuid == uuid }
 
     /**
      * @param uuid of the item
      * @return the item associated to the uuid
      */
     fun getItem(uuid: UUID): KItem {
-        return items.first { it.uuid() == uuid }
+        return items.first { it.uuid == uuid }
     }
 }

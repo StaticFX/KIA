@@ -7,12 +7,10 @@ import de.staticred.kia.inventory.item.DraggingMode
 import de.staticred.kia.inventory.item.ItemManager
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.inventory.item.KItemImpl
-import de.tr7zw.changeme.nbtapi.NBT
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
-import java.util.*
 
 /**
  * Util class to listen to the bukkit inventory click event
@@ -28,7 +26,7 @@ class InventoryClickListener: Listener {
         if (holder !is KInventoryHolder) {
             return
         }
-        
+
         val inventoryID = holder.getUUID()
 
         if (!InventoryManager.isInventory(inventoryID)) {
@@ -46,14 +44,16 @@ class InventoryClickListener: Listener {
         val kItem = ItemManager.getItem(uuid)
         val clicker = event.whoClicked as Player
         // at this point the item is valid
+        val slot = event.slot
 
-        if (kItem.getDraggingMode() == DraggingMode.NONE) {
+        if (kItem.draggingMode == DraggingMode.NONE) {
             event.isCancelled = true
         }
-        
+
         if (kInventory.isAnimating()) {
-            if (kInventory.itemsClickableWhileAnimating()) {
+            if (kInventory.itemClickableWhileAnimating) {
                 itemClicked(kItem, clicker, kInventory, event.slot)
+                event.isCancelled = true
             }
         } else {
             itemClicked(kItem, clicker, kInventory, event.slot)
@@ -63,7 +63,7 @@ class InventoryClickListener: Listener {
 
 private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory, slot: Int) {
     kItem.slot = slot
-    kItem.clicked(player)
+    kItem.clicked(player, kInventory)
     val kRow = kInventory.getRowForItem(kItem)
     kRow?.let {
         it.index = (slot / 9)
