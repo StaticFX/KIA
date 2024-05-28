@@ -4,6 +4,9 @@ import de.staticred.kia.inventory.item.KItem
 
 /**
  * Models a content container for inventory items
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 interface InventoryContentContainer {
 

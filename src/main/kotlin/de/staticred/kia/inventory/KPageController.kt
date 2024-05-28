@@ -6,6 +6,7 @@ import de.staticred.kia.inventory.item.KItem
  * Models the footer inside a page in a paging inventory
  * @see KPage
  * @see KPageInventory
+ * @author Devin
  * @since 1.0.0
  */
 interface KPageController {

@@ -14,6 +14,9 @@ import java.util.UUID
  *
  * @see InventoryManager
  * @see KInventory
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 class KInventoryHolder(private val uuid: UUID, val holder: Player): InventoryHolder {
 

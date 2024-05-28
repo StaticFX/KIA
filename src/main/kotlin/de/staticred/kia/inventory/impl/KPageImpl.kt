@@ -10,9 +10,10 @@ import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.AIR_ITEM
+import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
 
-class KPageImpl(override var title: Component?, rowLength: Int = 9): KPage, AbstractContentContainer(rowLength) {
+class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 3.rows): KPage, AbstractContentContainer(rowLength, size) {
     override var header: KPageController? = null
     override var footer: KPageController? = null
 

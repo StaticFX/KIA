@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.staticred.kia'
-version = '1.1.9'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -45,7 +45,6 @@ subprojects {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "de.tr7zw:item-nbt-api:2.12.2"
 }
 
 java {

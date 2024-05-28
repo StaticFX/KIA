@@ -9,6 +9,9 @@ import org.bukkit.entity.Player
  * Models a row inside a regular KInventory type
  *
  * A row consists of 9 slots which can be filled with items
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 interface KRow {
     /**

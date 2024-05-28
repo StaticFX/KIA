@@ -8,6 +8,9 @@ import de.staticred.kia.inventory.impl.KRowImpl
  * @param name of the kRow
  * @param init init function
  * @return newly built kRow
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun kRow(name: String = "", init: KRow.() -> Unit): KRow {
     return KRowImpl(name).apply(init)

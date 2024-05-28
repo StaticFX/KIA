@@ -18,7 +18,8 @@ import java.util.*
  *
  * An inventory can hold rows, so rows can be reused at any point in the inventory.
  *
- * @since 1.0
+ * @author Devin
+ * @since 1.0.0
  */
 interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryContentContainer {
     
@@ -44,15 +45,14 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
     var inventories: MutableList<Inventory>
 
     /**
-     * Sets whether the items can be moved while animating or not
-     * @param value true if can be moved, false otherwise
+     * Sets whether the items can be clicked while the inventory is inside an animation
+     *
+     * When false, the onClick function on an item won't be called.
+     *
+     * @see Animation
+     * @see KItem.onClick
      */
-    fun setItemsClickableWhileAnimating(value: Boolean)
-
-    /**
-     * @return whether items can be clicked while animating or not
-     */
-    fun itemsClickableWhileAnimating(): Boolean
+    var itemClickableWhileAnimating: Boolean
 
     /**
      * Executed when the inventory is opened

@@ -1,45 +1,57 @@
 package de.staticred.kia.inventory.item
 
+import de.staticred.kia.KIA
+import de.staticred.kia.inventory.AbstractContentContainer
 import de.staticred.kia.inventory.KInventory
-import de.tr7zw.changeme.nbtapi.NBT
-import de.tr7zw.changeme.nbtapi.NBTEntity
-import de.tr7zw.changeme.nbtapi.NBTItem
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.UUID
+import org.bukkit.persistence.PersistentDataContainer
+import org.bukkit.persistence.PersistentDataType
+import java.util.*
+
+
+private val nameSpacedKey = NamespacedKey(KIA.instance, "KIA-KItems")
 
 /**
  * Example implementation of the KItem interface
  * @see KItem
  * @property material of the item
  */
-class KItemImpl(private var draggingMode: DraggingMode, val material: Material, amount: Int): ItemStack(material, amount), KItem {
+class KItemImpl(override var draggingMode: DraggingMode, val material: Material, amount: Int): ItemStack(material, amount), KItem {
 
     private val clickListeners = mutableListOf<KInventory.(KItem, Player) -> Unit>()
 
-    val uuid: UUID = ItemManager.generateID()
+    override val uuid: UUID = ItemManager.generateID()
     override var slot = -1
     override var clickableInAnimation: Boolean = true
 
     companion object {
         fun readUUIDFromNBT(item: ItemStack): UUID? {
-            return NBTItem(item).getUUID("K-UUID")
+
+            val container = item.itemMeta.persistentDataContainer
+
+            if (container.has(nameSpacedKey)) {
+                val uuid = container.get(nameSpacedKey, PersistentDataType.STRING)
+                return UUID.fromString(uuid)
+            }
+            return null
         }
     }
 
     init {
         if (material != Material.AIR) {
             ItemManager.addItem(this)
-            NBT.modify(this) {
-                it.setUUID("K-UUID", uuid)
-            }
+            val meta = itemMeta
+            meta.persistentDataContainer.set(nameSpacedKey, PersistentDataType.STRING, uuid.toString())
+            super.setItemMeta(meta)
         }
     }
 
-    private var parent: KInventory? = null
+    override var parent: AbstractContentContainer? = null
 
     override fun onClick(action: KInventory.(KItem, Player) -> Unit) {
         clickListeners += action
@@ -47,10 +59,6 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
 
     override fun enchant(enchantment: Enchantment, level: Int) {
         addEnchantment(enchantment, level)
-    }
-
-    override fun setParent(kInventory: KInventory) {
-        parent = kInventory
     }
 
     override fun draggable(): Boolean {
@@ -69,20 +77,8 @@ class KItemImpl(private var draggingMode: DraggingMode, val material: Material, 
         setItemMeta(itemMeta)
     }
 
-    override fun clicked(player: Player) {
-        parent?.let { clickListeners.forEach { listener -> listener(it, this, player) } }
-    }
-
-    override fun getDraggingMode(): DraggingMode {
-        return draggingMode
-    }
-
-    override fun setDraggingMode(draggingMode: DraggingMode) {
-        this.draggingMode = draggingMode
-    }
-
-    override fun uuid(): UUID {
-        return uuid
+    override fun clicked(player: Player, kInventory: KInventory) {
+        parent?.let { clickListeners.forEach { listener -> listener(kInventory, this, player) } }
     }
 
     override fun toItemStack(): ItemStack {

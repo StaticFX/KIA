@@ -19,6 +19,9 @@ import java.util.concurrent.TimeUnit
  * @param init the init function
  *
  * @return newly build animation
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun <T> animation(frames: Int, interval: Long, unit: TimeUnit, init: AnimationImpl<T>.() -> Unit): Animation<T> {
     return AnimationImpl<T>(frames, interval, unit, false).apply(init)
@@ -39,6 +42,9 @@ fun <T> animation(frames: Int, interval: Long, unit: TimeUnit, init: AnimationIm
  * @param init the init function
  *
  * @return new animation which when started runs endless
+ *
+ * @author Devin
+ * @since 1.0.0
  */
 fun <T> endlessAnimation(interval: Long, unit: TimeUnit, init: AnimationImpl<T>.() -> Unit): Animation<T> {
     return AnimationImpl<T>(0, interval, unit, true).apply(init)
