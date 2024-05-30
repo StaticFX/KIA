@@ -39,7 +39,7 @@ object InventoryManager {
      * Checks if any inventory can be associated with the given id
      * @return true if there is any inventory with the uuid, false otherwise
      */
-    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getKHolder().getUUID() == uuid }
+    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getKHolder().uuid == uuid }
 
     /**
      * Checks if the given inventory instance is a registered inventory
@@ -95,5 +95,5 @@ object InventoryManager {
      * @param uuid the inventory id
      * @return the associated inventory
      */
-    fun getInventory(uuid: UUID) = customInventories.first { it.getKHolder().getUUID() == uuid }
+    fun getInventory(uuid: UUID) = customInventories.first { it.getKHolder().uuid == uuid }
 }

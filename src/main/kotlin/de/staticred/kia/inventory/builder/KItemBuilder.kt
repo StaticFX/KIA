@@ -1,9 +1,6 @@
 package de.staticred.kia.inventory.builder
 
-import de.staticred.kia.inventory.item.DraggingMode
-import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.inventory.item.RegisteredKItemImpl
-import de.staticred.kia.inventory.item.StackableKItemImpl
+import de.staticred.kia.inventory.item.*
 import org.bukkit.Material
 
 /**
@@ -16,7 +13,7 @@ import org.bukkit.Material
  * @author Devin
  * @since 1.0.0
  */
-fun kItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): KItem {
+fun kItem(material: Material, amount: Int = 1, init: RegisteredKItem.() -> Unit): RegisteredKItem {
     return RegisteredKItemImpl(DraggingMode.NONE, material, amount).apply(init)
 }
 
@@ -30,7 +27,7 @@ fun kItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): KItem {
  * @author Devin
  * @since 1.0.0
  */
-fun kItem(material: Material, amount: Int = 1): KItem {
+fun kItem(material: Material, amount: Int = 1): RegisteredKItem {
     return RegisteredKItemImpl(DraggingMode.NONE, material, amount)
 }
 
@@ -45,7 +42,7 @@ fun kItem(material: Material, amount: Int = 1): KItem {
  * @author Devin
  * @since 1.0.2
  */
-fun stackableKItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): KItem {
+fun stackableKItem(material: Material, amount: Int = 1, init: KItem.() -> Unit): StackableKItem {
     return StackableKItemImpl(DraggingMode.NONE, material, amount).apply(init)
 }
 
@@ -59,6 +56,6 @@ fun stackableKItem(material: Material, amount: Int = 1, init: KItem.() -> Unit):
  * @author Devin
  * @since 1.0.2
  */
-fun stackableKItem(material: Material, amount: Int = 1): KItem {
+fun stackableKItem(material: Material, amount: Int = 1): StackableKItem {
     return StackableKItemImpl(DraggingMode.NONE, material, amount)
 }

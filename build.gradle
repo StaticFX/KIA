@@ -102,7 +102,7 @@ publishing {
     }
 }
 
-task printVersion {
+tasks.register('printVersion') {
     println rootProject.version.toString()
 }
 

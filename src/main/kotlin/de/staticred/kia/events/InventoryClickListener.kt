@@ -3,10 +3,7 @@ package de.staticred.kia.events
 import de.staticred.kia.inventory.InventoryManager
 import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
-import de.staticred.kia.inventory.item.DraggingMode
-import de.staticred.kia.inventory.item.ItemManager
-import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.inventory.item.KItemImpl
+import de.staticred.kia.inventory.item.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -18,7 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 class InventoryClickListener: Listener {
 
     @EventHandler
-    public fun onInventoryClick(event: InventoryClickEvent) {
+    fun onInventoryClick(event: InventoryClickEvent) {
         val item = event.currentItem ?: return
         val inventory = event.clickedInventory ?: return
         val holder = inventory.holder ?: return
@@ -27,7 +24,7 @@ class InventoryClickListener: Listener {
             return
         }
 
-        val inventoryID = holder.getUUID()
+        val inventoryID = holder.uuid
 
         if (!InventoryManager.isInventory(inventoryID)) {
             event.isCancelled = true
@@ -35,17 +32,17 @@ class InventoryClickListener: Listener {
         }
 
         val kInventory = InventoryManager.getInventory(inventoryID)
-        val uuid = KItemImpl.readUUIDFromNBT(item) ?: throw IllegalStateException("None KItem clicked in KInventory")
+        val clicker = event.whoClicked as Player
+        kInventory.itemClicked(item, clicker, event)
 
+        val uuid = RegisteredKItemImpl.readUUIDFromNBT(item) ?: throw IllegalStateException("None KItem clicked in KInventory")
         if (!ItemManager.hasItem(uuid)) {
-            throw IllegalStateException("Clicked unregistered KItem")
+            return
         }
 
         val kItem = ItemManager.getItem(uuid)
-        val clicker = event.whoClicked as Player
-        // at this point the item is valid
-        val slot = event.slot
 
+        // at this point the item is valid
         if (kItem.draggingMode == DraggingMode.NONE) {
             event.isCancelled = true
         }
@@ -61,7 +58,7 @@ class InventoryClickListener: Listener {
     }
 }
 
-private fun itemClicked(kItem: KItem, player: Player, kInventory: KInventory, slot: Int) {
+private fun itemClicked(kItem: RegisteredKItem, player: Player, kInventory: KInventory, slot: Int) {
     kItem.slot = slot
     kItem.clicked(player, kInventory)
     val kRow = kInventory.getRowForItem(kItem)

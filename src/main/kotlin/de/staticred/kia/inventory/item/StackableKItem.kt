@@ -4,7 +4,7 @@ package de.staticred.kia.inventory.item
  * Models a stackable kItem
  *
  * The difference between [KItem] is that this item won't
- * be registered in the [ItemManager] and therefore is also not able to handle the [KItem.onClick] event
+ * be registered in the [ItemManager] and therefore is also not able to handle the [de.staticred.kia.inventory.item.RegisteredKItem.onClick] event
  *
  * In regard to that, the item can be stacked, also with vanilla style generated items, even if the item was
  * not generated using KIA.
@@ -14,5 +14,4 @@ package de.staticred.kia.inventory.item
  * @since 1.0.2
  * @author Devin
  */
-interface StackableKItem: KItem {
-}
+interface StackableKItem: KItem

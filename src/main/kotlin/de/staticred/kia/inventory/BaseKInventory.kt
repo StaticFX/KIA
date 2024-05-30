@@ -5,23 +5,24 @@ import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.builder.kRow
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
-import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.InventoryView
+import org.bukkit.inventory.ItemStack
 import java.util.*
 
 /**
  * Example implementation of a generic inventory
- * @param owner holder of the inventory
+ * @param holder holder of the inventory
  *
  * @author Devin
  * @since 1.0.0
  */
-abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInventory, AbstractContentContainer(9, 3.rows) {
+abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Component?, size: Int): KInventory, AbstractContentContainer(9, size) {
     override var title: Component? = title
         set(newTitle) {
             field = newTitle
@@ -30,36 +31,33 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
                 this.views.forEach { it.title = LegacyComponentSerializer.legacySection().serialize(newTitle)  }
         }
 
-    override var content: MutableMap<Int, KItem> = mutableMapOf()
-
-    override var views: MutableList<InventoryView> = mutableListOf()
-    override var inventories: MutableList<Inventory> = mutableListOf()
-
     private var isOpen = false
+    private val openingListener = mutableListOf<KInventory.() -> Unit>()
+    private val closingListener = mutableListOf<KInventory.() -> Unit>()
+    private val itemClickedListener = mutableListOf<KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit>()
 
+
+    private val rows = mutableMapOf<Int, KRow>()
 
     /**
      * Bukkit inventory used for internal implementation
      * The actual inventory the user gets sent
      */
-    protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(owner, 3*9, Component.empty()) else Bukkit.createInventory(owner, 3*9, title)
+    protected var bukkitInventory: Inventory = if (title == null) Bukkit.createInventory(holder, size, Component.empty()) else Bukkit.createInventory(holder, size, title)
 
-    /**
-     * Holder of the inventory
-     */
-    protected lateinit var holder: KInventoryHolder
     override var itemClickableWhileAnimating: Boolean = false
-
-    private var uuid: UUID? = null
-
-    private val rows = mutableMapOf<Int, KRow>()
+    override var id: UUID = holder.uuid
 
     override var openingAnimation: Animation<KInventory>? = null
     override var currentAnimation: Animation<KInventory>? = null
-
     override val animations = mutableMapOf<String, Animation<KInventory>>()
-    private val openingListener = mutableListOf<KInventory.() -> Unit>()
-    private val closingListener = mutableListOf<KInventory.() -> Unit>()
+
+    override var content: MutableMap<Int, KItem> = mutableMapOf()
+    override var views: MutableList<InventoryView> = mutableListOf()
+    override var inventories: MutableList<Inventory> = mutableListOf()
+
+
+
 
     override fun setItem(slot: Int, value: KItem) {
         setItemForSlot(slot, value)
@@ -157,6 +155,14 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         closingListener.forEach { it(this) }
     }
 
+    override fun onItemClicked(action: KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit) {
+        itemClickedListener += action
+    }
+
+    override fun itemClicked(item: ItemStack, player: Player, event: InventoryClickEvent) {
+        itemClickedListener.forEach { it(item, player, event) }
+    }
+
     override fun isAnimating(): Boolean {
         return animations.values.any { it.isRunning() }
     }
@@ -176,19 +182,8 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
 
     abstract override fun isPrivate(): Boolean
 
-
-    @Deprecated("Will be replaced with a variable")
-    override fun setID(id: UUID) {
-        this.uuid = id
-    }
-
-    @Deprecated("Will be replaced with a variable")
-    override fun getID(): UUID? {
-        return this.uuid
-    }
-
     override fun hasID(): Boolean {
-        return uuid != null
+        return true
     }
 
     override fun isEqual(inventory: Inventory): Boolean {
@@ -196,6 +191,6 @@ abstract class BaseKInventory(owner: InventoryHolder?, title: Component?): KInve
         val oKInventory = inventory.toKInventory() ?: return false
         if (!oKInventory.hasID()) return false
 
-       return oKInventory.getID()!! == uuid
+       return id == oKInventory.id
     }
 }

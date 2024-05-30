@@ -3,7 +3,7 @@ package de.staticred.kia.animation
 import java.util.concurrent.TimeUnit
 
 
-class AnimationImpl<T>(val frames: Int, val interval: Long, val timeUnit: TimeUnit, override val endless: Boolean): Animation<T> {
+class AnimationImpl<T>(private val frames: Int, val interval: Long, val timeUnit: TimeUnit, override val endless: Boolean): Animation<T> {
 
     private val onFrameListeners = mutableListOf<T.(index: Int) -> Unit>()
     private val onEndListeners = mutableListOf<T.() -> Unit>()

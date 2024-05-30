@@ -1,14 +1,10 @@
 package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.AbstractContentContainer
-import de.staticred.kia.inventory.InventoryContentContainer
 import de.staticred.kia.inventory.KInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Item
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.UUID
 
 /**
  * Models an item in an KInventory
@@ -21,8 +17,11 @@ import java.util.UUID
  * Use the ItemManager to handle items
  * @see ItemManager
  *
- * Items are uniquely identified by having UUIDs, which can be implement using NBT Tags
- * @see KItemImpl
+ * Items might be uniquely identified by having UUIDs, which can be implement using NBT Tags
+ * @see RegisteredKItem
+ *
+ * KItems don't need to have IDs, which then removes the ability to listen to their click functions
+ * @see StackableKItem
  *
  * Every implementation should inherit from this from the Bukkit ItemStack class to build a correct item
  *
@@ -37,12 +36,6 @@ interface KItem {
     var slot: Int
 
     /**
-     * Whether the item can be clicked while inside an animation or not
-     */
-    var clickableInAnimation: Boolean
-
-
-    /**
      * Determines the behaviour of the item when being dragged around the inventory
      * @see DraggingMode
      */
@@ -52,15 +45,6 @@ interface KItem {
      * The parent inventory, the item is inside of
      */
     var parent: AbstractContentContainer?
-
-    /**
-     * Executed when the item is valid clicked in an inventory
-     *
-     * A valid click is when the item actually belongs to the inventory assigned to it and the item is inside a KInventory
-     *
-     * @param action run when the item is clicked
-     */
-    fun onClick(action: KInventory.(RegisteredKItem, Player) -> Unit)
 
     /**
      * @return Whether the item can be dragged or not
@@ -79,19 +63,10 @@ interface KItem {
      */
     fun setItemLore(lore: List<Component>)
 
-
     /**
      * Enchants this item with the given parameters
      */
     fun enchant(enchantment: Enchantment, level: Int)
-
-    /**
-     * The item has been clicked by a player
-     *
-     * @param player who clicked the item
-     * @param kInventory the inventory the item is inside
-     */
-    fun clicked(player: Player, kInventory: KInventory)
 
     /**
      * Transforms the KItem to a Bukkit ItemStack
