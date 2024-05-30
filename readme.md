@@ -18,7 +18,7 @@
   <dependency>
     <groupId>de.staticred.kia</groupId>
     <artifactId>kia</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <scope>provided</scope>
   </dependency>
     ```
@@ -28,7 +28,7 @@
 <summary>Gradle Groovy:</summary>
 
 - ```groovy
-  compileOnly "de.staticred.kia:kia:1.0.1"
+  compileOnly "de.staticred.kia:kia:1.0.3"
     ```
 
 </details>
@@ -37,7 +37,7 @@
 <summary>Gradle kts</summary>
 
 - ```kotlin
-  api("de.staticred.kia:kia:1.0.1")
+  api("de.staticred.kia:kia:1.0.3")
     ```
 </details>
 
