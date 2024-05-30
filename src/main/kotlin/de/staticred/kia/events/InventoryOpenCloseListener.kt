@@ -14,11 +14,11 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 class InventoryOpenCloseListener: Listener {
 
     @EventHandler
-    public fun onInventoryOpened(event: InventoryOpenEvent) {
+    fun onInventoryOpened(event: InventoryOpenEvent) {
         val holder = event.inventory.holder ?: return
 
         if (holder is KInventoryHolder) {
-            val inventoryID = holder.getUUID()
+            val inventoryID = holder.uuid
             if (!InventoryManager.isInventory(inventoryID))
                 event.isCancelled = true
 
@@ -45,11 +45,11 @@ class InventoryOpenCloseListener: Listener {
     }
 
     @EventHandler
-    public fun onInventoryClosed(event: InventoryCloseEvent) {
+    fun onInventoryClosed(event: InventoryCloseEvent) {
         val holder = event.inventory.holder ?: return
 
         if (holder is KInventoryHolder) {
-            val inventoryID = holder.getUUID()
+            val inventoryID = holder.uuid
             val kInventory = InventoryManager.getInventory(inventoryID)
             InventoryManager.closedInventory(holder, kInventory)
             kInventory.closed()

@@ -15,7 +15,7 @@ fun Inventory.toKInventory(): KInventory? {
 
     if (holder !is KInventoryHolder) return null
 
-    val inventoryID = holder.getUUID()
+    val inventoryID = holder.uuid
 
     if (!InventoryManager.isInventory(inventoryID)) {
         throw IllegalStateException("Inventory found which is not a KInventory but has a KInventoryHolder")

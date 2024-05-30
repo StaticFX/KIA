@@ -15,7 +15,6 @@ interface InventoryContentContainer {
      */
     val content: MutableMap<Int, KItem>
 
-
     /**
      * Sets the given item at the given position
      * @param slot the slot

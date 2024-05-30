@@ -1,6 +1,7 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.ItemManager
+import de.staticred.kia.inventory.item.RegisteredKItem
 import java.util.UUID
 
 /**
@@ -38,7 +39,7 @@ object InventoryManager {
      * Checks if any inventory can be associated with the given id
      * @return true if there is any inventory with the uuid, false otherwise
      */
-    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getKHolder().getUUID() == uuid }
+    fun isInventory(uuid: UUID): Boolean = customInventories.any { it.getKHolder().uuid == uuid }
 
     /**
      * Checks if the given inventory instance is a registered inventory
@@ -55,7 +56,8 @@ object InventoryManager {
         val inv = getInventory(uuid)
 
         for (item in inv.getItems().values) {
-            item.uuid?.let { ItemManager.removeItem(it) }
+            if (item is RegisteredKItem)
+                item.id.let { ItemManager.removeItem(it) }
         }
         customInventories -= inv
     }
@@ -93,5 +95,5 @@ object InventoryManager {
      * @param uuid the inventory id
      * @return the associated inventory
      */
-    fun getInventory(uuid: UUID) = customInventories.first { it.getKHolder().getUUID() == uuid }
+    fun getInventory(uuid: UUID) = customInventories.first { it.getKHolder().uuid == uuid }
 }

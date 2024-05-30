@@ -5,8 +5,11 @@ import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.Identifiable
 import net.kyori.adventure.text.Component
+import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryView
+import org.bukkit.inventory.ItemStack
 import java.util.*
 
 /**
@@ -50,7 +53,7 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
      * When false, the onClick function on an item won't be called.
      *
      * @see Animation
-     * @see KItem.onClick
+     * @see de.staticred.kia.inventory.item.RegisteredKItem.onClick
      */
     var itemClickableWhileAnimating: Boolean
 
@@ -122,6 +125,23 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
      * Should be called when the inventory has been closed.
      */
     fun closed()
+
+
+    /**
+     * Executes the passed function, when a bukkit [org.bukkit.inventory.ItemStack] is clicked
+     *
+     * This function will always be called, independent of the Item clicked, whether it is registered or not
+     *
+     * @param action function to execute when the condition is met
+     */
+    fun onItemClicked(action: KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit)
+
+    /**
+     * Notifies the inventory that the given item has been clicked by the given player
+     * @param item which got clicked
+     * @param player who clicked
+     */
+    fun itemClicked(item: ItemStack, player: Player, event: InventoryClickEvent)
 
     /**
      * Checks whether the given inventory is the same inventory

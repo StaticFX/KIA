@@ -10,7 +10,7 @@ import java.util.UUID
  */
 object ItemManager {
 
-    private val items = mutableListOf<KItem>()
+    private val items = mutableListOf<RegisteredKItem>()
 
     /**
      * Generates a new unused id which can be used for an item
@@ -18,7 +18,7 @@ object ItemManager {
      */
     fun generateID(): UUID {
         var id = UUID.randomUUID()
-        while (items.any { it.uuid == id }) id = UUID.randomUUID()
+        while (items.any { it.id == id }) id = UUID.randomUUID()
         return id
     }
 
@@ -26,7 +26,7 @@ object ItemManager {
      * Registers a new item
      * @param item the item to register
      */
-    fun addItem(item: KItem) {
+    fun addItem(item: RegisteredKItem) {
         items += item
     }
 
@@ -35,20 +35,20 @@ object ItemManager {
      * @param uuid the item to remove
      */
     fun removeItem(uuid: UUID) {
-        items.removeIf { it.uuid == uuid }
+        items.removeIf { it.id == uuid }
     }
 
     /**
      * @param uuid of item
      * @return whether the item is registered or not
      */
-    fun hasItem(uuid: UUID): Boolean = items.any { it.uuid == uuid }
+    fun hasItem(uuid: UUID): Boolean = items.any { it.id == uuid }
 
     /**
      * @param uuid of the item
      * @return the item associated to the uuid
      */
-    fun getItem(uuid: UUID): KItem {
-        return items.first { it.uuid == uuid }
+    fun getItem(uuid: UUID): RegisteredKItem {
+        return items.first { it.id == uuid }
     }
 }

@@ -6,10 +6,9 @@ import de.staticred.kia.inventory.item.KItem
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.event.inventory.InventoryType
-import org.bukkit.inventory.InventoryHolder
 
 class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var looping: Boolean,
-                         title: Component?
+                         override var title: Component?
 ): BaseKInventoryImpl(owner, size, InventoryType.CHEST, title), KPageInventory {
 
     var private: Boolean = false
@@ -29,8 +28,6 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
     override fun isPrivate(): Boolean {
         return private
     }
-
-    override var title: Component? = title
 
     override var formattedTitle: Component? = null
         get() {

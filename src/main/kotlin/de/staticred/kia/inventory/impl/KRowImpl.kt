@@ -2,12 +2,10 @@ package de.staticred.kia.inventory.impl
 
 import de.staticred.kia.inventory.AbstractContentContainer
 import de.staticred.kia.inventory.InventoryContentContainer
-import de.staticred.kia.inventory.KInventory
 import de.staticred.kia.inventory.KRow
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.ShiftDirection
 import org.bukkit.entity.Player
-import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 

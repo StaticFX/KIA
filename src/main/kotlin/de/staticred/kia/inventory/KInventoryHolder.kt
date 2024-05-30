@@ -11,6 +11,7 @@ import java.util.UUID
  * the InventoryManager
  *
  * @property holder player which holds the inventory
+ * @property uuid uuid of the inventory the player is holding [InventoryManager]
  *
  * @see InventoryManager
  * @see KInventory
@@ -18,7 +19,7 @@ import java.util.UUID
  * @author Devin
  * @since 1.0.0
  */
-class KInventoryHolder(private val uuid: UUID, val holder: Player): InventoryHolder {
+class KInventoryHolder(val uuid: UUID, val holder: Player): InventoryHolder {
 
     private lateinit var inventory: Inventory
 
@@ -44,10 +45,4 @@ class KInventoryHolder(private val uuid: UUID, val holder: Player): InventoryHol
     fun setInventory(inventory: Inventory) {
         this.inventory = inventory
     }
-
-    /**
-     * @return uuid of this holder
-     */
-    fun getUUID() = uuid
-
 }
