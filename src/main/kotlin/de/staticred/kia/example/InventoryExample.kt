@@ -24,7 +24,7 @@ class InventoryExample: Command("kia") {
                 setItem(i, kItem(Material.DIAMOND) {
                     draggingMode = DraggingMode.GLOBAL
                     onClick { kItem, player ->
-                        player.sendMessage(Component.text(kItem.uuid.toString()))
+                        player.sendMessage(Component.text(kItem.id.toString()))
                     }
                 } )
             }

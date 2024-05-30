@@ -1,6 +1,7 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.ItemManager
+import de.staticred.kia.inventory.item.RegisteredKItem
 import java.util.UUID
 
 /**
@@ -55,7 +56,8 @@ object InventoryManager {
         val inv = getInventory(uuid)
 
         for (item in inv.getItems().values) {
-            item.uuid?.let { ItemManager.removeItem(it) }
+            if (item is RegisteredKItem)
+                item.id.let { ItemManager.removeItem(it) }
         }
         customInventories -= inv
     }

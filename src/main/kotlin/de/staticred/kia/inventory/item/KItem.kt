@@ -53,14 +53,6 @@ interface KItem {
      */
     var parent: AbstractContentContainer?
 
-
-    /**
-     * The unique ID of the item, if it has one
-     *
-     * UUID will be null, if the item is not clickable, for example a StackableKITem
-     */
-    val uuid: UUID?
-
     /**
      * Executed when the item is valid clicked in an inventory
      *
@@ -68,7 +60,7 @@ interface KItem {
      *
      * @param action run when the item is clicked
      */
-    fun onClick(action: KInventory.(KItem, Player) -> Unit)
+    fun onClick(action: KInventory.(RegisteredKItem, Player) -> Unit)
 
     /**
      * @return Whether the item can be dragged or not

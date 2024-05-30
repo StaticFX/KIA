@@ -3,21 +3,16 @@ package de.staticred.kia.util
 /**
  * Models an identifiable
  * @param T the id generic
+ *
+ * @since 1.0.0
+ * @author Devin
  */
 interface Identifiable<T> {
 
     /**
-     * Sets the id of the identifiable
-     * @param id the id
+     * The unique ID of this identifiable
      */
-    @Deprecated("Will be replaced with a variable")
-    fun setID(id: T)
-
-    /**
-     * @return the id of the model
-     */
-    @Deprecated("Will be replaced with a variable")
-    fun getID(): T?
+    var id: T
 
     /**
      * @return if the id is null or not
