@@ -14,11 +14,16 @@
 <details>
 <summary>Maven</summary>
 
-- ```xml
+- ```xml 
+  <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+  </repository>
+
   <dependency>
     <groupId>de.staticred.kia</groupId>
     <artifactId>kia</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <scope>provided</scope>
   </dependency>
     ```
@@ -28,7 +33,15 @@
 <summary>Gradle Groovy:</summary>
 
 - ```groovy
-  compileOnly "de.staticred.kia:kia:1.0.3"
+  	dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  
+  compileOnly "de.staticred.kia:kia:1.0.4"
     ```
 
 </details>
@@ -37,7 +50,11 @@
 <summary>Gradle kts</summary>
 
 - ```kotlin
-  api("de.staticred.kia:kia:1.0.3")
+  repositories { 
+    maven { setUrl("https://jitpack.io") }
+  }
+  
+  api("de.staticred.kia:kia:1.0.4")
     ```
 </details>
 
