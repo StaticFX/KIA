@@ -31,7 +31,6 @@ class InventoryExample: Command("kia") {
 
         val inventory = kInventory(sender, 3.rows, InventoryType.CHEST) {
             title = miniMessage.deserialize("<gradient:#B125EA:#7F52FF>KIA - Kotlin Inventory API</gradient>")
-
             openingAnimation = animation(27, 50, TimeUnit.MILLISECONDS) {
                 onAnimationFrame { frame ->
                     setItem(frame, kItem(Material.GRAY_STAINED_GLASS_PANE) {

@@ -1,7 +1,7 @@
-package de.staticred.kia.events
+package de.staticred.kia.paper.events
 
 import de.staticred.kia.inventory.InventoryManager
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
 import de.staticred.kia.inventory.item.*
 import org.bukkit.entity.Player

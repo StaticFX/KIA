@@ -1,7 +1,13 @@
-package de.staticred.kia.inventory
+package de.staticred.kia.inventory.kinventory
 
 import de.staticred.kia.animation.Animatable
 import de.staticred.kia.animation.Animation
+import de.staticred.kia.inventory.InventoryContentContainer
+import de.staticred.kia.inventory.KInventoryHolder
+import de.staticred.kia.inventory.KRow
+import de.staticred.kia.inventory.events.KEventData
+import de.staticred.kia.inventory.events.OpenEvent
+import de.staticred.kia.inventory.events.OpenEventData
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.Identifiable
 import net.kyori.adventure.text.Component
@@ -24,28 +30,28 @@ import java.util.*
  * @author Devin
  * @since 1.0.0
  */
-interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryContentContainer {
+abstract class KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryContentContainer<KInventory>() {
     
     /**
      * Animation which will be played when the inventory is opened
      * @see opened
      */
-    var openingAnimation: Animation<KInventory>?
+    abstract var openingAnimation: Animation<KInventory>?
 
     /**
      * Title of the inventory rendered in the bukkit inventory
      */
-    var title: Component?
+    abstract var title: Component?
 
     /**
      * Views which currently look at the inventory
      */
-    var views: MutableList<InventoryView>
+    abstract var views: MutableList<InventoryView>
 
     /**
      * Client side inventory instances
      */
-    var inventories: MutableList<Inventory>
+    abstract var inventories: MutableList<Inventory>
 
     /**
      * Sets whether the items can be clicked while the inventory is inside an animation
@@ -55,15 +61,7 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
      * @see Animation
      * @see de.staticred.kia.inventory.item.RegisteredKItem.onClick
      */
-    var itemClickableWhileAnimating: Boolean
-
-    /**
-     * Executed when the inventory is opened
-     * To catch this the bukkit event is used
-     *
-     * @param action executed when opened
-     */
-    fun onOpen(action: KInventory.() -> Unit)
+    abstract var itemClickableWhileAnimating: Boolean
 
     /**
      * Executed when the inventory is closed
@@ -71,61 +69,55 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
      *
      * @param action executed when closed
      */
-    fun onClose(action: KInventory.() -> Unit)
+    abstract fun onClose(action: KInventory.() -> Unit)
 
     /**
      * Returns the KInventoryHolder of this inventory
      * @return the holder
      */
-    fun getKHolder(): KInventoryHolder
+    abstract fun getKHolder(): KInventoryHolder
 
     /**
      * Constructs the bukkit inventory from this KInventory with the current set content
      * @return the bukkit inventory
      */
-    fun toBukkitInventory(): Inventory
+    abstract fun toBukkitInventory(): Inventory
 
     /**
      * Returns all the items in the inventory which have been set
      * @warning items which have been added from players are not in this map
      * @return a map where the slot is mapped to the item
      */
-    fun getItems(): Map<Int, KItem>
+    abstract fun getItems(): Map<Int, KItem>
 
     /**
      * @return the first KRow which contains the given KItem
      */
-    fun getRowForItem(item: KItem): KRow?
+    abstract fun getRowForItem(item: KItem): KRow?
 
     /**
      * @return the slot for the given item, -1 if item is not set yet
      */
-    fun getSlotForItem(item: KItem): Int
+    abstract fun getSlotForItem(item: KItem): Int
 
     /**
      * Checks whether the inventory is private.
      * Private indicated that only one player at a time can open the same reference to a KInventory
      * @return boolean
      */
-    fun isPrivate(): Boolean
+    abstract fun isPrivate(): Boolean
 
     /**
      * @return if the inventory is currently opened or closed
      */
-    fun isOpened(): Boolean
-
-    /**
-     * Sets the inventory to opened
-     * Should be called when the inventory has been opened.
-     */
-    fun opened()
+    abstract fun isOpened(): Boolean
 
     /**
      * Sets the inventory to closed
      * Should be called when the inventory has been closed.
+     * @param player who closed the inventory
      */
-    fun closed()
-
+    abstract fun closed(player: Player)
 
     /**
      * Executes the passed function, when a bukkit [org.bukkit.inventory.ItemStack] is clicked
@@ -134,18 +126,18 @@ interface KInventory: Identifiable<UUID>, Animatable<KInventory>, InventoryConte
      *
      * @param action function to execute when the condition is met
      */
-    fun onItemClicked(action: KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit)
+    abstract fun onItemClicked(action: KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit)
 
     /**
      * Notifies the inventory that the given item has been clicked by the given player
      * @param item which got clicked
      * @param player who clicked
      */
-    fun itemClicked(item: ItemStack, player: Player, event: InventoryClickEvent)
+    abstract fun itemClicked(item: ItemStack, player: Player, event: InventoryClickEvent)
 
     /**
      * Checks whether the given inventory is the same inventory
      * @param inventory the bukkit inventory
      */
-    fun isEqual(inventory: Inventory): Boolean
+    abstract fun isEqual(inventory: Inventory): Boolean
 }

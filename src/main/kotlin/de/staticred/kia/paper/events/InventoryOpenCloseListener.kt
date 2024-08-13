@@ -1,8 +1,10 @@
-package de.staticred.kia.events
+package de.staticred.kia.paper.events
 
 import de.staticred.kia.inventory.InventoryManager
 import de.staticred.kia.inventory.KInventoryHolder
 import de.staticred.kia.inventory.KPageInventory
+import de.staticred.kia.inventory.events.OpenEventData
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -40,7 +42,7 @@ class InventoryOpenCloseListener: Listener {
             InventoryManager.openedInventory(holder, kInventory)
             kInventory.views += event.view
             kInventory.inventories += event.inventory
-            kInventory.opened()
+            kInventory.opened(kInventory, OpenEventData(event.player as Player))
         }
     }
 
@@ -52,7 +54,7 @@ class InventoryOpenCloseListener: Listener {
             val inventoryID = holder.uuid
             val kInventory = InventoryManager.getInventory(inventoryID)
             InventoryManager.closedInventory(holder, kInventory)
-            kInventory.closed()
+            kInventory.closed(event.player as Player)
             kInventory.views -= event.view
             kInventory.inventories -= event.inventory
         }

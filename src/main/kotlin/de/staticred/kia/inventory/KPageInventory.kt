@@ -1,6 +1,7 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.kinventory.KInventory
 import net.kyori.adventure.text.Component
 
 /**

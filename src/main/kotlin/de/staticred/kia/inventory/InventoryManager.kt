@@ -2,6 +2,7 @@ package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.item.ItemManager
 import de.staticred.kia.inventory.item.RegisteredKItem
+import de.staticred.kia.inventory.kinventory.KInventory
 import java.util.UUID
 
 /**

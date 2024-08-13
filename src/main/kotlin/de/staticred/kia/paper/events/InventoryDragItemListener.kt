@@ -1,4 +1,4 @@
-package de.staticred.kia.events
+package de.staticred.kia.paper.events
 
 import de.staticred.kia.inventory.AbstractContentContainer
 import de.staticred.kia.inventory.extensions.toKInventory

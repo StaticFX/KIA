@@ -3,6 +3,7 @@ package de.staticred.kia.inventory
 import de.staticred.kia.animation.Animatable
 import de.staticred.kia.animation.Animation
 import net.kyori.adventure.text.Component
+import org.bukkit.entity.Player
 
 /**
  * Models a page inside a paging KInventory
@@ -10,7 +11,7 @@ import net.kyori.adventure.text.Component
  * @author Devin
  * @since 1.0.0
  */
-interface KPage: Animatable<KPage>, InventoryContentContainer {
+interface KPage {
 
     /**
      * Title of the page which will be rendered, can be configured using the TitleBuilder in the Parent Inventory
@@ -52,27 +53,13 @@ interface KPage: Animatable<KPage>, InventoryContentContainer {
      * Called by the parent inventory, when the page is opened
      * @param inventory inventory which opened the page
      */
-    fun opened(inventory: KPageInventory)
+    fun opened(inventory: KPageInventory, player: Player)
 
     /**
      * Called by the parent inventory, when the page is closed
      * @param inventory inventory which opened the page
      */
     fun closed(inventory: KPageInventory)
-
-    /**
-     * Returns the given row for the index as a new object
-     * Parent of the row will only be set, if the page has a parent as well
-     * @param index index of the row
-     * @return new KRow instance
-     */
-    override fun getRowFor(index: Int): KRow
-
-    /**
-     * Hook called when the page is opened, either when the page is clicked to, or it's the first page of the parent inventory
-     * @param action hook when the page is opened
-     */
-    fun onOpened(action: KPage.(parent: KPageInventory) -> Unit)
 
     /**
      * Hook called when the page is closed, either when the page is clicked away, or the inventory is closed when the page is active

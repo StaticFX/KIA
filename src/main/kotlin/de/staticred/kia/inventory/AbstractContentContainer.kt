@@ -1,8 +1,10 @@
 package de.staticred.kia.inventory
 
 import de.staticred.kia.inventory.builder.kRow
+import de.staticred.kia.inventory.events.OpenEventData
 import de.staticred.kia.inventory.item.KItem
 import de.staticred.kia.util.AIR_ITEM
+import org.bukkit.entity.Player
 
 /**
  * Basic representation of a content container with simple item managements
@@ -13,7 +15,7 @@ import de.staticred.kia.util.AIR_ITEM
  * @author Devin
  * @since 1.0.0
  */
-abstract class AbstractContentContainer(val rowLength: Int, val size: Int) : InventoryContentContainer {
+abstract class AbstractContentContainer<T>(val rowLength: Int, val size: Int) : InventoryContentContainer<T>() {
 
     override val content: MutableMap<Int, KItem> = mutableMapOf()
 

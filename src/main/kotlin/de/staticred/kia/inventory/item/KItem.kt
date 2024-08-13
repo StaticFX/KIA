@@ -1,7 +1,7 @@
 package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.AbstractContentContainer
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import net.kyori.adventure.text.Component
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack

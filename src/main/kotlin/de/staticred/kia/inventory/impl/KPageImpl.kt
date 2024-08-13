@@ -1,19 +1,18 @@
 package de.staticred.kia.inventory.impl
 
-import de.staticred.kia.inventory.KPageController
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
-import de.staticred.kia.inventory.AbstractContentContainer
-import de.staticred.kia.inventory.KPage
-import de.staticred.kia.inventory.KPageInventory
-import de.staticred.kia.inventory.KRow
+import de.staticred.kia.inventory.*
 import de.staticred.kia.inventory.builder.kRow
+import de.staticred.kia.inventory.events.OpenEventData
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.page.AKPage
 import de.staticred.kia.util.AIR_ITEM
 import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
+import org.bukkit.entity.Player
 
-class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 3.rows): KPage, AbstractContentContainer(rowLength, size) {
+class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 3.rows): AKPage<KPage>(rowLength, size) {
     override var header: KPageController? = null
     override var footer: KPageController? = null
 
@@ -23,7 +22,7 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 
     override var parent: KPageInventory? = null
     override var currentAnimation: Animation<KPage>? = null
 
-    private val openingListeners = mutableListOf<KPage.(parent: KPageInventory) -> Unit>()
+
     private val closingListeners = mutableListOf<KPage.(parent: KPageInventory) -> Unit>()
 
     override fun setItem(slot: Int, value: KItem) {
@@ -70,8 +69,8 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 
         return footer != null
     }
 
-    override fun opened(inventory: KPageInventory) {
-        openingListeners.forEach { it(inventory) }
+    override fun opened(inventory: KPageInventory, player: Player) {
+        super.opened(this, OpenEventData(player))
         parent = inventory
         openingAnimation?.let { AnimationManager.startAnimation(it, this) }
     }
@@ -79,10 +78,6 @@ class KPageImpl(override var title: Component?, rowLength: Int = 9, size: Int = 
     override fun closed(inventory: KPageInventory) {
         closingListeners.forEach { it(inventory) }
         currentAnimation?.let { AnimationManager.stopAnimation(it) }
-    }
-
-    override fun onOpened(action: KPage.(parent: KPageInventory) -> Unit) {
-        openingListeners += action
     }
 
     override fun onClosed(action: KPage.(parent: KPageInventory) -> Unit) {

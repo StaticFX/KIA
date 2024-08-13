@@ -2,7 +2,7 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.KIA
 import de.staticred.kia.animation.Animatable
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player

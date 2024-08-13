@@ -1,8 +1,8 @@
 package de.staticred.kia
 
-import de.staticred.kia.events.InventoryClickListener
-import de.staticred.kia.events.InventoryDragItemListener
-import de.staticred.kia.events.InventoryOpenCloseListener
+import de.staticred.kia.paper.events.InventoryClickListener
+import de.staticred.kia.paper.events.InventoryDragItemListener
+import de.staticred.kia.paper.events.InventoryOpenCloseListener
 import de.staticred.kia.example.InventoryExample
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin

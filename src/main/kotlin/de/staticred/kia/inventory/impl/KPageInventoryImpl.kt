@@ -2,14 +2,17 @@ package de.staticred.kia.inventory.impl
 
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.inventory.*
+import de.staticred.kia.inventory.events.OpenEventData
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.kinventory.KInventory
+import de.staticred.kia.inventory.page.AKPage
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-import org.bukkit.event.inventory.InventoryType
+import org.bukkit.entity.Player
 
 class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var looping: Boolean,
                          override var title: Component?
-): BaseKInventoryImpl(owner, size, InventoryType.CHEST, title), KPageInventory {
+): BaseKInventoryImpl(owner, size, title), KPageInventory {
 
     var private: Boolean = false
     override var savePageWhenClosed: Boolean = false
@@ -18,7 +21,7 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
     override var pages: MutableList<KPage> = if (mainPage == null) mutableListOf() else mutableListOf(mainPage!!)
     override var staticPages: MutableMap<String, KPage> = mutableMapOf()
 
-    private var currentPage: KPage? = mainPage
+    private var currentPage: AKPage? = mainPage
     private var pageIndex = 0
     private var lastPage = 0
 
@@ -75,7 +78,7 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         }
 
         if (playAnimation)
-            page.opened(this)
+            page.opened(this, holder.holder)
     }
 
     override fun setItem(row: Int, slot: Int, item: KItem) {
@@ -210,6 +213,14 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         return row
     }
 
+    override fun swapRow(row: KRow, otherRow: KRow) {
+        currentPage.
+    }
+
+    override fun swapRow(index: Int, otherIndex: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun mainPage(init: KPage.() -> Unit): KPage {
         val page = KPageImpl(Component.empty()).apply(init)
         addPage(page)
@@ -226,20 +237,20 @@ class KPageInventoryImpl(owner: KInventoryHolder, size: Int = 3*9, override var 
         return title
     }
 
-    override fun closed() {
+    override fun closed(player: Player) {
         lastPage = pageIndex
         currentPage?.closed(this)
-        super.closed()
+        super.closed(player)
     }
 
-    override fun opened() {
+    override fun opened(player: Player) {
         buildPage()
 
         if (savePageWhenClosed) {
             setPageSave(lastPage)
         }
 
-        super.opened()
+        super.opened(player)
     }
 
     override fun notifyParent(kPage: KPage) {

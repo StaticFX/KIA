@@ -1,7 +1,7 @@
 package de.staticred.kia.inventory.extensions
 
 import de.staticred.kia.inventory.InventoryManager
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import de.staticred.kia.inventory.KInventoryHolder
 import org.bukkit.inventory.Inventory
 

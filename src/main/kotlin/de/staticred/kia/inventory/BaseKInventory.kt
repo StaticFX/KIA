@@ -3,8 +3,10 @@ package de.staticred.kia.inventory
 import de.staticred.kia.animation.Animation
 import de.staticred.kia.animation.AnimationManager
 import de.staticred.kia.inventory.builder.kRow
+import de.staticred.kia.inventory.events.OpenEventData
 import de.staticred.kia.inventory.extensions.toKInventory
 import de.staticred.kia.inventory.item.KItem
+import de.staticred.kia.inventory.kinventory.KInventory
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
@@ -32,10 +34,9 @@ abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Com
         }
 
     private var isOpen = false
-    private val openingListener = mutableListOf<KInventory.() -> Unit>()
+
     private val closingListener = mutableListOf<KInventory.() -> Unit>()
     private val itemClickedListener = mutableListOf<KInventory.(item: ItemStack, player: Player, event: InventoryClickEvent) -> Unit>()
-
 
     private val rows = mutableMapOf<Int, KRow>()
 
@@ -55,9 +56,6 @@ abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Com
     override var content: MutableMap<Int, KItem> = mutableMapOf()
     override var views: MutableList<InventoryView> = mutableListOf()
     override var inventories: MutableList<Inventory> = mutableListOf()
-
-
-
 
     override fun setItem(slot: Int, value: KItem) {
         setItemForSlot(slot, value)
@@ -93,9 +91,6 @@ abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Com
         inventories.forEach { it.clear() }
     }
 
-    override fun onOpen(action: KInventory.() -> Unit) {
-        openingListener += action
-    }
 
     override fun onClose(action: KInventory.() -> Unit) {
         closingListener += action
@@ -140,9 +135,11 @@ abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Com
         animation.onEnd { currentAnimation = null }
     }
 
-    override fun opened() {
+
+    override fun opened(player: Player) {
+        super.opened(player)
         isOpen = true
-        openingListener.forEach { it(this) }
+        firedOpenEvent(this, OpenEventData(player))
         openingAnimation?.let {
             startAnimation(it)
         }
@@ -150,7 +147,7 @@ abstract class BaseKInventory(protected var holder: KInventoryHolder, title: Com
         title?.let { views.forEach { view -> view.title = LegacyComponentSerializer.legacySection().serialize(it) } }
     }
 
-    override fun closed() {
+    override fun closed(player: Player) {
         isOpen = false
         closingListener.forEach { it(this) }
     }

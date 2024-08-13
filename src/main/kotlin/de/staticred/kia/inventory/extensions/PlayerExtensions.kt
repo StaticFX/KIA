@@ -1,6 +1,6 @@
 package de.staticred.kia.inventory.extensions
 
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import org.bukkit.entity.Player
 
 /**

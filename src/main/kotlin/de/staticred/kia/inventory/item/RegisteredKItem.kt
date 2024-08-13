@@ -1,6 +1,6 @@
 package de.staticred.kia.inventory.item
 
-import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.inventory.kinventory.KInventory
 import de.staticred.kia.util.Identifiable
 import org.bukkit.entity.Player
 import java.util.*
