@@ -4,11 +4,10 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
     id("com.gradleup.shadow") version "8.3.0"
     id("org.jetbrains.dokka") version "1.9.20"
-    id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
 
 group = "io.github.staticfx"
-version = "1.1.3"
+version = "1.1.4"
 
 repositories {
     mavenCentral()
@@ -18,15 +17,6 @@ repositories {
     maven("https://repo.codemc.io/repository/maven-public/") {
         name = "CodeMC"
     }
-}
-
-paper {
-    name = "KIA-Kotlin-Inventory-API"
-    main = "de.staticred.kia.KIA"
-    apiVersion = "1.20"
-    version = rootProject.version.toString()
-    author = "StaticRed / StaticFX"
-    website = "https://github.com/StaticFX/KIA"
 }
 
 subprojects {

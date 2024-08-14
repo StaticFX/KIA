@@ -10,17 +10,21 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
-private val nameSpacedKey = NamespacedKey(KIA.instance, "KIA-KItems")
+private val nameSpacedKey = NamespacedKey(KIA.plugin, "KIA-KItems")
 
 /**
  * Example impl of [RegisteredKItem]
  */
-class RegisteredKItemImpl(draggingMode: DraggingMode, material: Material, amount: Int): KItemImpl(draggingMode, material, amount), RegisteredKItem {
+class RegisteredKItemImpl(
+    draggingMode: DraggingMode,
+    material: Material,
+    amount: Int,
+) : KItemImpl(draggingMode, material, amount),
+    RegisteredKItem {
     override var id: UUID = ItemManager.generateID()
     override var clickableInAnimation: Boolean = true
 
     private val clickListeners = mutableListOf<KInventory.(RegisteredKItem, Player) -> Unit>()
-
 
     companion object {
         /**
@@ -30,7 +34,6 @@ class RegisteredKItemImpl(draggingMode: DraggingMode, material: Material, amount
          * @return [UUID] if the item has one, null otherwise
          */
         fun readUUIDFromNBT(item: ItemStack): UUID? {
-
             val container = item.itemMeta.persistentDataContainer
 
             if (container.has(nameSpacedKey)) {
@@ -54,7 +57,10 @@ class RegisteredKItemImpl(draggingMode: DraggingMode, material: Material, amount
         clickListeners += action
     }
 
-    override fun clicked(player: Player, kInventory: KInventory) {
+    override fun clicked(
+        player: Player,
+        kInventory: KInventory,
+    ) {
         val currentParent = parent
 
         if (!clickableInAnimation && currentParent != null) {
@@ -64,7 +70,5 @@ class RegisteredKItemImpl(draggingMode: DraggingMode, material: Material, amount
         parent?.let { clickListeners.forEach { listener -> listener(kInventory, this, player) } }
     }
 
-    override fun hasID(): Boolean {
-        return true
-    }
+    override fun hasID(): Boolean = true
 }
