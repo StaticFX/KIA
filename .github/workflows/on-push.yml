@@ -46,6 +46,7 @@ jobs:
           fetch-depth: 0
       - uses: gradle/actions/setup-gradle@v4
         with:
+          gradle-version: 8.7
           gradle-home-cache-cleanup: true
       - name: Retrieve Version
         run: echo "gradle_version=$(./gradlew printVersion -q --console=plain)" >> "$GITHUB_OUTPUT"
