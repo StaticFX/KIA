@@ -353,11 +353,9 @@ $dokka.location:de.staticred.kia.util/ShiftDirection/entries/#/PointingToDeclara
 $dokka.location:de.staticred.kia.util/ShiftDirection/valueOf/#kotlin.String/PointingToDeclaration/-k-i-a/de.staticred.kia.util/-shift-direction/value-of.html
 $dokka.location:de.staticred.kia.util/ShiftDirection/values/#/PointingToDeclaration/-k-i-a/de.staticred.kia.util/-shift-direction/values.html
 $dokka.location:de.staticred.kia////PointingToDeclaration/-k-i-a/de.staticred.kia/index.html
-$dokka.location:de.staticred.kia/KIA.Companion///PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/-companion/index.html
-$dokka.location:de.staticred.kia/KIA.Companion/instance/#/PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/-companion/instance.html
 $dokka.location:de.staticred.kia/KIA///PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/index.html
-$dokka.location:de.staticred.kia/KIA/KIA/#/PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/-k-i-a.html
-$dokka.location:de.staticred.kia/KIA/onEnable/#/PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/on-enable.html
+$dokka.location:de.staticred.kia/KIA/create/#org.bukkit.plugin.java.JavaPlugin#kotlin.Boolean/PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/create.html
+$dokka.location:de.staticred.kia/KIA/plugin/#/PointingToDeclaration/-k-i-a/de.staticred.kia/-k-i-a/plugin.html
 de.staticred.kia
 de.staticred.kia.animation
 de.staticred.kia.events
