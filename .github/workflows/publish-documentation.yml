@@ -20,7 +20,7 @@ jobs:
           gradle-version: 8.7
           gradle-home-cache-cleanup: true
       - name: Build html
-        run: ./gradlew dokkaHtml --no-daemon --stacktrace
+        run: gradle dokkaHtml --no-daemon --stacktrace
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

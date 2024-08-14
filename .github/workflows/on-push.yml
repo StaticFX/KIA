@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3.6.0
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: 'gradle'
       - name: Bump Version
@@ -49,7 +49,7 @@ jobs:
           gradle-version: 8.7
           gradle-home-cache-cleanup: true
       - name: Retrieve Version
-        run: echo "gradle_version=$(./gradlew printVersion -q --console=plain)" >> "$GITHUB_OUTPUT"
+        run: echo "gradle_version=$(gradle printVersion -q --console=plain)" >> "$GITHUB_OUTPUT"
         id: gradle_version
       - name: Trigger publication workflow
         env:
