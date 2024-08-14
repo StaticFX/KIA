@@ -10,7 +10,6 @@ import org.bukkit.Bukkit
  * @since 1.0.0
  */
 object AnimationManager {
-
     private val runningAnimations = mutableMapOf<ScheduledTask, AnimationImpl<*>>()
 
     /**
@@ -27,18 +26,21 @@ object AnimationManager {
      * @see AnimationImpl
      * @see de.staticred.kia.inventory.builder.animation
      */
-    fun <T> startAnimation(animation: Animation<T>, t: T) {
+    fun <T> startAnimation(
+        animation: Animation<T>,
+        t: T,
+    ) {
         if (animation !is AnimationImpl<T>) {
             error("Animation must be type of AnimationImpl")
         }
 
         animation.startAnimation()
-        val task = Bukkit.getAsyncScheduler().runAtFixedRate(KIA.instance, {
+        val task =
+            Bukkit.getAsyncScheduler().runAtFixedRate(KIA.plugin, {
                 animation.renderFrame(t)
-        }, if (animation.startInstant) 0 else animation.interval , animation.interval, animation.timeUnit)
+            }, if (animation.startInstant) 0 else animation.interval, animation.interval, animation.timeUnit)
         runningAnimations[task] = animation
     }
-
 
     /**
      * Stops the given animation, if its running

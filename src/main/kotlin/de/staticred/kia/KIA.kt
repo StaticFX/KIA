@@ -10,23 +10,23 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * Plugin class of KIA
  */
-class KIA: JavaPlugin() {
-
-    companion object {
-
-        /**
-         * Global instance of kia
-         */
-        lateinit var instance: KIA
-    }
+object KIA {
+    lateinit var plugin: JavaPlugin
+        private set
 
     /**
-     * Enable function when the plugin starts
+     * Create new loaded instance of KIA
      */
-    override fun onEnable() {
-        instance = this
+    fun create(
+        javaPlugin: JavaPlugin,
+        exampleCommand: Boolean = false,
+    ) {
+        plugin = javaPlugin
         hookIntoEvents()
-        registerCommands()
+
+        if (exampleCommand) {
+            registerCommands()
+        }
     }
 
     private fun registerCommands() {
@@ -34,8 +34,8 @@ class KIA: JavaPlugin() {
     }
 
     private fun hookIntoEvents() {
-        server.pluginManager.registerEvents(InventoryClickListener(), this)
-        server.pluginManager.registerEvents(InventoryOpenCloseListener(), this)
-        server.pluginManager.registerEvents(InventoryDragItemListener(), this)
+        plugin.server.pluginManager.registerEvents(InventoryClickListener(), plugin)
+        plugin.server.pluginManager.registerEvents(InventoryOpenCloseListener(), plugin)
+        plugin.server.pluginManager.registerEvents(InventoryDragItemListener(), plugin)
     }
 }
