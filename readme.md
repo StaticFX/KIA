@@ -21,7 +21,7 @@
   </repository>
 
   <dependency>
-    <groupId>de.staticred.kia</groupId>
+    <groupId>com.github.staticfx</groupId>
     <artifactId>kia</artifactId>
     <version>1.1.0</version>
     <scope>provided</scope>
