@@ -6,7 +6,6 @@
 
 # Prerequisites
 
-- KIA needs to be installed on the server as its dependent plugin. So KIA can hook into the events
 - KIA needs to run on a PaperMC server, because some paper specific functions are used.
 
 ### Add to your code base
@@ -23,8 +22,7 @@
   <dependency>
     <groupId>com.github.staticfx</groupId>
     <artifactId>kia</artifactId>
-    <version>1.1.3</version>
-    <scope>provided</scope>
+    <version>1.1.4</version>
   </dependency>
     ```
 </details>
@@ -41,7 +39,7 @@
 		}
 	}
   
-  compileOnly "de.staticred.kia:kia:1.1.3"
+  compile "com.github.staticfx:kia:1.1.4"
     ```
 
 </details>
@@ -54,9 +52,16 @@
     maven { setUrl("https://jitpack.io") }
   }
   
-  api("de.staticred.kia:kia:1.1.3")
+  implementation("com.github.staticfx:kia:1.1.4")
     ```
 </details>
+
+**Add this inside your plugin onEnable to use KIA**
+```kotlin
+override fun onEnable() {
+    KIA.create(this)
+}
+```
 
 ## TLDR 
 
