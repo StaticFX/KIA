@@ -1,10 +1,8 @@
-import java.util.Properties
-
 plugins {
     java
+    `maven-publish`
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
     id("com.gradleup.shadow") version "8.3.0"
-    id("maven-publish")
     id("org.jetbrains.dokka") version "1.9.20"
     id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
@@ -43,27 +41,6 @@ dependencies {
 java {
     withSourcesJar()
     withJavadocJar()
-}
-
-val generatedVersionDir = "$buildDir/generated-version"
-
-sourceSets {
-    named("main") {
-        output.dir(mapOf("builtBy" to "generateVersionProperties"), generatedVersionDir)
-    }
-}
-
-tasks.register("generateVersionProperties") {
-    doLast {
-        val propertiesFile = file("$generatedVersionDir/version.properties")
-        propertiesFile.parentFile.mkdirs()
-        val properties = Properties()
-        properties.setProperty("version", rootProject.version.toString())
-        propertiesFile.writer().use { properties.store(it, null) }
-    }
-}
-tasks.named("processResources") {
-    dependsOn("generateVersionProperties")
 }
 
 publishing {

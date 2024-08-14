@@ -83,3 +83,4 @@ kotlin-ide/
 .gradle
 /.gradle
 node_modules
+gradle.properties
