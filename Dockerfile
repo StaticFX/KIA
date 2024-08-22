@@ -1,4 +1,4 @@
-FROM gradle:8.3.0 as build
+FROM gradle:8.7.0 as build
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY . .
 
 RUN --mount=type=cache,target=/root/.gradle gradle build --parallel --no-daemon
 
-FROM openjdk:20-slim as serverBuilder
+FROM openjdk:21-slim as serverBuilder
 
 WORKDIR /app
 
