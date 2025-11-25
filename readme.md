@@ -22,7 +22,7 @@
   <dependency>
     <groupId>com.github.staticfx</groupId>
     <artifactId>kia</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
   </dependency>
     ```
 </details>
@@ -39,7 +39,7 @@
 		}
 	}
   
-  compile "com.github.staticfx:kia:1.1.5"
+  compile "com.github.staticfx:kia:1.1.6"
     ```
 
 </details>
@@ -52,7 +52,7 @@
     maven { setUrl("https://jitpack.io") }
   }
   
-  implementation("com.github.staticfx:kia:1.1.5")
+  implementation("com.github.staticfx:kia:1.1.6")
     ```
 </details>
 
