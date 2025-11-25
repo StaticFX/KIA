@@ -3,6 +3,7 @@ package de.staticred.kia.inventory.item
 import de.staticred.kia.inventory.AbstractContentContainer
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
@@ -19,7 +20,7 @@ abstract class KItemImpl(override var draggingMode: DraggingMode, val material: 
     override var parent: AbstractContentContainer? = null
     override var model: KItemModel? = null
         set(value) {
-            value?.let { itemMeta.setCustomModelData(it.customModelData) }
+            value?.let { itemMeta.itemModel = it.customNamespace }
             field = value
         }
 

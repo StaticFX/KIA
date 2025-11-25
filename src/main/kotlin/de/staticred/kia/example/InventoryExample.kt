@@ -3,13 +3,16 @@ package de.staticred.kia.example
 import de.staticred.kia.inventory.builder.animation
 import de.staticred.kia.inventory.builder.kInventory
 import de.staticred.kia.inventory.builder.kItem
+import de.staticred.kia.inventory.builder.kModel
 import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.inventory.extensions.setHotbarItem
+import de.staticred.kia.inventory.item.KItemModel
 import de.staticred.kia.util.rows
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -17,11 +20,7 @@ import org.bukkit.event.inventory.InventoryType
 import java.util.concurrent.TimeUnit
 
 class InventoryExample : Command("kia") {
-    override fun execute(
-        sender: CommandSender,
-        command: String,
-        args: Array<out String>?,
-    ): Boolean {
+    override fun execute(sender: CommandSender, command: String, args: Array<String>): Boolean {
         if (sender !is Player) return false
         val miniMessage = MiniMessage.miniMessage()
 
@@ -62,11 +61,20 @@ class InventoryExample : Command("kia") {
                                     setDisplayName(miniMessage.deserialize("<rainbow:!>Thanks for using KIA!</rainbow>"))
                                 },
                             )
+                            val namespacedKey = NamespacedKey.fromString("kia:dice")
+                            namespacedKey?.let {
+                                setItem(2, 4,
+                                    kItem(Material.PAPER) {
+                                        setDisplayName(miniMessage.deserialize("<rainbow:!>Here is an item with custom model</rainbow>"))
+                                        model = kModel(NamespacedKey.minecraft("kia:item"))
+                                    }
+                                )
+                            }
                         }
                     }
             }
 
-        if (args != null && args.isNotEmpty()) {
+        if (args.isNotEmpty()) {
             if (args[0] == "inv") {
                 sender.openInventory(inventory)
             } else if (args[0] == "items") {
