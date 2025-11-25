@@ -19,7 +19,7 @@ object KIA {
         private set
 
     /**
-     * Create new loaded instance of KIA
+     * Create a new loaded instance of KIA
      * @param javaPlugin plugin instance KIA will use to attach its eventlisteners
      * @param exampleCommand by default false. If true, will register the /kia example command
      */

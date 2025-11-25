@@ -17,6 +17,11 @@ abstract class KItemImpl(override var draggingMode: DraggingMode, val material: 
 
     override var slot = -1
     override var parent: AbstractContentContainer? = null
+    override var model: KItemModel? = null
+        set(value) {
+            value?.let { itemMeta.setCustomModelData(it.customModelData) }
+            field = value
+        }
 
     override fun enchant(enchantment: Enchantment, level: Int) {
         addEnchantment(enchantment, level)

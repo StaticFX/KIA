@@ -47,6 +47,11 @@ interface KItem {
     var parent: AbstractContentContainer?
 
     /**
+     * The custom model of this item
+     */
+    var model: KItemModel?
+
+    /**
      * @return Whether the item can be dragged or not
      */
     fun draggable(): Boolean
