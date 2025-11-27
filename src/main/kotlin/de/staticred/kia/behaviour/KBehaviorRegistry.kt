@@ -29,6 +29,12 @@ object KBehaviorRegistry {
         behaviors[behavior.identifier.build()] = behavior
     }
 
+    /**
+     * Retrieves a registered behavior of the specified type and context by its identifier.
+     *
+     * @param id The unique identifier of the behavior to retrieve.
+     * @return The behavior associated with the given identifier if found, or null if no such behavior exists.
+     */
     @Suppress("UNCHECKED_CAST")
     fun <T, C: KBehaviorContext> get(id: String): KBehavior<T, C>? =
         behaviors[id] as? KBehavior<T, C>
