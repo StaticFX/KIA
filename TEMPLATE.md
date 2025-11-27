@@ -1,4 +1,4 @@
-# KIA - Kotlin Inventory API
+# KIA—Kotlin Inventory & Item API
 
 [![Dokka](https://img.shields.io/badge/JavaDoc-Online-green)](https://staticfx.github.io/KIA/)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/staticfx/kia/publish-package.yml)
@@ -151,3 +151,11 @@ For more examples and on how to use KIA, please head over to the [wiki!](https:/
 - NBT System for Inventory Matching (Gets rid of inventory title issues)
 - Different helper functions to build the inventories easier
 - Optional row based system to easier build and manage your inventories
+- Server restart persisting Item Listeners
+
+## Roadmap
+- [x] Add support for persisting item listeners
+- [ ] Add support for more inventory types
+- [ ] Add more behavior types
+- [ ] Add more item data helpers
+- [ ] Add resource pack builder 
