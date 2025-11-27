@@ -1,5 +1,6 @@
 package de.staticred.kia
 
+import com.google.gson.Gson
 import de.staticred.kia.events.InventoryClickListener
 import de.staticred.kia.events.InventoryDragItemListener
 import de.staticred.kia.events.InventoryOpenCloseListener
@@ -17,6 +18,8 @@ object KIA {
      */
     lateinit var plugin: JavaPlugin
         private set
+
+    val gson = Gson()
 
     /**
      * Create a new loaded instance of KIA

@@ -2,6 +2,7 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.AbstractContentContainer
 import de.staticred.kia.inventory.KInventory
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
@@ -49,7 +50,7 @@ interface KItem {
     /**
      * The custom model of this item
      */
-    var model: KItemModel?
+    var model: Key?
 
     /**
      * @return Whether the item can be dragged or not

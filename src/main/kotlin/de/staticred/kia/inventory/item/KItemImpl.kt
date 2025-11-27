@@ -1,9 +1,10 @@
 package de.staticred.kia.inventory.item
 
 import de.staticred.kia.inventory.AbstractContentContainer
+import io.papermc.paper.datacomponent.DataComponentTypes
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
-import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
@@ -15,12 +16,11 @@ import org.bukkit.inventory.ItemStack
  */
 abstract class KItemImpl(override var draggingMode: DraggingMode, val material: Material, amount: Int): ItemStack(material, amount), KItem {
 
-
     override var slot = -1
     override var parent: AbstractContentContainer? = null
-    override var model: KItemModel? = null
+    override var model: Key? = null
         set(value) {
-            value?.let { itemMeta.itemModel = it.customNamespace }
+            value?.let { setData(DataComponentTypes.ITEM_MODEL, it) }
             field = value
         }
 

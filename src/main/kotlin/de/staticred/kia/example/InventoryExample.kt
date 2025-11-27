@@ -8,6 +8,7 @@ import de.staticred.kia.inventory.extensions.openInventory
 import de.staticred.kia.inventory.extensions.setHotbarItem
 import de.staticred.kia.inventory.item.KItemModel
 import de.staticred.kia.util.rows
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -66,7 +67,7 @@ class InventoryExample : Command("kia") {
                                 setItem(2, 4,
                                     kItem(Material.PAPER) {
                                         setDisplayName(miniMessage.deserialize("<rainbow:!>Here is an item with custom model</rainbow>"))
-                                        model = kModel(NamespacedKey.minecraft("kia:item"))
+                                        model = Key.key("kia:dice")
                                     }
                                 )
                             }

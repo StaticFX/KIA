@@ -2,16 +2,21 @@ package de.staticred.kia.inventory.item
 
 import de.staticred.kia.KIA
 import de.staticred.kia.animation.Animatable
+import de.staticred.kia.behaviour.item.KItemBehavior
+import de.staticred.kia.behaviour.item.KItemBehaviorContext
 import de.staticred.kia.inventory.KInventory
+import de.staticred.kia.util.KIdentifier
+import de.staticred.kia.util.RuntimeFunction
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
-private val nameSpacedKey = NamespacedKey(KIA.plugin, "KIA-KItems")
+private val itemNamespace = NamespacedKey(KIA.plugin, "items")
 
 /**
  * Example impl of [RegisteredKItem]
@@ -25,9 +30,14 @@ class RegisteredKItemImpl(
     override var id: UUID = ItemManager.generateID()
     override var clickableInAnimation: Boolean = true
 
+    /**
+     * Runtime listeners
+     */
     private val clickListeners = mutableListOf<KInventory.(RegisteredKItem, Player) -> Unit>()
     private val leftClickListeners = mutableListOf<RegisteredKItem.(Player, PlayerInteractEvent) -> Unit>()
     private val rightClickListeners = mutableListOf<RegisteredKItem.(Player, PlayerInteractEvent) -> Unit>()
+
+    private val nbtData = MutableKItemNBTData(id.toString(), mutableSetOf())
 
     companion object {
         /**
@@ -39,9 +49,20 @@ class RegisteredKItemImpl(
         fun readUUIDFromNBT(item: ItemStack): UUID? {
             val container = item.itemMeta.persistentDataContainer
 
-            if (container.has(nameSpacedKey)) {
-                val uuid = container.get(nameSpacedKey, PersistentDataType.STRING)
-                return UUID.fromString(uuid)
+            if (container.has(itemNamespace)) {
+                val uuid = container.get(itemNamespace, PersistentDataType.STRING)
+                val nbtData = KIA.gson.fromJson(uuid, KItemNBTData::class.java)
+                return UUID.fromString(nbtData.id)
+            }
+            return null
+        }
+
+        fun readNBTDataFromItem(item: ItemStack): KItemNBTData? {
+            val container = item.itemMeta.persistentDataContainer
+
+            if (container.has(itemNamespace)) {
+                val uuid = container.get(itemNamespace, PersistentDataType.STRING)
+                return KIA.gson.fromJson(uuid, KItemNBTData::class.java)
             }
             return null
         }
@@ -50,10 +71,17 @@ class RegisteredKItemImpl(
     init {
         if (material != Material.AIR) {
             ItemManager.addItem(this)
-            val meta = itemMeta
-            meta.persistentDataContainer.set(nameSpacedKey, PersistentDataType.STRING, id.toString())
-            super.setItemMeta(meta)
+            updateNBT()
         }
+    }
+
+    private fun updateNBT() {
+        val json = buildJsonNBT()
+        editPersistentDataContainer { it.set(itemNamespace, PersistentDataType.STRING, json) }
+    }
+
+    private fun buildJsonNBT(): String {
+        return KIA.gson.toJson(nbtData.toNBTData())
     }
 
     override fun onClick(action: KInventory.(RegisteredKItem, Player) -> Unit) {
@@ -73,12 +101,30 @@ class RegisteredKItemImpl(
         parent?.let { clickListeners.forEach { listener -> listener(kInventory, this, player) } }
     }
 
+    @RuntimeFunction
     override fun onLeftClick(action: RegisteredKItem.(Player, PlayerInteractEvent) -> Unit) {
         leftClickListeners += action
     }
 
+    @RuntimeFunction
     override fun onRightClick(action: RegisteredKItem.(Player, PlayerInteractEvent) -> Unit) {
         rightClickListeners += action
+    }
+
+   override fun addBehavior(identifier: KIdentifier, block: ItemStack.(context: KItemBehaviorContext) -> Unit): KItemBehavior {
+        val behavior =  KItemBehavior(identifier).apply {
+            behave(block)
+        }
+
+       nbtData.behaviours += identifier.toString()
+       updateNBT()
+       return behavior
+    }
+
+    override fun addBehavior(kItemBehavior: KItemBehavior): KItemBehavior {
+        nbtData.behaviours += kItemBehavior.identifier.toString()
+        updateNBT()
+        return kItemBehavior
     }
 
     override fun leftClicked(
